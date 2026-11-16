@@ -314,6 +314,20 @@ def path_tester_update(request):
   return HttpResponse("received")
 
 
+def simulation_3d(request):
+  context = {}
+  template = "simulation_3d/simulation_3d.html"
+  return render(request, template, context)
+
+
+def living_society(request):
+  context = {}
+  template = "living_society/living_society.html"
+  return render(request, template, context)
+
+
+
+
 
 
 

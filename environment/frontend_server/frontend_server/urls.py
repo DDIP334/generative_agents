@@ -23,6 +23,10 @@ from translator import views as translator_views
 
 urlpatterns = [
     url(r'^$', translator_views.landing, name='landing'),
+    url(r'^society/$', translator_views.living_society, name='living_society'),
+    url(r'^live/$', translator_views.living_society, name='living_society_live'),
+    url(r'^3d/$', translator_views.simulation_3d, name='simulation_3d'),
+    url(r'^robot/$', translator_views.simulation_3d, name='simulation_robot'),
     url(r'^simulator_home$', translator_views.home, name='home'),
     url(r'^demo/(?P<sim_code>[\w-]+)/(?P<step>[\w-]+)/(?P<play_speed>[\w-]+)/$', translator_views.demo, name='demo'),
     url(r'^replay/(?P<sim_code>[\w-]+)/(?P<step>[\w-]+)/$', translator_views.replay, name='replay'),

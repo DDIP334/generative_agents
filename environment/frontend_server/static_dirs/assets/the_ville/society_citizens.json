@@ -1,0 +1,1592 @@
+[
+  {
+    "name": "Isabella Rodriguez",
+    "age": 34,
+    "occupation": "Cafe Owner & Barista",
+    "workplace_name": "Hobbs Cafe",
+    "workplace_coords": [
+      77,
+      22
+    ],
+    "home_name": "Isabella's Apartment",
+    "home_coords": [
+      73,
+      14
+    ],
+    "bed_coords": [
+      73,
+      14
+    ],
+    "bathroom_coords": [
+      81,
+      14
+    ],
+    "personality": "Friendly, Outgoing, Hospitable",
+    "traits": [
+      "friendly",
+      "outgoing",
+      "generous"
+    ],
+    "bio": "Owner of Hobbs Cafe who loves bringing the community together. Currently organizing a Valentine's celebration.",
+    "money": 450,
+    "hourly_wage": 24,
+    "schedule": {
+      "06:00": {
+        "action": "Waking up and stretching in bedroom",
+        "loc": [
+          73,
+          14
+        ],
+        "emoji": "\ud83c\udf05"
+      },
+      "06:30": {
+        "action": "Morning hygiene in bathroom",
+        "loc": [
+          81,
+          14
+        ],
+        "emoji": "\ud83d\udebf"
+      },
+      "07:00": {
+        "action": "Eating light breakfast in kitchen",
+        "loc": [
+          73,
+          16
+        ],
+        "emoji": "\ud83e\udd50"
+      },
+      "07:45": {
+        "action": "Walking to Hobbs Cafe to open shop",
+        "loc": [
+          77,
+          22
+        ],
+        "emoji": "\ud83d\udeb6"
+      },
+      "08:00": {
+        "action": "Brewing artisan coffee behind counter",
+        "loc": [
+          77,
+          19
+        ],
+        "emoji": "\u2615"
+      },
+      "12:00": {
+        "action": "Serving lunch pastries and chatting with patrons",
+        "loc": [
+          77,
+          22
+        ],
+        "emoji": "\ud83e\udd6a"
+      },
+      "14:00": {
+        "action": "Managing cafe orders and inventory",
+        "loc": [
+          77,
+          19
+        ],
+        "emoji": "\ud83d\udccb"
+      },
+      "17:30": {
+        "action": "Taking an evening walk in Johnson Park",
+        "loc": [
+          39,
+          44
+        ],
+        "emoji": "\ud83c\udf33"
+      },
+      "19:00": {
+        "action": "Having dinner at The Rose & Crown Pub",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83c\udf72"
+      },
+      "21:00": {
+        "action": "Relaxing at home and planning cafe menu",
+        "loc": [
+          73,
+          14
+        ],
+        "emoji": "\ud83d\udcd6"
+      },
+      "23:00": {
+        "action": "Sleeping in bed",
+        "loc": [
+          73,
+          14
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  },
+  {
+    "name": "Klaus Mueller",
+    "age": 20,
+    "occupation": "Sociology Student",
+    "workplace_name": "Oak Hill College",
+    "workplace_coords": [
+      118,
+      20
+    ],
+    "home_name": "Oak Hill Dorm",
+    "home_coords": [
+      129,
+      46
+    ],
+    "bed_coords": [
+      129,
+      46
+    ],
+    "bathroom_coords": [
+      108,
+      51
+    ],
+    "personality": "Kind, Inquisitive, Passionate",
+    "traits": [
+      "introverted",
+      "hardworking",
+      "curious"
+    ],
+    "bio": "Passionate sociology undergraduate researching gentrification and community social networks.",
+    "money": 120,
+    "hourly_wage": 12,
+    "schedule": {
+      "06:30": {
+        "action": "Waking up in dorm room",
+        "loc": [
+          129,
+          46
+        ],
+        "emoji": "\u23f0"
+      },
+      "07:00": {
+        "action": "Eating cereal in dorm kitchen",
+        "loc": [
+          121,
+          46
+        ],
+        "emoji": "\ud83e\udd63"
+      },
+      "08:00": {
+        "action": "Walking to Hobbs Cafe for morning espresso",
+        "loc": [
+          77,
+          22
+        ],
+        "emoji": "\u2615"
+      },
+      "09:00": {
+        "action": "Attending sociology lecture at Oak Hill College",
+        "loc": [
+          124,
+          20
+        ],
+        "emoji": "\ud83c\udf93"
+      },
+      "12:00": {
+        "action": "Eating lunch in college library courtyard",
+        "loc": [
+          118,
+          20
+        ],
+        "emoji": "\ud83e\udd6a"
+      },
+      "13:30": {
+        "action": "Researching urban community papers in college library",
+        "loc": [
+          118,
+          20
+        ],
+        "emoji": "\ud83d\udcda"
+      },
+      "17:00": {
+        "action": "Reading a book on park bench at Johnson Park",
+        "loc": [
+          39,
+          44
+        ],
+        "emoji": "\ud83c\udf33"
+      },
+      "19:00": {
+        "action": "Cooking light dinner in dorm kitchen",
+        "loc": [
+          121,
+          46
+        ],
+        "emoji": "\ud83c\udf73"
+      },
+      "20:30": {
+        "action": "Reviewing lecture notes and writing essay",
+        "loc": [
+          129,
+          46
+        ],
+        "emoji": "\ud83d\udcbb"
+      },
+      "23:30": {
+        "action": "Sleeping in bed",
+        "loc": [
+          129,
+          46
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  },
+  {
+    "name": "Maria Lopez",
+    "age": 21,
+    "occupation": "Physics Student & Streamer",
+    "workplace_name": "Oak Hill College",
+    "workplace_coords": [
+      124,
+      20
+    ],
+    "home_name": "Oak Hill Dorm",
+    "home_coords": [
+      124,
+      55
+    ],
+    "bed_coords": [
+      124,
+      55
+    ],
+    "bathroom_coords": [
+      131,
+      54
+    ],
+    "personality": "Energetic, Enthusiastic, Inquisitive",
+    "traits": [
+      "extroverted",
+      "curious",
+      "competitive"
+    ],
+    "bio": "Physics major with boundless curiosity who live-streams coding and gaming in her spare time.",
+    "money": 180,
+    "hourly_wage": 14,
+    "schedule": {
+      "07:00": {
+        "action": "Waking up with music in dorm room",
+        "loc": [
+          124,
+          55
+        ],
+        "emoji": "\ud83c\udfb5"
+      },
+      "07:45": {
+        "action": "Quick breakfast in dorm kitchen",
+        "loc": [
+          121,
+          46
+        ],
+        "emoji": "\ud83e\udd5e"
+      },
+      "08:30": {
+        "action": "Walking across campus to physics lab",
+        "loc": [
+          124,
+          20
+        ],
+        "emoji": "\ud83d\udeb6"
+      },
+      "09:00": {
+        "action": "Quantum mechanics lab research at Oak Hill College",
+        "loc": [
+          124,
+          20
+        ],
+        "emoji": "\ud83d\udd2c"
+      },
+      "12:30": {
+        "action": "Grabbing iced latte at Hobbs Cafe",
+        "loc": [
+          77,
+          22
+        ],
+        "emoji": "\ud83e\udd64"
+      },
+      "14:00": {
+        "action": "Working on physics problem set in library",
+        "loc": [
+          118,
+          20
+        ],
+        "emoji": "\ud83d\udcdd"
+      },
+      "17:00": {
+        "action": "Socializing in dorm common room",
+        "loc": [
+          117,
+          50
+        ],
+        "emoji": "\ud83c\udfae"
+      },
+      "19:30": {
+        "action": "Dinner with friends at The Rose & Crown Pub",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83c\udf54"
+      },
+      "21:30": {
+        "action": "Streaming science gameplay at dorm computer",
+        "loc": [
+          124,
+          55
+        ],
+        "emoji": "\ud83c\udf99\ufe0f"
+      },
+      "00:30": {
+        "action": "Sleeping in bed",
+        "loc": [
+          124,
+          55
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  },
+  {
+    "name": "Arthur Burton",
+    "age": 42,
+    "occupation": "Bartender & Pub Manager",
+    "workplace_name": "The Rose & Crown Pub",
+    "workplace_coords": [
+      60,
+      31
+    ],
+    "home_name": "Arthur's Apartment",
+    "home_coords": [
+      56,
+      15
+    ],
+    "bed_coords": [
+      53,
+      14
+    ],
+    "bathroom_coords": [
+      60,
+      15
+    ],
+    "personality": "Friendly, Outgoing, Generous",
+    "traits": [
+      "friendly",
+      "generous",
+      "social"
+    ],
+    "bio": "Hearty pub keeper who knows every resident in Smallville and listens patiently to all their stories.",
+    "money": 520,
+    "hourly_wage": 26,
+    "schedule": {
+      "09:00": {
+        "action": "Waking up late in apartment",
+        "loc": [
+          56,
+          15
+        ],
+        "emoji": "\u2615"
+      },
+      "10:00": {
+        "action": "Morning coffee and news at Hobbs Cafe",
+        "loc": [
+          77,
+          22
+        ],
+        "emoji": "\ud83d\udcf0"
+      },
+      "11:30": {
+        "action": "Purchasing supplies at Harvey Oak Store",
+        "loc": [
+          63,
+          48
+        ],
+        "emoji": "\ud83d\udce6"
+      },
+      "13:00": {
+        "action": "Opening The Rose & Crown Pub for afternoon prep",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83c\udf7a"
+      },
+      "16:00": {
+        "action": "Serving draft drinks and meals at bar counter",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83c\udf7b"
+      },
+      "20:00": {
+        "action": "Managing dinner rush and chatting with regulars",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83c\udf89"
+      },
+      "23:30": {
+        "action": "Closing up pub, counting registers and wiping taps",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83e\uddf9"
+      },
+      "00:30": {
+        "action": "Returning home to apartment",
+        "loc": [
+          56,
+          15
+        ],
+        "emoji": "\ud83d\udeb6"
+      },
+      "01:00": {
+        "action": "Sleeping in bed",
+        "loc": [
+          53,
+          14
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  },
+  {
+    "name": "John Lin",
+    "age": 45,
+    "occupation": "Pharmacist & Shop Owner",
+    "workplace_name": "The Willows Market & Pharmacy",
+    "workplace_coords": [
+      82,
+      47
+    ],
+    "home_name": "Lin Family House",
+    "home_coords": [
+      52,
+      75
+    ],
+    "bed_coords": [
+      52,
+      75
+    ],
+    "bathroom_coords": [
+      58,
+      75
+    ],
+    "personality": "Patient, Kind, Organized",
+    "traits": [
+      "hardworking",
+      "generous",
+      "friendly"
+    ],
+    "bio": "Dedicated town pharmacist who manages essential medicines, groceries, and takes care of his family.",
+    "money": 680,
+    "hourly_wage": 30,
+    "schedule": {
+      "06:30": {
+        "action": "Waking up with family",
+        "loc": [
+          52,
+          75
+        ],
+        "emoji": "\ud83c\udf05"
+      },
+      "07:15": {
+        "action": "Having breakfast with Mei and Eddy Lin",
+        "loc": [
+          49,
+          78
+        ],
+        "emoji": "\ud83c\udf73"
+      },
+      "08:00": {
+        "action": "Opening The Willows Market and Pharmacy",
+        "loc": [
+          82,
+          47
+        ],
+        "emoji": "\ud83c\udfea"
+      },
+      "10:30": {
+        "action": "Dispensing prescriptions and stocking shelves",
+        "loc": [
+          82,
+          47
+        ],
+        "emoji": "\ud83d\udc8a"
+      },
+      "13:00": {
+        "action": "Eating packed lunch at store counter",
+        "loc": [
+          82,
+          47
+        ],
+        "emoji": "\ud83c\udf71"
+      },
+      "15:00": {
+        "action": "Assisting town residents with health supplies",
+        "loc": [
+          82,
+          47
+        ],
+        "emoji": "\ud83d\uded2"
+      },
+      "18:00": {
+        "action": "Closing pharmacy and walking through town square",
+        "loc": [
+          63,
+          48
+        ],
+        "emoji": "\ud83d\udeb6"
+      },
+      "19:00": {
+        "action": "Family dinner at Lin home",
+        "loc": [
+          49,
+          78
+        ],
+        "emoji": "\ud83c\udf72"
+      },
+      "20:30": {
+        "action": "Listening to Eddy play guitar in living room",
+        "loc": [
+          52,
+          75
+        ],
+        "emoji": "\ud83c\udfb8"
+      },
+      "22:30": {
+        "action": "Sleeping in bed",
+        "loc": [
+          52,
+          75
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  },
+  {
+    "name": "Mei Lin",
+    "age": 44,
+    "occupation": "College Professor of Literature",
+    "workplace_name": "Oak Hill College",
+    "workplace_coords": [
+      118,
+      20
+    ],
+    "home_name": "Lin Family House",
+    "home_coords": [
+      52,
+      75
+    ],
+    "bed_coords": [
+      52,
+      75
+    ],
+    "bathroom_coords": [
+      58,
+      75
+    ],
+    "personality": "Nurturing, Kind, Patient",
+    "traits": [
+      "curious",
+      "friendly",
+      "hardworking"
+    ],
+    "bio": "Respected literature professor at Oak Hill College, mentor to students, loving wife and mother.",
+    "money": 620,
+    "hourly_wage": 32,
+    "schedule": {
+      "06:30": {
+        "action": "Morning tea and family breakfast",
+        "loc": [
+          49,
+          78
+        ],
+        "emoji": "\ud83c\udf75"
+      },
+      "08:00": {
+        "action": "Walking to Oak Hill College campus",
+        "loc": [
+          118,
+          20
+        ],
+        "emoji": "\ud83d\udeb6"
+      },
+      "09:30": {
+        "action": "Teaching Comparative Literature seminar",
+        "loc": [
+          124,
+          20
+        ],
+        "emoji": "\ud83d\udcd6"
+      },
+      "12:00": {
+        "action": "Lunch meeting with faculty at Hobbs Cafe",
+        "loc": [
+          77,
+          22
+        ],
+        "emoji": "\ud83e\udd57"
+      },
+      "14:00": {
+        "action": "Holding student office hours in college library",
+        "loc": [
+          118,
+          20
+        ],
+        "emoji": "\ud83c\udf93"
+      },
+      "17:30": {
+        "action": "Picking up fresh groceries at Willows Market",
+        "loc": [
+          82,
+          47
+        ],
+        "emoji": "\ud83e\udd66"
+      },
+      "19:00": {
+        "action": "Cooking family dinner with John",
+        "loc": [
+          49,
+          78
+        ],
+        "emoji": "\ud83e\udd58"
+      },
+      "21:00": {
+        "action": "Reading poetry and grading essays",
+        "loc": [
+          52,
+          75
+        ],
+        "emoji": "\u270d\ufe0f"
+      },
+      "22:45": {
+        "action": "Sleeping in bed",
+        "loc": [
+          52,
+          75
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  },
+  {
+    "name": "Eddy Lin",
+    "age": 19,
+    "occupation": "Music Student & Guitarist",
+    "workplace_name": "Oak Hill College",
+    "workplace_coords": [
+      124,
+      20
+    ],
+    "home_name": "Lin Family House",
+    "home_coords": [
+      47,
+      77
+    ],
+    "bed_coords": [
+      47,
+      77
+    ],
+    "bathroom_coords": [
+      58,
+      75
+    ],
+    "personality": "Curious, Analytical, Musical",
+    "traits": [
+      "creative",
+      "social",
+      "curious"
+    ],
+    "bio": "Talented young guitarist studying music theory, frequently performing at the cafe and park.",
+    "money": 95,
+    "hourly_wage": 15,
+    "schedule": {
+      "08:00": {
+        "action": "Waking up and tuning acoustic guitar",
+        "loc": [
+          47,
+          77
+        ],
+        "emoji": "\ud83c\udfb8"
+      },
+      "08:45": {
+        "action": "Quick breakfast in kitchen",
+        "loc": [
+          49,
+          78
+        ],
+        "emoji": "\ud83e\udd5e"
+      },
+      "09:30": {
+        "action": "Walking to college music rehearsal hall",
+        "loc": [
+          124,
+          20
+        ],
+        "emoji": "\ud83d\udeb6"
+      },
+      "12:30": {
+        "action": "Lunch and impromptu acoustic set at Hobbs Cafe",
+        "loc": [
+          77,
+          22
+        ],
+        "emoji": "\ud83c\udfb5"
+      },
+      "15:00": {
+        "action": "Practicing chords in Johnson Park gazebo",
+        "loc": [
+          39,
+          44
+        ],
+        "emoji": "\ud83c\udfb6"
+      },
+      "18:00": {
+        "action": "Browsing audio equipment at Harvey Oak Store",
+        "loc": [
+          63,
+          48
+        ],
+        "emoji": "\ud83c\udfa7"
+      },
+      "19:30": {
+        "action": "Family dinner at home",
+        "loc": [
+          49,
+          78
+        ],
+        "emoji": "\ud83c\udf72"
+      },
+      "21:00": {
+        "action": "Composing new songs in bedroom",
+        "loc": [
+          47,
+          77
+        ],
+        "emoji": "\ud83c\udfbc"
+      },
+      "00:00": {
+        "action": "Sleeping in bed",
+        "loc": [
+          47,
+          77
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  },
+  {
+    "name": "Giorgio Rossi",
+    "age": 41,
+    "occupation": "Organic Farmer & Supply Specialist",
+    "workplace_name": "Harvey Oak Supply Store",
+    "workplace_coords": [
+      63,
+      48
+    ],
+    "home_name": "Giorgio's Apartment",
+    "home_coords": [
+      87,
+      21
+    ],
+    "bed_coords": [
+      87,
+      21
+    ],
+    "bathroom_coords": [
+      88,
+      14
+    ],
+    "personality": "Analytical, Logical, Eccentric",
+    "traits": [
+      "independent",
+      "hardworking",
+      "outdoorsy"
+    ],
+    "bio": "Experienced farmer and botanist who manages farm supplies, seeds, and community garden plots.",
+    "money": 410,
+    "hourly_wage": 22,
+    "schedule": {
+      "05:30": {
+        "action": "Early morning rise and stretching",
+        "loc": [
+          87,
+          21
+        ],
+        "emoji": "\ud83c\udf05"
+      },
+      "06:00": {
+        "action": "Tending crops and watering community garden",
+        "loc": [
+          125,
+          37
+        ],
+        "emoji": "\ud83c\udf31"
+      },
+      "08:30": {
+        "action": "Morning hearty breakfast at Hobbs Cafe",
+        "loc": [
+          77,
+          22
+        ],
+        "emoji": "\ud83c\udf73"
+      },
+      "09:30": {
+        "action": "Managing inventory at Harvey Oak Supply Store",
+        "loc": [
+          63,
+          48
+        ],
+        "emoji": "\ud83c\udf3e"
+      },
+      "13:00": {
+        "action": "Checking soil conditions at Johnson Park",
+        "loc": [
+          39,
+          44
+        ],
+        "emoji": "\ud83e\uddea"
+      },
+      "15:30": {
+        "action": "Distributing freshly harvested vegetables to market",
+        "loc": [
+          82,
+          47
+        ],
+        "emoji": "\ud83e\udd55"
+      },
+      "18:30": {
+        "action": "Hearty ale and dinner at The Rose & Crown Pub",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83c\udf7a"
+      },
+      "20:30": {
+        "action": "Reading agricultural journals in apartment",
+        "loc": [
+          87,
+          21
+        ],
+        "emoji": "\ud83d\udcda"
+      },
+      "22:00": {
+        "action": "Sleeping in bed",
+        "loc": [
+          87,
+          21
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  },
+  {
+    "name": "Tom Moreno",
+    "age": 52,
+    "occupation": "Head Chef",
+    "workplace_name": "The Rose & Crown Pub",
+    "workplace_coords": [
+      60,
+      31
+    ],
+    "home_name": "Moreno Family House",
+    "home_coords": [
+      76,
+      75
+    ],
+    "bed_coords": [
+      76,
+      75
+    ],
+    "bathroom_coords": [
+      76,
+      70
+    ],
+    "personality": "Energetic, Passionate, Opinionated",
+    "traits": [
+      "hardworking",
+      "competitive",
+      "bold"
+    ],
+    "bio": "Master culinary chef at The Rose & Crown Pub known for legendary pies and fiery opinions.",
+    "money": 560,
+    "hourly_wage": 28,
+    "schedule": {
+      "08:30": {
+        "action": "Waking up and having strong black coffee",
+        "loc": [
+          76,
+          75
+        ],
+        "emoji": "\u2615"
+      },
+      "09:30": {
+        "action": "Selecting produce at The Willows Market",
+        "loc": [
+          82,
+          47
+        ],
+        "emoji": "\ud83c\udf45"
+      },
+      "11:00": {
+        "action": "Lighting kitchen ovens at The Rose & Crown Pub",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83d\udd25"
+      },
+      "12:30": {
+        "action": "Prepping lunch specials and roasts",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83d\udd2a"
+      },
+      "17:00": {
+        "action": "Head chef expediting dinner orders",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83e\udd69"
+      },
+      "21:30": {
+        "action": "Tasting new soup recipes and cleaning station",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83c\udf72"
+      },
+      "22:30": {
+        "action": "Evening walk back to Moreno house",
+        "loc": [
+          76,
+          75
+        ],
+        "emoji": "\ud83d\udeb6"
+      },
+      "23:30": {
+        "action": "Sleeping in bed",
+        "loc": [
+          76,
+          75
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  },
+  {
+    "name": "Jane Moreno",
+    "age": 46,
+    "occupation": "Elementary Teacher",
+    "workplace_name": "Oak Hill College",
+    "workplace_coords": [
+      124,
+      20
+    ],
+    "home_name": "Moreno Family House",
+    "home_coords": [
+      76,
+      75
+    ],
+    "bed_coords": [
+      76,
+      75
+    ],
+    "bathroom_coords": [
+      76,
+      70
+    ],
+    "personality": "Friendly, Helpful, Organized",
+    "traits": [
+      "generous",
+      "friendly",
+      "patient"
+    ],
+    "bio": "Beloved local teacher with a knack for community organizing and youth literacy programs.",
+    "money": 490,
+    "hourly_wage": 25,
+    "schedule": {
+      "06:30": {
+        "action": "Morning routine and preparing school lessons",
+        "loc": [
+          76,
+          75
+        ],
+        "emoji": "\ud83d\udcdd"
+      },
+      "07:30": {
+        "action": "Grabbing tea and muffin at Hobbs Cafe",
+        "loc": [
+          77,
+          22
+        ],
+        "emoji": "\ud83e\uddc1"
+      },
+      "08:30": {
+        "action": "Teaching primary curriculum at Oak Hill classroom",
+        "loc": [
+          124,
+          20
+        ],
+        "emoji": "\ud83c\udf4e"
+      },
+      "12:30": {
+        "action": "Supervising student lunch at campus grounds",
+        "loc": [
+          118,
+          20
+        ],
+        "emoji": "\ud83e\udd6a"
+      },
+      "15:00": {
+        "action": "Grading spelling tests in college library",
+        "loc": [
+          118,
+          20
+        ],
+        "emoji": "\ud83d\udcda"
+      },
+      "17:30": {
+        "action": "Afternoon walk through Johnson Park",
+        "loc": [
+          39,
+          44
+        ],
+        "emoji": "\ud83c\udf38"
+      },
+      "19:00": {
+        "action": "Dinner at home with Tom",
+        "loc": [
+          76,
+          75
+        ],
+        "emoji": "\ud83c\udf5d"
+      },
+      "21:00": {
+        "action": "Knitting and watching evening television",
+        "loc": [
+          76,
+          75
+        ],
+        "emoji": "\ud83e\uddf6"
+      },
+      "22:45": {
+        "action": "Sleeping in bed",
+        "loc": [
+          76,
+          75
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  },
+  {
+    "name": "Sam Moore",
+    "age": 65,
+    "occupation": "Retired Judge & Mayoral Candidate",
+    "workplace_name": "Town Hall & Johnson Park",
+    "workplace_coords": [
+      39,
+      44
+    ],
+    "home_name": "Moore Family House",
+    "home_coords": [
+      39,
+      62
+    ],
+    "bed_coords": [
+      39,
+      62
+    ],
+    "bathroom_coords": [
+      40,
+      59
+    ],
+    "personality": "Wise, Resourceful, Humorous",
+    "traits": [
+      "social",
+      "generous",
+      "wise"
+    ],
+    "bio": "Distinguished elder and former judge considering running for Smallville town mayor.",
+    "money": 890,
+    "hourly_wage": 35,
+    "schedule": {
+      "07:00": {
+        "action": "Morning stroll with Jennifer in garden",
+        "loc": [
+          39,
+          62
+        ],
+        "emoji": "\ud83c\udf37"
+      },
+      "08:30": {
+        "action": "Morning discussion on civic affairs at Hobbs Cafe",
+        "loc": [
+          77,
+          22
+        ],
+        "emoji": "\u2615"
+      },
+      "10:30": {
+        "action": "Consulting on local community charter at library",
+        "loc": [
+          118,
+          20
+        ],
+        "emoji": "\ud83d\udcdc"
+      },
+      "13:00": {
+        "action": "Lunch and town meeting at Johnson Park",
+        "loc": [
+          39,
+          44
+        ],
+        "emoji": "\ud83c\udfdb\ufe0f"
+      },
+      "16:00": {
+        "action": "Chatting with residents at The Rose & Crown Pub",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83c\udf7b"
+      },
+      "18:30": {
+        "action": "Evening dinner at Moore house with Jennifer",
+        "loc": [
+          39,
+          62
+        ],
+        "emoji": "\ud83c\udf72"
+      },
+      "20:30": {
+        "action": "Writing personal memoirs and civic reflections",
+        "loc": [
+          39,
+          62
+        ],
+        "emoji": "\ud83d\udcd6"
+      },
+      "22:30": {
+        "action": "Sleeping in bed",
+        "loc": [
+          39,
+          62
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  },
+  {
+    "name": "Abigail Chen",
+    "age": 25,
+    "occupation": "Digital Animator & Artist",
+    "workplace_name": "Artist Co-Living Studio",
+    "workplace_coords": [
+      39,
+      18
+    ],
+    "home_name": "Artist Co-Living Space",
+    "home_coords": [
+      38,
+      23
+    ],
+    "bed_coords": [
+      38,
+      23
+    ],
+    "bathroom_coords": [
+      37,
+      23
+    ],
+    "personality": "Open-Minded, Curious, Determined",
+    "traits": [
+      "creative",
+      "introverted",
+      "curious"
+    ],
+    "bio": "Freelance 2D animator working on indie character concepts and illustrating town life.",
+    "money": 280,
+    "hourly_wage": 22,
+    "schedule": {
+      "08:00": {
+        "action": "Waking up and sketching character ideas",
+        "loc": [
+          38,
+          23
+        ],
+        "emoji": "\ud83c\udfa8"
+      },
+      "09:00": {
+        "action": "Coffee and morning brainstorm with housemates",
+        "loc": [
+          32,
+          18
+        ],
+        "emoji": "\u2615"
+      },
+      "10:30": {
+        "action": "Digital animation work at studio computer",
+        "loc": [
+          39,
+          18
+        ],
+        "emoji": "\ud83d\udcbb"
+      },
+      "13:00": {
+        "action": "Sketching outdoors at Johnson Park fountain",
+        "loc": [
+          39,
+          44
+        ],
+        "emoji": "\u26f2"
+      },
+      "15:30": {
+        "action": "Afternoon pastry and working at Hobbs Cafe",
+        "loc": [
+          77,
+          22
+        ],
+        "emoji": "\ud83c\udf70"
+      },
+      "18:30": {
+        "action": "Purchasing art supplies at Harvey Oak Store",
+        "loc": [
+          63,
+          48
+        ],
+        "emoji": "\ud83d\udd8c\ufe0f"
+      },
+      "20:00": {
+        "action": "Community potluck dinner in co-living kitchen",
+        "loc": [
+          32,
+          18
+        ],
+        "emoji": "\ud83c\udf72"
+      },
+      "22:00": {
+        "action": "Watching animations and relaxing",
+        "loc": [
+          39,
+          18
+        ],
+        "emoji": "\ud83c\udfac"
+      },
+      "00:00": {
+        "action": "Sleeping in bed",
+        "loc": [
+          38,
+          23
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  },
+  {
+    "name": "Carlos Gomez",
+    "age": 32,
+    "occupation": "Freelance Software Engineer",
+    "workplace_name": "Carlos's Home Office",
+    "workplace_coords": [
+      94,
+      21
+    ],
+    "home_name": "Carlos's Apartment",
+    "home_coords": [
+      94,
+      21
+    ],
+    "bed_coords": [
+      94,
+      21
+    ],
+    "bathroom_coords": [
+      95,
+      14
+    ],
+    "personality": "Analytical, Bold, Competitive",
+    "traits": [
+      "independent",
+      "competitive",
+      "analytical"
+    ],
+    "bio": "High-velocity backend developer working remotely on fintech APIs and algorithmic trading.",
+    "money": 740,
+    "hourly_wage": 40,
+    "schedule": {
+      "09:00": {
+        "action": "Waking up and checking crypto alerts",
+        "loc": [
+          94,
+          21
+        ],
+        "emoji": "\ud83d\udcf1"
+      },
+      "09:30": {
+        "action": "Double espresso and code sprint at home desk",
+        "loc": [
+          94,
+          21
+        ],
+        "emoji": "\ud83d\udcbb"
+      },
+      "12:30": {
+        "action": "Quick takeaway sandwich from Hobbs Cafe",
+        "loc": [
+          77,
+          22
+        ],
+        "emoji": "\ud83e\udd6a"
+      },
+      "14:00": {
+        "action": "Debugging distributed microservices",
+        "loc": [
+          94,
+          21
+        ],
+        "emoji": "\u2699\ufe0f"
+      },
+      "18:00": {
+        "action": "Jogging briskly through town square",
+        "loc": [
+          63,
+          48
+        ],
+        "emoji": "\ud83c\udfc3"
+      },
+      "19:30": {
+        "action": "Grabbing dinner and cold drink at The Rose & Crown",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83c\udf54"
+      },
+      "21:30": {
+        "action": "Building personal open-source projects",
+        "loc": [
+          94,
+          21
+        ],
+        "emoji": "\ud83d\udda5\ufe0f"
+      },
+      "01:30": {
+        "action": "Sleeping in bed",
+        "loc": [
+          94,
+          21
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  },
+  {
+    "name": "Hailey Johnson",
+    "age": 30,
+    "occupation": "Barista & Content Creator",
+    "workplace_name": "Hobbs Cafe",
+    "workplace_coords": [
+      77,
+      22
+    ],
+    "home_name": "Artist Co-Living Space",
+    "home_coords": [
+      44,
+      23
+    ],
+    "bed_coords": [
+      44,
+      23
+    ],
+    "bathroom_coords": [
+      47,
+      23
+    ],
+    "personality": "Imaginative, Energetic, Resourceful",
+    "traits": [
+      "extroverted",
+      "creative",
+      "friendly"
+    ],
+    "bio": "Enthusiastic barista at Hobbs Cafe who creates lifestyle blogs and interviews town locals.",
+    "money": 210,
+    "hourly_wage": 18,
+    "schedule": {
+      "07:00": {
+        "action": "Morning stretching and social media update",
+        "loc": [
+          44,
+          23
+        ],
+        "emoji": "\ud83d\udcf1"
+      },
+      "08:00": {
+        "action": "Reporting for shift at Hobbs Cafe",
+        "loc": [
+          77,
+          22
+        ],
+        "emoji": "\u2615"
+      },
+      "11:00": {
+        "action": "Steaming lattes and welcoming guests",
+        "loc": [
+          77,
+          19
+        ],
+        "emoji": "\ud83e\udd50"
+      },
+      "14:00": {
+        "action": "Filming town vlog at Johnson Park",
+        "loc": [
+          39,
+          44
+        ],
+        "emoji": "\ud83d\udcf9"
+      },
+      "16:30": {
+        "action": "Editing video in co-living common room",
+        "loc": [
+          39,
+          18
+        ],
+        "emoji": "\ud83d\udcbb"
+      },
+      "19:00": {
+        "action": "Dinner and trivia night at The Rose & Crown Pub",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83c\udf89"
+      },
+      "21:30": {
+        "action": "Chatting with housemates in kitchen",
+        "loc": [
+          32,
+          18
+        ],
+        "emoji": "\ud83c\udf75"
+      },
+      "23:30": {
+        "action": "Sleeping in bed",
+        "loc": [
+          44,
+          23
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  },
+  {
+    "name": "Francisco Lopez",
+    "age": 23,
+    "occupation": "Theater Actor & Instructor",
+    "workplace_name": "Artist Co-Living Studio",
+    "workplace_coords": [
+      39,
+      18
+    ],
+    "home_name": "Artist Co-Living Space",
+    "home_coords": [
+      44,
+      21
+    ],
+    "bed_coords": [
+      44,
+      21
+    ],
+    "bathroom_coords": [
+      48,
+      20
+    ],
+    "personality": "Outgoing, Friendly, Expressive",
+    "traits": [
+      "social",
+      "friendly",
+      "creative"
+    ],
+    "bio": "Charismatic drama teacher and actor harboring an unspoken crush on Abigail Chen.",
+    "money": 190,
+    "hourly_wage": 18,
+    "schedule": {
+      "08:30": {
+        "action": "Vocal warmups and monologues in room",
+        "loc": [
+          44,
+          21
+        ],
+        "emoji": "\ud83c\udfad"
+      },
+      "09:30": {
+        "action": "Breakfast and chatting with Abigail Chen",
+        "loc": [
+          32,
+          18
+        ],
+        "emoji": "\u2615"
+      },
+      "11:00": {
+        "action": "Rehearsing stage lines in studio",
+        "loc": [
+          39,
+          18
+        ],
+        "emoji": "\ud83d\udcdc"
+      },
+      "13:30": {
+        "action": "Lunch break at Hobbs Cafe",
+        "loc": [
+          77,
+          22
+        ],
+        "emoji": "\ud83e\udd6a"
+      },
+      "15:30": {
+        "action": "Outdoor improv exercises in Johnson Park",
+        "loc": [
+          39,
+          44
+        ],
+        "emoji": "\ud83c\udfaa"
+      },
+      "19:00": {
+        "action": "Dinner and laughter at The Rose & Crown Pub",
+        "loc": [
+          60,
+          31
+        ],
+        "emoji": "\ud83c\udf7b"
+      },
+      "21:30": {
+        "action": "Reading classic scripts at desk",
+        "loc": [
+          44,
+          21
+        ],
+        "emoji": "\ud83d\udcd6"
+      },
+      "23:30": {
+        "action": "Sleeping in bed",
+        "loc": [
+          44,
+          21
+        ],
+        "emoji": "\ud83d\udca4"
+      }
+    }
+  }
+]

@@ -1,0 +1,4498 @@
+{
+  "Giorgio Rossi's apartment -> bathroom -> shower": {
+    "center": [
+      86,
+      13
+    ],
+    "tiles": [
+      [
+        86,
+        13
+      ],
+      [
+        87,
+        13
+      ]
+    ]
+  },
+  "Giorgio Rossi's apartment -> bathroom -> bathroom sink": {
+    "center": [
+      88,
+      13
+    ],
+    "tiles": [
+      [
+        88,
+        13
+      ],
+      [
+        89,
+        13
+      ]
+    ]
+  },
+  "Giorgio Rossi's apartment -> bathroom -> toilet": {
+    "center": [
+      90,
+      13
+    ],
+    "tiles": [
+      [
+        90,
+        13
+      ]
+    ]
+  },
+  "Carlos Gomez's apartment -> bathroom -> shower": {
+    "center": [
+      93,
+      13
+    ],
+    "tiles": [
+      [
+        93,
+        13
+      ],
+      [
+        94,
+        13
+      ]
+    ]
+  },
+  "Carlos Gomez's apartment -> bathroom -> bathroom sink": {
+    "center": [
+      95,
+      13
+    ],
+    "tiles": [
+      [
+        95,
+        13
+      ],
+      [
+        96,
+        13
+      ]
+    ]
+  },
+  "Carlos Gomez's apartment -> bathroom -> toilet": {
+    "center": [
+      97,
+      13
+    ],
+    "tiles": [
+      [
+        97,
+        13
+      ]
+    ]
+  },
+  "Arthur Burton's apartment -> main room -> bed": {
+    "center": [
+      53,
+      14
+    ],
+    "tiles": [
+      [
+        53,
+        14
+      ],
+      [
+        54,
+        14
+      ]
+    ]
+  },
+  "Arthur Burton's apartment -> main room -> refrigerator": {
+    "center": [
+      55,
+      14
+    ],
+    "tiles": [
+      [
+        55,
+        14
+      ]
+    ]
+  },
+  "Arthur Burton's apartment -> main room -> closet": {
+    "center": [
+      56,
+      14
+    ],
+    "tiles": [
+      [
+        56,
+        14
+      ]
+    ]
+  },
+  "Arthur Burton's apartment -> main room -> shelf": {
+    "center": [
+      57,
+      14
+    ],
+    "tiles": [
+      [
+        57,
+        14
+      ],
+      [
+        58,
+        14
+      ]
+    ]
+  },
+  "Arthur Burton's apartment -> bathroom -> shower": {
+    "center": [
+      60,
+      14
+    ],
+    "tiles": [
+      [
+        60,
+        14
+      ],
+      [
+        61,
+        14
+      ]
+    ]
+  },
+  "Arthur Burton's apartment -> bathroom -> toilet": {
+    "center": [
+      62,
+      14
+    ],
+    "tiles": [
+      [
+        62,
+        14
+      ]
+    ]
+  },
+  "Ryan Park's apartment -> bathroom -> shower": {
+    "center": [
+      65,
+      14
+    ],
+    "tiles": [
+      [
+        65,
+        14
+      ],
+      [
+        66,
+        14
+      ]
+    ]
+  },
+  "Ryan Park's apartment -> bathroom -> bathroom sink": {
+    "center": [
+      67,
+      14
+    ],
+    "tiles": [
+      [
+        67,
+        14
+      ],
+      [
+        68,
+        14
+      ]
+    ]
+  },
+  "Ryan Park's apartment -> bathroom -> toilet": {
+    "center": [
+      69,
+      14
+    ],
+    "tiles": [
+      [
+        69,
+        14
+      ]
+    ]
+  },
+  "Isabella Rodriguez's apartment -> main room -> bed": {
+    "center": [
+      72,
+      14
+    ],
+    "tiles": [
+      [
+        72,
+        14
+      ],
+      [
+        73,
+        14
+      ]
+    ]
+  },
+  "Isabella Rodriguez's apartment -> main room -> refrigerator": {
+    "center": [
+      75,
+      14
+    ],
+    "tiles": [
+      [
+        75,
+        14
+      ]
+    ]
+  },
+  "Isabella Rodriguez's apartment -> main room -> closet": {
+    "center": [
+      76,
+      14
+    ],
+    "tiles": [
+      [
+        76,
+        14
+      ],
+      [
+        77,
+        14
+      ]
+    ]
+  },
+  "Isabella Rodriguez's apartment -> main room -> shelf": {
+    "center": [
+      78,
+      14
+    ],
+    "tiles": [
+      [
+        78,
+        14
+      ],
+      [
+        79,
+        14
+      ]
+    ]
+  },
+  "Isabella Rodriguez's apartment -> bathroom -> shower": {
+    "center": [
+      81,
+      14
+    ],
+    "tiles": [
+      [
+        81,
+        14
+      ],
+      [
+        82,
+        14
+      ]
+    ]
+  },
+  "Isabella Rodriguez's apartment -> bathroom -> toilet": {
+    "center": [
+      83,
+      14
+    ],
+    "tiles": [
+      [
+        83,
+        14
+      ]
+    ]
+  },
+  "Arthur Burton's apartment -> main room -> guitar": {
+    "center": [
+      53,
+      16
+    ],
+    "tiles": [
+      [
+        53,
+        16
+      ]
+    ]
+  },
+  "Arthur Burton's apartment -> bathroom -> bathroom sink": {
+    "center": [
+      61,
+      16
+    ],
+    "tiles": [
+      [
+        61,
+        16
+      ],
+      [
+        61,
+        17
+      ]
+    ]
+  },
+  "Isabella Rodriguez's apartment -> main room -> desk": {
+    "center": [
+      73,
+      16
+    ],
+    "tiles": [
+      [
+        73,
+        16
+      ]
+    ]
+  },
+  "Isabella Rodriguez's apartment -> bathroom -> bathroom sink": {
+    "center": [
+      82,
+      16
+    ],
+    "tiles": [
+      [
+        82,
+        16
+      ]
+    ]
+  },
+  "Arthur Burton's apartment -> main room -> desk": {
+    "center": [
+      54,
+      17
+    ],
+    "tiles": [
+      [
+        54,
+        17
+      ]
+    ]
+  },
+  "artist's co-living space -> Latoya Williams's room -> bed": {
+    "center": [
+      16,
+      18
+    ],
+    "tiles": [
+      [
+        16,
+        18
+      ]
+    ]
+  },
+  "artist's co-living space -> Latoya Williams's bathroom -> shower": {
+    "center": [
+      20,
+      18
+    ],
+    "tiles": [
+      [
+        20,
+        18
+      ],
+      [
+        21,
+        18
+      ]
+    ]
+  },
+  "artist's co-living space -> Latoya Williams's bathroom -> toilet": {
+    "center": [
+      22,
+      18
+    ],
+    "tiles": [
+      [
+        22,
+        18
+      ]
+    ]
+  },
+  "artist's co-living space -> Rajiv Patel's room -> bed": {
+    "center": [
+      25,
+      18
+    ],
+    "tiles": [
+      [
+        25,
+        18
+      ],
+      [
+        26,
+        18
+      ]
+    ]
+  },
+  "artist's co-living space -> Rajiv Patel's bathroom -> shower": {
+    "center": [
+      30,
+      18
+    ],
+    "tiles": [
+      [
+        30,
+        18
+      ],
+      [
+        31,
+        18
+      ]
+    ]
+  },
+  "artist's co-living space -> Rajiv Patel's bathroom -> toilet": {
+    "center": [
+      32,
+      18
+    ],
+    "tiles": [
+      [
+        32,
+        18
+      ]
+    ]
+  },
+  "artist's co-living space -> Abigail Chen's room -> bed": {
+    "center": [
+      36,
+      18
+    ],
+    "tiles": [
+      [
+        36,
+        18
+      ]
+    ]
+  },
+  "artist's co-living space -> Abigail Chen's room -> closet": {
+    "center": [
+      40,
+      18
+    ],
+    "tiles": [
+      [
+        40,
+        18
+      ]
+    ]
+  },
+  "Giorgio Rossi's apartment -> main room -> bed": {
+    "center": [
+      86,
+      18
+    ],
+    "tiles": [
+      [
+        86,
+        18
+      ],
+      [
+        87,
+        18
+      ]
+    ]
+  },
+  "Giorgio Rossi's apartment -> main room -> refrigerator": {
+    "center": [
+      90,
+      18
+    ],
+    "tiles": [
+      [
+        90,
+        18
+      ]
+    ]
+  },
+  "Carlos Gomez's apartment -> main room -> bed": {
+    "center": [
+      93,
+      18
+    ],
+    "tiles": [
+      [
+        93,
+        18
+      ],
+      [
+        94,
+        18
+      ]
+    ]
+  },
+  "Carlos Gomez's apartment -> main room -> refrigerator": {
+    "center": [
+      97,
+      18
+    ],
+    "tiles": [
+      [
+        97,
+        18
+      ]
+    ]
+  },
+  "artist's co-living space -> Latoya Williams's room -> closet": {
+    "center": [
+      17,
+      19
+    ],
+    "tiles": [
+      [
+        17,
+        19
+      ],
+      [
+        18,
+        19
+      ]
+    ]
+  },
+  "artist's co-living space -> Rajiv Patel's room -> closet": {
+    "center": [
+      27,
+      19
+    ],
+    "tiles": [
+      [
+        27,
+        19
+      ],
+      [
+        28,
+        19
+      ]
+    ]
+  },
+  "Ryan Park's apartment -> main room -> bed": {
+    "center": [
+      65,
+      19
+    ],
+    "tiles": [
+      [
+        65,
+        19
+      ],
+      [
+        66,
+        19
+      ]
+    ]
+  },
+  "Ryan Park's apartment -> main room -> refrigerator": {
+    "center": [
+      69,
+      19
+    ],
+    "tiles": [
+      [
+        69,
+        19
+      ]
+    ]
+  },
+  "Hobbs Cafe -> cafe -> refrigerator": {
+    "center": [
+      72,
+      19
+    ],
+    "tiles": [
+      [
+        72,
+        19
+      ],
+      [
+        73,
+        19
+      ]
+    ]
+  },
+  "Hobbs Cafe -> cafe -> cooking area": {
+    "center": [
+      75,
+      19
+    ],
+    "tiles": [
+      [
+        75,
+        19
+      ],
+      [
+        76,
+        19
+      ]
+    ]
+  },
+  "Hobbs Cafe -> cafe -> kitchen sink": {
+    "center": [
+      77,
+      19
+    ],
+    "tiles": [
+      [
+        77,
+        19
+      ]
+    ]
+  },
+  "Hobbs Cafe -> cafe -> behind the cafe counter": {
+    "center": [
+      79,
+      19
+    ],
+    "tiles": [
+      [
+        78,
+        19
+      ],
+      [
+        79,
+        19
+      ],
+      [
+        80,
+        19
+      ],
+      [
+        81,
+        19
+      ]
+    ]
+  },
+  "artist's co-living space -> Latoya Williams's room -> desk": {
+    "center": [
+      16,
+      20
+    ],
+    "tiles": [
+      [
+        16,
+        20
+      ]
+    ]
+  },
+  "The Rose and Crown Pub -> pub -> refrigerator": {
+    "center": [
+      55,
+      20
+    ],
+    "tiles": [
+      [
+        55,
+        20
+      ],
+      [
+        56,
+        20
+      ]
+    ]
+  },
+  "The Rose and Crown Pub -> pub -> behind the bar counter": {
+    "center": [
+      58,
+      20
+    ],
+    "tiles": [
+      [
+        57,
+        20
+      ],
+      [
+        58,
+        20
+      ],
+      [
+        59,
+        20
+      ]
+    ]
+  },
+  "The Rose and Crown Pub -> pub -> kitchen sink": {
+    "center": [
+      60,
+      20
+    ],
+    "tiles": [
+      [
+        60,
+        20
+      ]
+    ]
+  },
+  "The Rose and Crown Pub -> pub -> cooking area": {
+    "center": [
+      61,
+      20
+    ],
+    "tiles": [
+      [
+        61,
+        20
+      ],
+      [
+        62,
+        20
+      ]
+    ]
+  },
+  "Giorgio Rossi's apartment -> main room -> cooking area": {
+    "center": [
+      89,
+      20
+    ],
+    "tiles": [
+      [
+        89,
+        20
+      ]
+    ]
+  },
+  "Carlos Gomez's apartment -> main room -> cooking area": {
+    "center": [
+      96,
+      20
+    ],
+    "tiles": [
+      [
+        96,
+        20
+      ]
+    ]
+  },
+  "Oak Hill College -> classroom -> blackboard": {
+    "center": [
+      109,
+      20
+    ],
+    "tiles": [
+      [
+        108,
+        20
+      ],
+      [
+        109,
+        20
+      ],
+      [
+        110,
+        20
+      ],
+      [
+        111,
+        20
+      ]
+    ]
+  },
+  "Oak Hill College -> library -> library sofa": {
+    "center": [
+      118,
+      20
+    ],
+    "tiles": [
+      [
+        118,
+        20
+      ],
+      [
+        119,
+        20
+      ]
+    ]
+  },
+  "Oak Hill College -> library -> bookshelf": {
+    "center": [
+      122,
+      22
+    ],
+    "tiles": [
+      [
+        121,
+        20
+      ],
+      [
+        122,
+        20
+      ],
+      [
+        123,
+        20
+      ],
+      [
+        124,
+        20
+      ],
+      [
+        123,
+        25
+      ],
+      [
+        123,
+        26
+      ],
+      [
+        123,
+        27
+      ]
+    ]
+  },
+  "artist's co-living space -> Latoya Williams's room -> shelf": {
+    "center": [
+      16,
+      21
+    ],
+    "tiles": [
+      [
+        16,
+        21
+      ],
+      [
+        16,
+        22
+      ]
+    ]
+  },
+  "artist's co-living space -> Latoya Williams's bathroom -> bathroom sink": {
+    "center": [
+      21,
+      21
+    ],
+    "tiles": [
+      [
+        21,
+        21
+      ],
+      [
+        21,
+        22
+      ]
+    ]
+  },
+  "artist's co-living space -> Rajiv Patel's room -> guitar": {
+    "center": [
+      28,
+      21
+    ],
+    "tiles": [
+      [
+        28,
+        21
+      ]
+    ]
+  },
+  "artist's co-living space -> Rajiv Patel's bathroom -> bathroom sink": {
+    "center": [
+      31,
+      21
+    ],
+    "tiles": [
+      [
+        31,
+        21
+      ],
+      [
+        31,
+        22
+      ]
+    ]
+  },
+  "artist's co-living space -> Abigail Chen's bathroom -> bathroom sink": {
+    "center": [
+      38,
+      21
+    ],
+    "tiles": [
+      [
+        38,
+        21
+      ],
+      [
+        39,
+        21
+      ]
+    ]
+  },
+  "artist's co-living space -> Abigail Chen's bathroom -> toilet": {
+    "center": [
+      40,
+      21
+    ],
+    "tiles": [
+      [
+        40,
+        21
+      ]
+    ]
+  },
+  "artist's co-living space -> Abigail Chen's bathroom -> shower": {
+    "center": [
+      41,
+      21
+    ],
+    "tiles": [
+      [
+        41,
+        21
+      ],
+      [
+        42,
+        21
+      ]
+    ]
+  },
+  "Ryan Park's apartment -> main room -> cooking area": {
+    "center": [
+      68,
+      21
+    ],
+    "tiles": [
+      [
+        68,
+        21
+      ]
+    ]
+  },
+  "Hobbs Cafe -> cafe -> cafe customer seating": {
+    "center": [
+      76,
+      23
+    ],
+    "tiles": [
+      [
+        78,
+        21
+      ],
+      [
+        80,
+        21
+      ],
+      [
+        82,
+        21
+      ],
+      [
+        72,
+        23
+      ],
+      [
+        74,
+        23
+      ],
+      [
+        76,
+        23
+      ],
+      [
+        79,
+        23
+      ],
+      [
+        72,
+        25
+      ],
+      [
+        74,
+        25
+      ],
+      [
+        76,
+        25
+      ],
+      [
+        79,
+        25
+      ]
+    ]
+  },
+  "Giorgio Rossi's apartment -> main room -> desk": {
+    "center": [
+      87,
+      21
+    ],
+    "tiles": [
+      [
+        87,
+        21
+      ]
+    ]
+  },
+  "Giorgio Rossi's apartment -> main room -> kitchen sink": {
+    "center": [
+      89,
+      21
+    ],
+    "tiles": [
+      [
+        89,
+        21
+      ]
+    ]
+  },
+  "Carlos Gomez's apartment -> main room -> desk": {
+    "center": [
+      94,
+      21
+    ],
+    "tiles": [
+      [
+        94,
+        21
+      ]
+    ]
+  },
+  "Carlos Gomez's apartment -> main room -> kitchen sink": {
+    "center": [
+      96,
+      21
+    ],
+    "tiles": [
+      [
+        96,
+        21
+      ]
+    ]
+  },
+  "Oak Hill College -> classroom -> classroom student seating": {
+    "center": [
+      113,
+      23
+    ],
+    "tiles": [
+      [
+        112,
+        21
+      ],
+      [
+        115,
+        21
+      ],
+      [
+        112,
+        23
+      ],
+      [
+        115,
+        23
+      ],
+      [
+        112,
+        25
+      ],
+      [
+        115,
+        25
+      ]
+    ]
+  },
+  "artist's co-living space -> Rajiv Patel's room -> easel": {
+    "center": [
+      25,
+      22
+    ],
+    "tiles": [
+      [
+        25,
+        22
+      ],
+      [
+        26,
+        22
+      ]
+    ]
+  },
+  "artist's co-living space -> Abigail Chen's room -> desk": {
+    "center": [
+      36,
+      22
+    ],
+    "tiles": [
+      [
+        36,
+        22
+      ]
+    ]
+  },
+  "Ryan Park's apartment -> main room -> kitchen sink": {
+    "center": [
+      68,
+      22
+    ],
+    "tiles": [
+      [
+        68,
+        22
+      ]
+    ]
+  },
+  "Oak Hill College -> library -> library table": {
+    "center": [
+      120,
+      23
+    ],
+    "tiles": [
+      [
+        119,
+        22
+      ],
+      [
+        122,
+        22
+      ],
+      [
+        119,
+        24
+      ],
+      [
+        122,
+        24
+      ]
+    ]
+  },
+  "The Rose and Crown Pub -> pub -> bar customer seating": {
+    "center": [
+      58,
+      23
+    ],
+    "tiles": [
+      [
+        55,
+        23
+      ],
+      [
+        57,
+        23
+      ],
+      [
+        59,
+        23
+      ],
+      [
+        61,
+        23
+      ]
+    ]
+  },
+  "Giorgio Rossi's apartment -> main room -> closet": {
+    "center": [
+      89,
+      24
+    ],
+    "tiles": [
+      [
+        90,
+        23
+      ],
+      [
+        89,
+        24
+      ],
+      [
+        89,
+        25
+      ]
+    ]
+  },
+  "Carlos Gomez's apartment -> main room -> closet": {
+    "center": [
+      96,
+      24
+    ],
+    "tiles": [
+      [
+        97,
+        23
+      ],
+      [
+        96,
+        24
+      ],
+      [
+        96,
+        25
+      ]
+    ]
+  },
+  "Oak Hill College -> classroom -> classroom podium": {
+    "center": [
+      108,
+      23
+    ],
+    "tiles": [
+      [
+        108,
+        23
+      ]
+    ]
+  },
+  "Ryan Park's apartment -> main room -> computer desk": {
+    "center": [
+      66,
+      24
+    ],
+    "tiles": [
+      [
+        66,
+        24
+      ]
+    ]
+  },
+  "Ryan Park's apartment -> main room -> closet": {
+    "center": [
+      68,
+      25
+    ],
+    "tiles": [
+      [
+        69,
+        24
+      ],
+      [
+        68,
+        25
+      ],
+      [
+        68,
+        26
+      ]
+    ]
+  },
+  "Giorgio Rossi's apartment -> main room -> blackboard": {
+    "center": [
+      86,
+      24
+    ],
+    "tiles": [
+      [
+        86,
+        24
+      ],
+      [
+        87,
+        24
+      ]
+    ]
+  },
+  "artist's co-living space -> kitchen -> refrigerator": {
+    "center": [
+      35,
+      25
+    ],
+    "tiles": [
+      [
+        35,
+        25
+      ],
+      [
+        36,
+        25
+      ]
+    ]
+  },
+  "artist's co-living space -> kitchen -> toaster": {
+    "center": [
+      40,
+      25
+    ],
+    "tiles": [
+      [
+        40,
+        25
+      ]
+    ]
+  },
+  "artist's co-living space -> kitchen -> kitchen sink": {
+    "center": [
+      41,
+      25
+    ],
+    "tiles": [
+      [
+        41,
+        25
+      ]
+    ]
+  },
+  "The Rose and Crown Pub -> pub -> shelf": {
+    "center": [
+      54,
+      25
+    ],
+    "tiles": [
+      [
+        54,
+        25
+      ],
+      [
+        54,
+        26
+      ]
+    ]
+  },
+  "The Rose and Crown Pub -> pub -> microphone": {
+    "center": [
+      61,
+      25
+    ],
+    "tiles": [
+      [
+        61,
+        25
+      ]
+    ]
+  },
+  "artist's co-living space -> kitchen -> cooking area": {
+    "center": [
+      41,
+      27
+    ],
+    "tiles": [
+      [
+        41,
+        26
+      ],
+      [
+        41,
+        27
+      ],
+      [
+        41,
+        28
+      ]
+    ]
+  },
+  "Hobbs Cafe -> cafe -> piano": {
+    "center": [
+      82,
+      26
+    ],
+    "tiles": [
+      [
+        82,
+        26
+      ],
+      [
+        83,
+        26
+      ]
+    ]
+  },
+  "artist's co-living space -> Francisco Lopez's room -> shelf": {
+    "center": [
+      15,
+      28
+    ],
+    "tiles": [
+      [
+        15,
+        28
+      ]
+    ]
+  },
+  "artist's co-living space -> Francisco Lopez's bathroom -> toilet": {
+    "center": [
+      22,
+      28
+    ],
+    "tiles": [
+      [
+        22,
+        28
+      ]
+    ]
+  },
+  "artist's co-living space -> Hailey Johnson's room -> easel": {
+    "center": [
+      26,
+      28
+    ],
+    "tiles": [
+      [
+        26,
+        28
+      ],
+      [
+        27,
+        28
+      ]
+    ]
+  },
+  "artist's co-living space -> Hailey Johnson's bathroom -> toilet": {
+    "center": [
+      32,
+      28
+    ],
+    "tiles": [
+      [
+        32,
+        28
+      ]
+    ]
+  },
+  "artist's co-living space -> common room -> common room table": {
+    "center": [
+      37,
+      29
+    ],
+    "tiles": [
+      [
+        36,
+        28
+      ],
+      [
+        39,
+        28
+      ],
+      [
+        36,
+        30
+      ],
+      [
+        39,
+        30
+      ]
+    ]
+  },
+  "artist's co-living space -> Francisco Lopez's room -> closet": {
+    "center": [
+      16,
+      29
+    ],
+    "tiles": [
+      [
+        16,
+        29
+      ],
+      [
+        17,
+        29
+      ]
+    ]
+  },
+  "artist's co-living space -> Francisco Lopez's bathroom -> bathroom sink": {
+    "center": [
+      21,
+      29
+    ],
+    "tiles": [
+      [
+        21,
+        29
+      ],
+      [
+        21,
+        30
+      ]
+    ]
+  },
+  "artist's co-living space -> Hailey Johnson's room -> closet": {
+    "center": [
+      25,
+      29
+    ],
+    "tiles": [
+      [
+        25,
+        29
+      ],
+      [
+        26,
+        29
+      ]
+    ]
+  },
+  "artist's co-living space -> Hailey Johnson's bathroom -> bathroom sink": {
+    "center": [
+      31,
+      29
+    ],
+    "tiles": [
+      [
+        31,
+        29
+      ],
+      [
+        31,
+        30
+      ]
+    ]
+  },
+  "artist's co-living space -> Hailey Johnson's room -> desk": {
+    "center": [
+      26,
+      30
+    ],
+    "tiles": [
+      [
+        26,
+        30
+      ]
+    ]
+  },
+  "artist's co-living space -> common room -> common room sofa": {
+    "center": [
+      35,
+      31
+    ],
+    "tiles": [
+      [
+        35,
+        30
+      ],
+      [
+        35,
+        31
+      ],
+      [
+        35,
+        32
+      ],
+      [
+        36,
+        33
+      ]
+    ]
+  },
+  "artist's co-living space -> Francisco Lopez's room -> easel": {
+    "center": [
+      17,
+      31
+    ],
+    "tiles": [
+      [
+        17,
+        31
+      ],
+      [
+        18,
+        31
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> garden -> dorm garden": {
+    "center": [
+      124,
+      37
+    ],
+    "tiles": [
+      [
+        129,
+        31
+      ],
+      [
+        130,
+        31
+      ],
+      [
+        128,
+        32
+      ],
+      [
+        131,
+        32
+      ],
+      [
+        128,
+        33
+      ],
+      [
+        131,
+        33
+      ],
+      [
+        128,
+        34
+      ],
+      [
+        131,
+        34
+      ],
+      [
+        128,
+        35
+      ],
+      [
+        131,
+        35
+      ],
+      [
+        128,
+        36
+      ],
+      [
+        131,
+        36
+      ],
+      [
+        118,
+        37
+      ],
+      [
+        119,
+        37
+      ],
+      [
+        120,
+        37
+      ],
+      [
+        121,
+        37
+      ],
+      [
+        122,
+        37
+      ],
+      [
+        123,
+        37
+      ],
+      [
+        124,
+        37
+      ],
+      [
+        125,
+        37
+      ],
+      [
+        126,
+        37
+      ],
+      [
+        127,
+        37
+      ],
+      [
+        128,
+        37
+      ],
+      [
+        129,
+        37
+      ],
+      [
+        130,
+        37
+      ],
+      [
+        118,
+        38
+      ],
+      [
+        129,
+        38
+      ],
+      [
+        118,
+        39
+      ],
+      [
+        119,
+        39
+      ],
+      [
+        120,
+        39
+      ],
+      [
+        121,
+        39
+      ],
+      [
+        122,
+        39
+      ],
+      [
+        123,
+        39
+      ],
+      [
+        124,
+        39
+      ],
+      [
+        125,
+        39
+      ],
+      [
+        126,
+        39
+      ],
+      [
+        127,
+        39
+      ],
+      [
+        128,
+        39
+      ],
+      [
+        129,
+        39
+      ],
+      [
+        118,
+        40
+      ],
+      [
+        129,
+        40
+      ],
+      [
+        118,
+        41
+      ],
+      [
+        119,
+        41
+      ],
+      [
+        120,
+        41
+      ],
+      [
+        121,
+        41
+      ],
+      [
+        122,
+        41
+      ],
+      [
+        123,
+        41
+      ],
+      [
+        124,
+        41
+      ],
+      [
+        125,
+        41
+      ],
+      [
+        126,
+        41
+      ],
+      [
+        127,
+        41
+      ],
+      [
+        128,
+        41
+      ]
+    ]
+  },
+  "artist's co-living space -> Francisco Lopez's room -> bed": {
+    "center": [
+      16,
+      32
+    ],
+    "tiles": [
+      [
+        16,
+        32
+      ]
+    ]
+  },
+  "artist's co-living space -> Francisco Lopez's bathroom -> shower": {
+    "center": [
+      20,
+      32
+    ],
+    "tiles": [
+      [
+        20,
+        32
+      ],
+      [
+        21,
+        32
+      ]
+    ]
+  },
+  "artist's co-living space -> Hailey Johnson's room -> bed": {
+    "center": [
+      26,
+      32
+    ],
+    "tiles": [
+      [
+        26,
+        32
+      ]
+    ]
+  },
+  "artist's co-living space -> Hailey Johnson's bathroom -> shower": {
+    "center": [
+      30,
+      32
+    ],
+    "tiles": [
+      [
+        30,
+        32
+      ],
+      [
+        31,
+        32
+      ]
+    ]
+  },
+  "Johnson Park -> park -> park garden": {
+    "center": [
+      27,
+      46
+    ],
+    "tiles": [
+      [
+        21,
+        42
+      ],
+      [
+        22,
+        42
+      ],
+      [
+        23,
+        42
+      ],
+      [
+        26,
+        42
+      ],
+      [
+        27,
+        42
+      ],
+      [
+        28,
+        42
+      ],
+      [
+        29,
+        42
+      ],
+      [
+        30,
+        42
+      ],
+      [
+        31,
+        42
+      ],
+      [
+        32,
+        42
+      ],
+      [
+        33,
+        42
+      ],
+      [
+        34,
+        42
+      ],
+      [
+        21,
+        43
+      ],
+      [
+        22,
+        43
+      ],
+      [
+        27,
+        43
+      ],
+      [
+        28,
+        43
+      ],
+      [
+        29,
+        43
+      ],
+      [
+        32,
+        43
+      ],
+      [
+        33,
+        43
+      ],
+      [
+        34,
+        43
+      ],
+      [
+        21,
+        44
+      ],
+      [
+        22,
+        44
+      ],
+      [
+        27,
+        44
+      ],
+      [
+        28,
+        44
+      ],
+      [
+        33,
+        44
+      ],
+      [
+        34,
+        44
+      ],
+      [
+        21,
+        45
+      ],
+      [
+        22,
+        45
+      ],
+      [
+        27,
+        45
+      ],
+      [
+        28,
+        45
+      ],
+      [
+        33,
+        45
+      ],
+      [
+        34,
+        45
+      ],
+      [
+        21,
+        46
+      ],
+      [
+        22,
+        46
+      ],
+      [
+        23,
+        46
+      ],
+      [
+        26,
+        46
+      ],
+      [
+        27,
+        46
+      ],
+      [
+        28,
+        46
+      ],
+      [
+        33,
+        46
+      ],
+      [
+        34,
+        46
+      ],
+      [
+        21,
+        47
+      ],
+      [
+        22,
+        47
+      ],
+      [
+        27,
+        47
+      ],
+      [
+        28,
+        47
+      ],
+      [
+        33,
+        47
+      ],
+      [
+        34,
+        47
+      ],
+      [
+        21,
+        48
+      ],
+      [
+        22,
+        48
+      ],
+      [
+        24,
+        48
+      ],
+      [
+        25,
+        48
+      ],
+      [
+        27,
+        48
+      ],
+      [
+        28,
+        48
+      ],
+      [
+        33,
+        48
+      ],
+      [
+        34,
+        48
+      ],
+      [
+        21,
+        49
+      ],
+      [
+        22,
+        49
+      ],
+      [
+        23,
+        49
+      ],
+      [
+        24,
+        49
+      ],
+      [
+        25,
+        49
+      ],
+      [
+        26,
+        49
+      ],
+      [
+        27,
+        49
+      ],
+      [
+        28,
+        49
+      ],
+      [
+        29,
+        49
+      ],
+      [
+        30,
+        49
+      ],
+      [
+        31,
+        49
+      ],
+      [
+        32,
+        49
+      ],
+      [
+        33,
+        49
+      ],
+      [
+        34,
+        49
+      ],
+      [
+        21,
+        50
+      ],
+      [
+        22,
+        50
+      ],
+      [
+        23,
+        50
+      ],
+      [
+        24,
+        50
+      ],
+      [
+        25,
+        50
+      ],
+      [
+        26,
+        50
+      ],
+      [
+        27,
+        50
+      ],
+      [
+        28,
+        50
+      ],
+      [
+        29,
+        50
+      ],
+      [
+        30,
+        50
+      ],
+      [
+        31,
+        50
+      ],
+      [
+        32,
+        50
+      ],
+      [
+        33,
+        50
+      ],
+      [
+        34,
+        50
+      ]
+    ]
+  },
+  "Harvey Oak Supply Store -> supply store -> supply store product shelf": {
+    "center": [
+      60,
+      48
+    ],
+    "tiles": [
+      [
+        57,
+        43
+      ],
+      [
+        58,
+        43
+      ],
+      [
+        59,
+        43
+      ],
+      [
+        60,
+        43
+      ],
+      [
+        61,
+        43
+      ],
+      [
+        57,
+        48
+      ],
+      [
+        58,
+        48
+      ],
+      [
+        59,
+        48
+      ],
+      [
+        60,
+        48
+      ],
+      [
+        61,
+        48
+      ],
+      [
+        62,
+        48
+      ],
+      [
+        63,
+        48
+      ],
+      [
+        64,
+        48
+      ],
+      [
+        57,
+        52
+      ],
+      [
+        58,
+        52
+      ],
+      [
+        59,
+        52
+      ],
+      [
+        60,
+        52
+      ],
+      [
+        61,
+        52
+      ],
+      [
+        62,
+        52
+      ],
+      [
+        63,
+        52
+      ],
+      [
+        64,
+        52
+      ]
+    ]
+  },
+  "Harvey Oak Supply Store -> supply store -> behind the supply store counter": {
+    "center": [
+      68,
+      44
+    ],
+    "tiles": [
+      [
+        67,
+        44
+      ],
+      [
+        68,
+        44
+      ],
+      [
+        69,
+        44
+      ]
+    ]
+  },
+  "The Willows Market and Pharmacy -> store -> behind the grocery counter": {
+    "center": [
+      89,
+      44
+    ],
+    "tiles": [
+      [
+        88,
+        44
+      ],
+      [
+        89,
+        44
+      ],
+      [
+        90,
+        44
+      ],
+      [
+        91,
+        44
+      ]
+    ]
+  },
+  "The Willows Market and Pharmacy -> store -> pharmacy store shelf": {
+    "center": [
+      77,
+      47
+    ],
+    "tiles": [
+      [
+        76,
+        45
+      ],
+      [
+        76,
+        46
+      ],
+      [
+        79,
+        46
+      ],
+      [
+        76,
+        47
+      ],
+      [
+        79,
+        47
+      ],
+      [
+        76,
+        48
+      ],
+      [
+        79,
+        48
+      ],
+      [
+        76,
+        49
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> kitchen -> toaster": {
+    "center": [
+      120,
+      45
+    ],
+    "tiles": [
+      [
+        120,
+        45
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> kitchen -> kitchen sink": {
+    "center": [
+      121,
+      45
+    ],
+    "tiles": [
+      [
+        121,
+        45
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> kitchen -> refrigerator": {
+    "center": [
+      122,
+      45
+    ],
+    "tiles": [
+      [
+        122,
+        45
+      ],
+      [
+        123,
+        45
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Klaus Mueller's room -> closet": {
+    "center": [
+      131,
+      45
+    ],
+    "tiles": [
+      [
+        131,
+        45
+      ],
+      [
+        132,
+        45
+      ]
+    ]
+  },
+  "Harvey Oak Supply Store -> supply store -> supply store counter": {
+    "center": [
+      68,
+      46
+    ],
+    "tiles": [
+      [
+        67,
+        46
+      ],
+      [
+        68,
+        46
+      ],
+      [
+        69,
+        46
+      ]
+    ]
+  },
+  "The Willows Market and Pharmacy -> store -> grocery store counter": {
+    "center": [
+      89,
+      46
+    ],
+    "tiles": [
+      [
+        88,
+        46
+      ],
+      [
+        89,
+        46
+      ],
+      [
+        90,
+        46
+      ],
+      [
+        91,
+        46
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> kitchen -> cooking area": {
+    "center": [
+      123,
+      47
+    ],
+    "tiles": [
+      [
+        123,
+        46
+      ],
+      [
+        123,
+        47
+      ],
+      [
+        123,
+        48
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Klaus Mueller's room -> bed": {
+    "center": [
+      126,
+      46
+    ],
+    "tiles": [
+      [
+        126,
+        46
+      ],
+      [
+        127,
+        46
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Klaus Mueller's room -> game console": {
+    "center": [
+      128,
+      46
+    ],
+    "tiles": [
+      [
+        128,
+        46
+      ],
+      [
+        129,
+        46
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Klaus Mueller's room -> desk": {
+    "center": [
+      131,
+      46
+    ],
+    "tiles": [
+      [
+        131,
+        46
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> common room -> common room table": {
+    "center": [
+      120,
+      48
+    ],
+    "tiles": [
+      [
+        119,
+        47
+      ],
+      [
+        122,
+        47
+      ],
+      [
+        119,
+        49
+      ],
+      [
+        122,
+        49
+      ]
+    ]
+  },
+  "The Willows Market and Pharmacy -> store -> grocery store shelf": {
+    "center": [
+      86,
+      50
+    ],
+    "tiles": [
+      [
+        81,
+        49
+      ],
+      [
+        82,
+        49
+      ],
+      [
+        83,
+        49
+      ],
+      [
+        84,
+        49
+      ],
+      [
+        85,
+        49
+      ],
+      [
+        86,
+        49
+      ],
+      [
+        88,
+        49
+      ],
+      [
+        89,
+        49
+      ],
+      [
+        90,
+        49
+      ],
+      [
+        91,
+        49
+      ],
+      [
+        92,
+        49
+      ],
+      [
+        93,
+        49
+      ],
+      [
+        81,
+        52
+      ],
+      [
+        82,
+        52
+      ],
+      [
+        83,
+        52
+      ],
+      [
+        84,
+        52
+      ],
+      [
+        85,
+        52
+      ],
+      [
+        86,
+        52
+      ],
+      [
+        90,
+        52
+      ],
+      [
+        91,
+        52
+      ],
+      [
+        92,
+        52
+      ],
+      [
+        93,
+        52
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> man's bathroom -> shower": {
+    "center": [
+      106,
+      50
+    ],
+    "tiles": [
+      [
+        106,
+        50
+      ],
+      [
+        107,
+        50
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> man's bathroom -> bathroom sink": {
+    "center": [
+      109,
+      50
+    ],
+    "tiles": [
+      [
+        109,
+        50
+      ],
+      [
+        110,
+        50
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> man's bathroom -> toilet": {
+    "center": [
+      111,
+      50
+    ],
+    "tiles": [
+      [
+        111,
+        50
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> common room -> common room sofa": {
+    "center": [
+      114,
+      51
+    ],
+    "tiles": [
+      [
+        114,
+        50
+      ],
+      [
+        114,
+        51
+      ],
+      [
+        114,
+        52
+      ]
+    ]
+  },
+  "The Willows Market and Pharmacy -> store -> behind the pharmacy counter": {
+    "center": [
+      75,
+      52
+    ],
+    "tiles": [
+      [
+        75,
+        51
+      ],
+      [
+        75,
+        52
+      ],
+      [
+        75,
+        53
+      ]
+    ]
+  },
+  "The Willows Market and Pharmacy -> store -> pharmacy store counter": {
+    "center": [
+      78,
+      52
+    ],
+    "tiles": [
+      [
+        78,
+        51
+      ],
+      [
+        78,
+        52
+      ],
+      [
+        78,
+        53
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> common room -> pool table": {
+    "center": [
+      118,
+      52
+    ],
+    "tiles": [
+      [
+        118,
+        51
+      ],
+      [
+        119,
+        51
+      ],
+      [
+        120,
+        51
+      ],
+      [
+        117,
+        52
+      ],
+      [
+        117,
+        53
+      ],
+      [
+        117,
+        54
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> woman's bathroom -> toilet": {
+    "center": [
+      130,
+      53
+    ],
+    "tiles": [
+      [
+        130,
+        53
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> woman's bathroom -> bathroom sink": {
+    "center": [
+      131,
+      53
+    ],
+    "tiles": [
+      [
+        131,
+        53
+      ],
+      [
+        131,
+        54
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Maria Lopez's room -> closet": {
+    "center": [
+      122,
+      54
+    ],
+    "tiles": [
+      [
+        122,
+        54
+      ],
+      [
+        123,
+        54
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Maria Lopez's room -> computer": {
+    "center": [
+      126,
+      54
+    ],
+    "tiles": [
+      [
+        126,
+        54
+      ],
+      [
+        127,
+        54
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Maria Lopez's room -> desk": {
+    "center": [
+      123,
+      55
+    ],
+    "tiles": [
+      [
+        123,
+        55
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Maria Lopez's room -> blackboard": {
+    "center": [
+      127,
+      56
+    ],
+    "tiles": [
+      [
+        127,
+        56
+      ],
+      [
+        127,
+        57
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Wolfgang Schulz's room -> desk": {
+    "center": [
+      107,
+      57
+    ],
+    "tiles": [
+      [
+        107,
+        57
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Ayesha Khan's room -> shelf": {
+    "center": [
+      114,
+      57
+    ],
+    "tiles": [
+      [
+        114,
+        57
+      ],
+      [
+        115,
+        57
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Ayesha Khan's room -> desk": {
+    "center": [
+      118,
+      57
+    ],
+    "tiles": [
+      [
+        118,
+        57
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Maria Lopez's room -> bed": {
+    "center": [
+      123,
+      57
+    ],
+    "tiles": [
+      [
+        123,
+        57
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> woman's bathroom -> shower": {
+    "center": [
+      130,
+      57
+    ],
+    "tiles": [
+      [
+        130,
+        57
+      ],
+      [
+        131,
+        57
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Wolfgang Schulz's room -> lifting weight": {
+    "center": [
+      110,
+      58
+    ],
+    "tiles": [
+      [
+        110,
+        58
+      ],
+      [
+        111,
+        58
+      ]
+    ]
+  },
+  "Adam Smith's house -> main room -> closet": {
+    "center": [
+      21,
+      59
+    ],
+    "tiles": [
+      [
+        23,
+        59
+      ],
+      [
+        20,
+        60
+      ],
+      [
+        21,
+        60
+      ],
+      [
+        23,
+        60
+      ]
+    ]
+  },
+  "Yuriko Yamamoto's house -> main room -> desk": {
+    "center": [
+      31,
+      59
+    ],
+    "tiles": [
+      [
+        31,
+        59
+      ]
+    ]
+  },
+  "Yuriko Yamamoto's house -> main room -> closet": {
+    "center": [
+      28,
+      60
+    ],
+    "tiles": [
+      [
+        28,
+        60
+      ],
+      [
+        29,
+        60
+      ]
+    ]
+  },
+  "Moore family's house -> main room -> closet": {
+    "center": [
+      36,
+      60
+    ],
+    "tiles": [
+      [
+        36,
+        60
+      ],
+      [
+        37,
+        60
+      ]
+    ]
+  },
+  "Moore family's house -> main room -> common room sofa": {
+    "center": [
+      40,
+      60
+    ],
+    "tiles": [
+      [
+        40,
+        60
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Wolfgang Schulz's room -> closet": {
+    "center": [
+      111,
+      60
+    ],
+    "tiles": [
+      [
+        111,
+        60
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Ayesha Khan's room -> closet": {
+    "center": [
+      114,
+      61
+    ],
+    "tiles": [
+      [
+        114,
+        60
+      ],
+      [
+        115,
+        61
+      ],
+      [
+        115,
+        62
+      ]
+    ]
+  },
+  "Adam Smith's house -> main room -> cooking area": {
+    "center": [
+      23,
+      61
+    ],
+    "tiles": [
+      [
+        23,
+        61
+      ]
+    ]
+  },
+  "Yuriko Yamamoto's house -> main room -> cooking area": {
+    "center": [
+      31,
+      61
+    ],
+    "tiles": [
+      [
+        31,
+        61
+      ]
+    ]
+  },
+  "Moore family's house -> main room -> desk": {
+    "center": [
+      37,
+      61
+    ],
+    "tiles": [
+      [
+        37,
+        61
+      ]
+    ]
+  },
+  "Moore family's house -> main room -> cooking area": {
+    "center": [
+      39,
+      61
+    ],
+    "tiles": [
+      [
+        39,
+        61
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Wolfgang Schulz's room -> game console": {
+    "center": [
+      109,
+      61
+    ],
+    "tiles": [
+      [
+        109,
+        61
+      ],
+      [
+        110,
+        61
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Ayesha Khan's room -> bed": {
+    "center": [
+      118,
+      61
+    ],
+    "tiles": [
+      [
+        118,
+        61
+      ],
+      [
+        119,
+        61
+      ]
+    ]
+  },
+  "Adam Smith's house -> main room -> desk": {
+    "center": [
+      21,
+      62
+    ],
+    "tiles": [
+      [
+        21,
+        62
+      ]
+    ]
+  },
+  "Adam Smith's house -> main room -> kitchen sink": {
+    "center": [
+      23,
+      62
+    ],
+    "tiles": [
+      [
+        23,
+        62
+      ]
+    ]
+  },
+  "Yuriko Yamamoto's house -> main room -> shelf": {
+    "center": [
+      29,
+      62
+    ],
+    "tiles": [
+      [
+        29,
+        62
+      ],
+      [
+        29,
+        63
+      ]
+    ]
+  },
+  "Yuriko Yamamoto's house -> main room -> kitchen sink": {
+    "center": [
+      31,
+      62
+    ],
+    "tiles": [
+      [
+        31,
+        62
+      ]
+    ]
+  },
+  "Moore family's house -> main room -> kitchen sink": {
+    "center": [
+      39,
+      62
+    ],
+    "tiles": [
+      [
+        39,
+        62
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Wolfgang Schulz's room -> bed": {
+    "center": [
+      107,
+      62
+    ],
+    "tiles": [
+      [
+        107,
+        62
+      ]
+    ]
+  },
+  "Adam Smith's house -> main room -> bed": {
+    "center": [
+      20,
+      65
+    ],
+    "tiles": [
+      [
+        20,
+        65
+      ],
+      [
+        21,
+        65
+      ]
+    ]
+  },
+  "Adam Smith's house -> main room -> refrigerator": {
+    "center": [
+      23,
+      65
+    ],
+    "tiles": [
+      [
+        23,
+        65
+      ]
+    ]
+  },
+  "Yuriko Yamamoto's house -> main room -> bed": {
+    "center": [
+      28,
+      65
+    ],
+    "tiles": [
+      [
+        28,
+        65
+      ],
+      [
+        29,
+        65
+      ]
+    ]
+  },
+  "Yuriko Yamamoto's house -> main room -> refrigerator": {
+    "center": [
+      31,
+      65
+    ],
+    "tiles": [
+      [
+        31,
+        65
+      ]
+    ]
+  },
+  "Moore family's house -> main room -> bed": {
+    "center": [
+      36,
+      65
+    ],
+    "tiles": [
+      [
+        36,
+        65
+      ],
+      [
+        37,
+        65
+      ]
+    ]
+  },
+  "Moore family's house -> main room -> refrigerator": {
+    "center": [
+      39,
+      65
+    ],
+    "tiles": [
+      [
+        39,
+        65
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> common room -> shelf": {
+    "center": [
+      52,
+      65
+    ],
+    "tiles": [
+      [
+        51,
+        65
+      ],
+      [
+        52,
+        65
+      ],
+      [
+        53,
+        65
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> kitchen -> kitchen sink": {
+    "center": [
+      57,
+      65
+    ],
+    "tiles": [
+      [
+        57,
+        65
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> bathroom -> toilet": {
+    "center": [
+      60,
+      65
+    ],
+    "tiles": [
+      [
+        60,
+        65
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> bathroom -> bathroom sink": {
+    "center": [
+      61,
+      65
+    ],
+    "tiles": [
+      [
+        61,
+        65
+      ],
+      [
+        62,
+        65
+      ]
+    ]
+  },
+  "Moreno family's house -> common room -> shelf": {
+    "center": [
+      69,
+      65
+    ],
+    "tiles": [
+      [
+        69,
+        65
+      ],
+      [
+        70,
+        65
+      ]
+    ]
+  },
+  "Moreno family's house -> kitchen -> kitchen sink": {
+    "center": [
+      75,
+      65
+    ],
+    "tiles": [
+      [
+        75,
+        65
+      ]
+    ]
+  },
+  "Moreno family's house -> bathroom -> toilet": {
+    "center": [
+      78,
+      65
+    ],
+    "tiles": [
+      [
+        78,
+        65
+      ]
+    ]
+  },
+  "Moreno family's house -> bathroom -> bathroom sink": {
+    "center": [
+      79,
+      65
+    ],
+    "tiles": [
+      [
+        79,
+        65
+      ],
+      [
+        80,
+        65
+      ]
+    ]
+  },
+  "Lin family's house -> common room -> shelf": {
+    "center": [
+      88,
+      65
+    ],
+    "tiles": [
+      [
+        87,
+        65
+      ],
+      [
+        88,
+        65
+      ],
+      [
+        89,
+        65
+      ]
+    ]
+  },
+  "Lin family's house -> kitchen -> kitchen sink": {
+    "center": [
+      93,
+      65
+    ],
+    "tiles": [
+      [
+        93,
+        65
+      ]
+    ]
+  },
+  "Lin family's house -> bathroom -> toilet": {
+    "center": [
+      96,
+      65
+    ],
+    "tiles": [
+      [
+        96,
+        65
+      ]
+    ]
+  },
+  "Lin family's house -> bathroom -> bathroom sink": {
+    "center": [
+      97,
+      65
+    ],
+    "tiles": [
+      [
+        97,
+        65
+      ],
+      [
+        98,
+        65
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> kitchen -> cooking area": {
+    "center": [
+      57,
+      66
+    ],
+    "tiles": [
+      [
+        57,
+        66
+      ]
+    ]
+  },
+  "Moreno family's house -> common room -> harp": {
+    "center": [
+      71,
+      66
+    ],
+    "tiles": [
+      [
+        71,
+        66
+      ],
+      [
+        72,
+        66
+      ]
+    ]
+  },
+  "Moreno family's house -> kitchen -> cooking area": {
+    "center": [
+      75,
+      66
+    ],
+    "tiles": [
+      [
+        75,
+        66
+      ]
+    ]
+  },
+  "Lin family's house -> kitchen -> cooking area": {
+    "center": [
+      93,
+      66
+    ],
+    "tiles": [
+      [
+        93,
+        66
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> common room -> common room table": {
+    "center": [
+      53,
+      68
+    ],
+    "tiles": [
+      [
+        52,
+        67
+      ],
+      [
+        55,
+        67
+      ],
+      [
+        52,
+        69
+      ],
+      [
+        55,
+        69
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> bathroom -> shower": {
+    "center": [
+      60,
+      67
+    ],
+    "tiles": [
+      [
+        60,
+        67
+      ],
+      [
+        61,
+        67
+      ]
+    ]
+  },
+  "Moreno family's house -> common room -> common room table": {
+    "center": [
+      71,
+      68
+    ],
+    "tiles": [
+      [
+        70,
+        67
+      ],
+      [
+        73,
+        67
+      ],
+      [
+        70,
+        69
+      ],
+      [
+        73,
+        69
+      ]
+    ]
+  },
+  "Moreno family's house -> bathroom -> shower": {
+    "center": [
+      78,
+      67
+    ],
+    "tiles": [
+      [
+        78,
+        67
+      ],
+      [
+        79,
+        67
+      ]
+    ]
+  },
+  "Lin family's house -> common room -> common room table": {
+    "center": [
+      89,
+      68
+    ],
+    "tiles": [
+      [
+        88,
+        67
+      ],
+      [
+        91,
+        67
+      ],
+      [
+        88,
+        69
+      ],
+      [
+        91,
+        69
+      ]
+    ]
+  },
+  "Lin family's house -> bathroom -> shower": {
+    "center": [
+      96,
+      67
+    ],
+    "tiles": [
+      [
+        96,
+        67
+      ],
+      [
+        97,
+        67
+      ]
+    ]
+  },
+  "Adam Smith's house -> bathroom -> bathroom sink": {
+    "center": [
+      20,
+      68
+    ],
+    "tiles": [
+      [
+        20,
+        68
+      ],
+      [
+        21,
+        68
+      ]
+    ]
+  },
+  "Adam Smith's house -> bathroom -> toilet": {
+    "center": [
+      24,
+      68
+    ],
+    "tiles": [
+      [
+        24,
+        68
+      ]
+    ]
+  },
+  "Yuriko Yamamoto's house -> bathroom -> bathroom sink": {
+    "center": [
+      28,
+      68
+    ],
+    "tiles": [
+      [
+        28,
+        68
+      ],
+      [
+        29,
+        68
+      ]
+    ]
+  },
+  "Yuriko Yamamoto's house -> bathroom -> toilet": {
+    "center": [
+      32,
+      68
+    ],
+    "tiles": [
+      [
+        32,
+        68
+      ]
+    ]
+  },
+  "Moore family's house -> bathroom -> bathroom sink": {
+    "center": [
+      36,
+      68
+    ],
+    "tiles": [
+      [
+        36,
+        68
+      ],
+      [
+        37,
+        68
+      ]
+    ]
+  },
+  "Moore family's house -> bathroom -> toilet": {
+    "center": [
+      40,
+      68
+    ],
+    "tiles": [
+      [
+        40,
+        68
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> kitchen -> refrigerator": {
+    "center": [
+      57,
+      68
+    ],
+    "tiles": [
+      [
+        57,
+        68
+      ]
+    ]
+  },
+  "Moreno family's house -> kitchen -> refrigerator": {
+    "center": [
+      75,
+      68
+    ],
+    "tiles": [
+      [
+        75,
+        68
+      ]
+    ]
+  },
+  "Lin family's house -> kitchen -> refrigerator": {
+    "center": [
+      93,
+      68
+    ],
+    "tiles": [
+      [
+        93,
+        68
+      ]
+    ]
+  },
+  "Adam Smith's house -> bathroom -> shower": {
+    "center": [
+      20,
+      70
+    ],
+    "tiles": [
+      [
+        20,
+        70
+      ],
+      [
+        21,
+        70
+      ]
+    ]
+  },
+  "Yuriko Yamamoto's house -> bathroom -> shower": {
+    "center": [
+      28,
+      70
+    ],
+    "tiles": [
+      [
+        28,
+        70
+      ],
+      [
+        29,
+        70
+      ]
+    ]
+  },
+  "Moore family's house -> bathroom -> shower": {
+    "center": [
+      36,
+      70
+    ],
+    "tiles": [
+      [
+        36,
+        70
+      ],
+      [
+        37,
+        70
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> Tamara Taylor's room -> closet": {
+    "center": [
+      51,
+      73
+    ],
+    "tiles": [
+      [
+        51,
+        73
+      ]
+    ]
+  },
+  "Moreno family's house -> Tom and Jane Moreno's bedroom -> closet": {
+    "center": [
+      69,
+      73
+    ],
+    "tiles": [
+      [
+        69,
+        73
+      ]
+    ]
+  },
+  "Lin family's house -> Mei and John Lin's bedroom -> closet": {
+    "center": [
+      87,
+      74
+    ],
+    "tiles": [
+      [
+        87,
+        73
+      ],
+      [
+        88,
+        75
+      ]
+    ]
+  },
+  "Lin family's house -> Eddy Lin's bedroom -> closet": {
+    "center": [
+      97,
+      74
+    ],
+    "tiles": [
+      [
+        97,
+        73
+      ],
+      [
+        97,
+        74
+      ],
+      [
+        98,
+        75
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> Tamara Taylor's room -> desk": {
+    "center": [
+      53,
+      74
+    ],
+    "tiles": [
+      [
+        53,
+        74
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> Tamara Taylor's room -> bed": {
+    "center": [
+      54,
+      74
+    ],
+    "tiles": [
+      [
+        54,
+        74
+      ],
+      [
+        55,
+        74
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> Carmen Ortiz's room -> bed": {
+    "center": [
+      57,
+      74
+    ],
+    "tiles": [
+      [
+        57,
+        74
+      ],
+      [
+        58,
+        74
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> Carmen Ortiz's room -> closet": {
+    "center": [
+      61,
+      74
+    ],
+    "tiles": [
+      [
+        61,
+        74
+      ]
+    ]
+  },
+  "Moreno family's house -> Tom and Jane Moreno's bedroom -> desk": {
+    "center": [
+      71,
+      74
+    ],
+    "tiles": [
+      [
+        71,
+        74
+      ]
+    ]
+  },
+  "Moreno family's house -> Tom and Jane Moreno's bedroom -> bed": {
+    "center": [
+      72,
+      74
+    ],
+    "tiles": [
+      [
+        72,
+        74
+      ],
+      [
+        73,
+        74
+      ]
+    ]
+  },
+  "Moreno family's house -> empty bedroom -> bed": {
+    "center": [
+      75,
+      74
+    ],
+    "tiles": [
+      [
+        75,
+        74
+      ],
+      [
+        76,
+        74
+      ]
+    ]
+  },
+  "Moreno family's house -> empty bedroom -> closet": {
+    "center": [
+      79,
+      74
+    ],
+    "tiles": [
+      [
+        79,
+        74
+      ]
+    ]
+  },
+  "Lin family's house -> Mei and John Lin's bedroom -> desk": {
+    "center": [
+      89,
+      74
+    ],
+    "tiles": [
+      [
+        89,
+        74
+      ]
+    ]
+  },
+  "Lin family's house -> Mei and John Lin's bedroom -> bed": {
+    "center": [
+      90,
+      74
+    ],
+    "tiles": [
+      [
+        90,
+        74
+      ],
+      [
+        91,
+        74
+      ]
+    ]
+  },
+  "Lin family's house -> Eddy Lin's bedroom -> bed": {
+    "center": [
+      93,
+      74
+    ],
+    "tiles": [
+      [
+        93,
+        74
+      ],
+      [
+        94,
+        74
+      ]
+    ]
+  },
+  "Lin family's house -> Eddy Lin's bedroom -> desk": {
+    "center": [
+      95,
+      74
+    ],
+    "tiles": [
+      [
+        95,
+        74
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> Carmen Ortiz's room -> guitar": {
+    "center": [
+      62,
+      75
+    ],
+    "tiles": [
+      [
+        62,
+        75
+      ]
+    ]
+  },
+  "Moreno family's house -> empty bedroom -> guitar": {
+    "center": [
+      80,
+      75
+    ],
+    "tiles": [
+      [
+        80,
+        75
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> garden -> house garden": {
+    "center": [
+      56,
+      79
+    ],
+    "tiles": [
+      [
+        52,
+        78
+      ],
+      [
+        53,
+        78
+      ],
+      [
+        54,
+        78
+      ],
+      [
+        55,
+        78
+      ],
+      [
+        56,
+        78
+      ],
+      [
+        57,
+        78
+      ],
+      [
+        58,
+        78
+      ],
+      [
+        59,
+        78
+      ],
+      [
+        60,
+        78
+      ],
+      [
+        61,
+        78
+      ],
+      [
+        52,
+        79
+      ],
+      [
+        53,
+        79
+      ],
+      [
+        54,
+        79
+      ],
+      [
+        55,
+        79
+      ],
+      [
+        56,
+        79
+      ],
+      [
+        57,
+        79
+      ],
+      [
+        58,
+        79
+      ],
+      [
+        61,
+        79
+      ],
+      [
+        52,
+        80
+      ],
+      [
+        53,
+        80
+      ],
+      [
+        54,
+        80
+      ],
+      [
+        55,
+        80
+      ],
+      [
+        56,
+        80
+      ],
+      [
+        57,
+        80
+      ],
+      [
+        58,
+        80
+      ],
+      [
+        59,
+        80
+      ],
+      [
+        60,
+        80
+      ],
+      [
+        61,
+        80
+      ],
+      [
+        52,
+        81
+      ],
+      [
+        61,
+        81
+      ],
+      [
+        52,
+        82
+      ],
+      [
+        53,
+        82
+      ],
+      [
+        54,
+        82
+      ],
+      [
+        55,
+        82
+      ],
+      [
+        56,
+        82
+      ],
+      [
+        57,
+        82
+      ],
+      [
+        58,
+        82
+      ],
+      [
+        59,
+        82
+      ],
+      [
+        60,
+        82
+      ],
+      [
+        61,
+        82
+      ]
+    ]
+  },
+  "Moreno family's house -> garden -> house garden": {
+    "center": [
+      74,
+      80
+    ],
+    "tiles": [
+      [
+        73,
+        78
+      ],
+      [
+        74,
+        78
+      ],
+      [
+        75,
+        78
+      ],
+      [
+        76,
+        78
+      ],
+      [
+        77,
+        78
+      ],
+      [
+        78,
+        78
+      ],
+      [
+        76,
+        79
+      ],
+      [
+        79,
+        79
+      ],
+      [
+        70,
+        80
+      ],
+      [
+        71,
+        80
+      ],
+      [
+        72,
+        80
+      ],
+      [
+        73,
+        80
+      ],
+      [
+        74,
+        80
+      ],
+      [
+        75,
+        80
+      ],
+      [
+        76,
+        80
+      ],
+      [
+        77,
+        80
+      ],
+      [
+        78,
+        80
+      ],
+      [
+        79,
+        80
+      ],
+      [
+        70,
+        81
+      ],
+      [
+        73,
+        81
+      ],
+      [
+        76,
+        81
+      ],
+      [
+        79,
+        81
+      ],
+      [
+        71,
+        82
+      ],
+      [
+        72,
+        82
+      ],
+      [
+        73,
+        82
+      ],
+      [
+        74,
+        82
+      ],
+      [
+        75,
+        82
+      ],
+      [
+        76,
+        82
+      ],
+      [
+        77,
+        82
+      ],
+      [
+        78,
+        82
+      ]
+    ]
+  },
+  "Lin family's house -> garden -> house garden": {
+    "center": [
+      92,
+      80
+    ],
+    "tiles": [
+      [
+        93,
+        78
+      ],
+      [
+        94,
+        78
+      ],
+      [
+        95,
+        78
+      ],
+      [
+        96,
+        78
+      ],
+      [
+        88,
+        79
+      ],
+      [
+        89,
+        79
+      ],
+      [
+        90,
+        79
+      ],
+      [
+        91,
+        79
+      ],
+      [
+        92,
+        79
+      ],
+      [
+        93,
+        79
+      ],
+      [
+        94,
+        79
+      ],
+      [
+        97,
+        79
+      ],
+      [
+        88,
+        80
+      ],
+      [
+        93,
+        80
+      ],
+      [
+        94,
+        80
+      ],
+      [
+        97,
+        80
+      ],
+      [
+        88,
+        81
+      ],
+      [
+        93,
+        81
+      ],
+      [
+        94,
+        81
+      ],
+      [
+        97,
+        81
+      ],
+      [
+        88,
+        82
+      ],
+      [
+        89,
+        82
+      ],
+      [
+        90,
+        82
+      ],
+      [
+        91,
+        82
+      ],
+      [
+        92,
+        82
+      ],
+      [
+        93,
+        82
+      ],
+      [
+        94,
+        82
+      ],
+      [
+        95,
+        82
+      ],
+      [
+        96,
+        82
+      ]
+    ]
+  },
+  "Moreno family's house -> garden -> garden chair": {
+    "center": [
+      72,
+      79
+    ],
+    "tiles": [
+      [
+        72,
+        79
+      ]
+    ]
+  }
+}

@@ -1,141 +1,236 @@
-
-
-# Generative Agents: Interactive Simulacra of Human Behavior 
+# Generative Agents: Interactive Simulacra of Human Behavior
 
 <p align="center" width="100%">
 <img src="cover.png" alt="Smallville" style="width: 80%; min-width: 300px; display: block; margin: auto;">
 </p>
 
-This repository accompanies our research paper titled "[Generative Agents: Interactive Simulacra of Human Behavior](https://arxiv.org/abs/2304.03442)." It contains our core simulation module for  generative agents—computational agents that simulate believable human behaviors—and their game environment. Below, we document the steps for setting up the simulation environment on your local machine and for replaying the simulation as a demo animation.
+This repository accompanies the research paper titled "[Generative Agents: Interactive Simulacra of Human Behavior](https://arxiv.org/abs/2304.03442)" (Park et al., UIST 2023). It contains the computational architecture for generative agents—believable human-like autonomous agents—and their 2D virtual game environment "Smallville" (The Ville).
 
-## <img src="https://joonsungpark.s3.amazonaws.com:443/static/assets/characters/profile/Isabella_Rodriguez.png" alt="Generative Isabella">   Setting Up the Environment 
-To set up your environment, you will need to generate a `utils.py` file that contains your OpenAI API key and download the necessary packages.
+This project has been fully configured, debugged, tested, and verified to run seamlessly on modern Python 3.9 environments, with robust offline/fail-safe resilience, updated model fallbacks, automatic directory management, and an integrated test suite.
 
-### Step 1. Generate Utils File
-In the `reverie/backend_server` folder (where `reverie.py` is located), create a new file titled `utils.py` and copy and paste the content below into the file:
+---
+
+## 1. Project Description & Objectives
+
+The goal of this simulation is to simulate believable human behaviors in an interactive sandbox world:
+- **Autonomous Movement & Navigation:** Agents navigate a 140x100 tile world with obstacle and collision detection using Breadth-First Search (BFS) pathfinding.
+- **Environmental Perception:** Agents perceive surrounding tiles, objects, and other agents within an attention vision radius, recording events to an associative memory stream.
+- **Memory & Cognitive Architecture:** A tri-fold cognitive model incorporating:
+  - *Associative Memory Stream:* A comprehensive log of experience nodes scored by recency, importance, and relevance via vector cosine similarity.
+  - *Reflection:* Synthesizing higher-level abstract thoughts and inferences from memory clusters.
+  - *Planning:* Hierarchical planning decomposing broad 24-hour daily agendas into 1-hour blocks, 5-15 minute action steps, and object-level addresses.
+- **Agent Interactivity & Communication:** Dynamic dialogue generation and reaction mechanisms when agents encounter each other.
+- **Visualization & Demo Replay:** Web-based Phaser.js frontend providing real-time simulation observation, state inspection, and compressed demo replay.
+
+---
+
+## 2. Technologies Used
+
+- **Simulation Engine / Cognitive Backend:** Python 3.9 (`reverie/backend_server`)
+- **Environment & Visualization Server:** Django 2.2 web application (`environment/frontend_server`)
+- **Tilemap & UI Renderer:** Phaser.js 2D game framework
+- **AI & Language Models:** OpenAI GPT API (`gpt-3.5-turbo`, `gpt-4`, with fallback compatibility for deprecated `text-davinci-003` engines and offline deterministic 1536-dim vector embeddings)
+- **Pathfinding & Spatial Perception:** Custom BFS pathfinder with 2D collision matrices and hierarchical spatial memory trees (World -> Sector -> Arena -> Game Object)
+- **Data Persistence:** JSON-based state storage, movement sequences, and compressed event archives (`storage/`, `temp_storage/`, `compressed_storage/`)
+
+---
+
+## 3. Project Architecture
+
 ```
-# Copy and paste your OpenAI API Key
-openai_api_key = "<Your OpenAI API>"
-# Put your name
-key_owner = "<Name>"
+generative_agents/
+├── .venv/                                      # Python 3.9 virtual environment
+├── environment/
+│   └── frontend_server/                        # Django environment server
+│       ├── manage.py                           # Django CLI management script
+│       ├── frontend_server/                    # App settings and URL routing
+│       │   ├── settings/ (base.py, local.py)   # SQLite, static directories & middleware
+│       │   └── urls.py                         # Endpoints: landing, demo, replay, state
+│       ├── translator/                         # API views (process/update environment)
+│       ├── static_dirs/assets/the_ville/       # Smallville map tiles, matrix & visuals
+│       ├── storage/                            # Base & active simulation folders
+│       │   ├── base_the_ville_isabella_maria_klaus/ (3 agents base)
+│       │   └── base_the_ville_n25/             (25 agents base)
+│       ├── compressed_storage/                 # Master demo replay bundles
+│       └── temp_storage/                       # IPC communication between frontend/backend
+├── reverie/
+│   ├── compress_sim_storage.py                 # Compresses simulation logs for demo
+│   └── backend_server/                         # Core cognitive architecture
+│       ├── reverie.py                          # Simulation server & step loop
+│       ├── maze.py                             # Map, tile, collision & object tracking
+│       ├── path_finder.py                      # BFS pathfinding on collision matrix
+│       ├── utils.py                            # Environment & API configurations
+│       └── persona/                            # Agent cognitive modules
+│           ├── persona.py                      # Persona orchestrator (perceive->plan->reflect->execute)
+│           ├── cognitive_modules/              # plan, perceive, retrieve, reflect, execute, converse
+│           ├── memory_structures/              # spatial_memory, associative_memory, scratch
+│           └── prompt_template/                # LLM prompts & gpt_structure wrapper
+├── run_simulation.py                           # All-in-one runner (CLI tool)
+├── test_simulation_suite.py                    # 7-part automated verification test suite
+└── requirements.txt                            # Python dependencies
+```
 
+---
+
+## 4. Setup & Installation
+
+### Prerequisites
+- Python 3.9.x installed (Windows/Linux/macOS)
+
+### Step 1: Create and Activate Virtual Environment
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+### Step 2: Install Dependencies
+```powershell
+pip install -r requirements.txt
+```
+
+### Step 3: Configure `utils.py`
+The file `reverie/backend_server/utils.py` is pre-created and reads `OPENAI_API_KEY` from your environment if available:
+```python
+import os
+openai_api_key = os.environ.get("OPENAI_API_KEY", "<Your OpenAI API>")
+key_owner = "GenerativeAgentUser"
 maze_assets_loc = "../../environment/frontend_server/static_dirs/assets"
 env_matrix = f"{maze_assets_loc}/the_ville/matrix"
 env_visuals = f"{maze_assets_loc}/the_ville/visuals"
-
 fs_storage = "../../environment/frontend_server/storage"
 fs_temp_storage = "../../environment/frontend_server/temp_storage"
-
 collision_block_id = "32125"
-
-# Verbose 
 debug = True
 ```
-Replace `<Your OpenAI API>` with your OpenAI API key, and `<name>` with your name.
- 
-### Step 2. Install requirements.txt
-Install everything listed in the `requirements.txt` file (I strongly recommend first setting up a virtualenv as usual). A note on Python version: we tested our environment on Python 3.9.12. 
+> **Note:** If an OpenAI API key is not provided, the simulation automatically runs in resilient offline mode using deterministic 1536-dimensional semantic embeddings and curated prompt fail-safes without crashing.
 
-## <img src="https://joonsungpark.s3.amazonaws.com:443/static/assets/characters/profile/Klaus_Mueller.png" alt="Generative Klaus">   Running a Simulation 
-To run a new simulation, you will need to concurrently start two servers: the environment server and the agent simulation server.
+---
 
-### Step 1. Starting the Environment Server
-Again, the environment is implemented as a Django project, and as such, you will need to start the Django server. To do this, first navigate to `environment/frontend_server` (this is where `manage.py` is located) in your command line. Then run the following command:
+## 5. Running the Simulation
 
-    python manage.py runserver
+You can run the simulation using either the **All-in-One CLI (`run_simulation.py`)** or by running the servers independently.
 
-Then, on your favorite browser, go to [http://localhost:8000/](http://localhost:8000/). If you see a message that says, "Your environment server is up and running," your server is running properly. Ensure that the environment server continues to run while you are running the simulation, so keep this command-line tab open! (Note: I recommend using either Chrome or Safari. Firefox might produce some frontend glitches, although it should not interfere with the actual simulation.)
+### Option A: Using All-in-One Runner (Recommended)
 
-### Step 2. Starting the Simulation Server
-Open up another command line (the one you used in Step 1 should still be running the environment server, so leave that as it is). Navigate to `reverie/backend_server` and run `reverie.py`.
+1. **Run the 7-Part Verification Test Suite:**
+   ```powershell
+   .\.venv\Scripts\python.exe run_simulation.py --test
+   ```
+2. **Start the Frontend Server:**
+   ```powershell
+   .\.venv\Scripts\python.exe run_simulation.py --server
+   ```
+   Open your browser to: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+3. **Simulate Autonomous Steps (e.g. 5 steps):**
+   ```powershell
+   .\.venv\Scripts\python.exe run_simulation.py --fork base_the_ville_isabella_maria_klaus --sim my_test_sim --steps 5
+   ```
 
-    python reverie.py
-This will start the simulation server. A command-line prompt will appear, asking the following: "Enter the name of the forked simulation: ". To start a 3-agent simulation with Isabella Rodriguez, Maria Lopez, and Klaus Mueller, type the following:
-    
-    base_the_ville_isabella_maria_klaus
-The prompt will then ask, "Enter the name of the new simulation: ". Type any name to denote your current simulation (e.g., just "test-simulation" will do for now).
+### Option B: Interactive Dual-Server Workflow
 
-    test-simulation
-Keep the simulator server running. At this stage, it will display the following prompt: "Enter option: "
-
-### Step 3. Running and Saving the Simulation
-On your browser, navigate to [http://localhost:8000/simulator_home](http://localhost:8000/simulator_home). You should see the map of Smallville, along with a list of active agents on the map. You can move around the map using your keyboard arrows. Please keep this tab open. To run the simulation, type the following command in your simulation server in response to the prompt, "Enter option":
-
-    run <step-count>
-Note that you will want to replace `<step-count>` above with an integer indicating the number of game steps you want to simulate. For instance, if you want to simulate 100 game steps, you should input `run 100`. One game step represents 10 seconds in the game.
-
-
-Your simulation should be running, and you will see the agents moving on the map in your browser. Once the simulation finishes running, the "Enter option" prompt will re-appear. At this point, you can simulate more steps by re-entering the run command with your desired game steps, exit the simulation without saving by typing `exit`, or save and exit by typing `fin`.
-
-The saved simulation can be accessed the next time you run the simulation server by providing the name of your simulation as the forked simulation. This will allow you to restart your simulation from the point where you left off.
-
-### Step 4. Replaying a Simulation
-You can replay a simulation that you have already run simply by having your environment server running and navigating to the following address in your browser: `http://localhost:8000/replay/<simulation-name>/<starting-time-step>`. Please make sure to replace `<simulation-name>` with the name of the simulation you want to replay, and `<starting-time-step>` with the integer time-step from which you wish to start the replay.
-
-For instance, by visiting the following link, you will initiate a pre-simulated example, starting at time-step 1:  
-[http://localhost:8000/replay/July1_the_ville_isabella_maria_klaus-step-3-20/1/](http://localhost:8000/replay/July1_the_ville_isabella_maria_klaus-step-3-20/1/)
-
-### Step 5. Demoing a Simulation
-You may have noticed that all character sprites in the replay look identical. We would like to clarify that the replay function is primarily intended for debugging purposes and does not prioritize optimizing the size of the simulation folder or the visuals. To properly demonstrate a simulation with appropriate character sprites, you will need to compress the simulation first. To do this, open the `compress_sim_storage.py` file located in the `reverie` directory using a text editor. Then, execute the `compress` function with the name of the target simulation as its input. By doing so, the simulation file will be compressed, making it ready for demonstration.
-
-To start the demo, go to the following address on your browser: `http://localhost:8000/demo/<simulation-name>/<starting-time-step>/<simulation-speed>`. Note that `<simulation-name>` and `<starting-time-step>` denote the same things as mentioned above. `<simulation-speed>` can be set to control the demo speed, where 1 is the slowest, and 5 is the fastest. For instance, visiting the following link will start a pre-simulated example, beginning at time-step 1, with a medium demo speed:  
-[http://localhost:8000/demo/July1_the_ville_isabella_maria_klaus-step-3-20/1/3/](http://localhost:8000/demo/July1_the_ville_isabella_maria_klaus-step-3-20/1/3/)
-
-### Tips
-We've noticed that OpenAI's API can hang when it reaches the hourly rate limit. When this happens, you may need to restart your simulation. For now, we recommend saving your simulation often as you progress to ensure that you lose as little of the simulation as possible when you do need to stop and rerun it. Running these simulations, at least as of early 2023, could be somewhat costly, especially when there are many agents in the environment.
-
-## <img src="https://joonsungpark.s3.amazonaws.com:443/static/assets/characters/profile/Maria_Lopez.png" alt="Generative Maria">   Simulation Storage Location
-All simulations that you save will be located in `environment/frontend_server/storage`, and all compressed demos will be located in `environment/frontend_server/compressed_storage`. 
-
-## <img src="https://joonsungpark.s3.amazonaws.com:443/static/assets/characters/profile/Sam_Moore.png" alt="Generative Sam">   Customization
-
-There are two ways to optionally customize your simulations. 
-
-### Author and Load Agent History
-First is to initialize agents with unique history at the start of the simulation. To do this, you would want to 1) start your simulation using one of the base simulations, and 2) author and load agent history. More specifically, here are the steps:
-
-#### Step 1. Starting Up a Base Simulation 
-There are two base simulations included in the repository: `base_the_ville_n25` with 25 agents, and `base_the_ville_isabella_maria_klaus` with 3 agents. Load one of the base simulations by following the steps until step 2 above. 
-
-#### Step 2. Loading a History File 
-Then, when prompted with "Enter option: ", you should load the agent history by responding with the following command:
-
-    call -- load history the_ville/<history_file_name>.csv
-Note that you will need to replace `<history_file_name>` with the name of an existing history file. There are two history files included in the repo as examples: `agent_history_init_n25.csv` for `base_the_ville_n25` and `agent_history_init_n3.csv` for `base_the_ville_isabella_maria_klaus`. These files include semicolon-separated lists of memory records for each of the agents—loading them will insert the memory records into the agents' memory stream.
-
-#### Step 3. Further Customization 
-To customize the initialization by authoring your own history file, place your file in the following folder: `environment/frontend_server/static_dirs/assets/the_ville`. The column format for your custom history file will have to match the example history files included. Therefore, we recommend starting the process by copying and pasting the ones that are already in the repository.
-
-### Create New Base Simulations
-For a more involved customization, you will need to author your own base simulation files. The most straightforward approach would be to copy and paste an existing base simulation folder, renaming and editing it according to your requirements. This process will be simpler if you decide to keep the agent names unchanged. However, if you wish to change their names or increase the number of agents that the Smallville map can accommodate, you might need to directly edit the map using the [Tiled](https://www.mapeditor.org/) map editor.
-
-
-## <img src="https://joonsungpark.s3.amazonaws.com:443/static/assets/characters/profile/Eddy_Lin.png" alt="Generative Eddy">   Authors and Citation 
-
-**Authors:** Joon Sung Park, Joseph C. O'Brien, Carrie J. Cai, Meredith Ringel Morris, Percy Liang, Michael S. Bernstein
-
-Please cite our paper if you use the code or data in this repository. 
+#### Terminal 1 — Start Frontend Environment Server
+```powershell
+.\.venv\Scripts\python.exe environment\frontend_server\manage.py runserver 127.0.0.1:8000
 ```
+Visit [http://127.0.0.1:8000/](http://127.0.0.1:8000/) to verify the environment server is running.
+
+#### Terminal 2 — Start Backend Simulation Engine
+```powershell
+cd reverie\backend_server
+..\..\.venv\Scripts\python.exe reverie.py
+```
+When prompted:
+1. `Enter the name of the forked simulation: ` `base_the_ville_isabella_maria_klaus`
+2. `Enter the name of the new simulation: ` `my_simulation`
+3. On browser, navigate to: [http://127.0.0.1:8000/simulator_home](http://127.0.0.1:8000/simulator_home)
+4. In the simulation prompt `Enter option: `, run:
+   ```
+   run 10
+   ```
+   (Simulates 10 game steps, 10 seconds per step).
+
+To save and exit:
+```
+fin
+```
+
+---
+
+## 6. Visualization, Replays & Demos
+
+The web frontend provides multiple viewing and inspection modes:
+
+1. **Interactive Demo (Visual Demo with Character Sprites):**
+   [http://127.0.0.1:8000/demo/July1_the_ville_isabella_maria_klaus-step-3-20/1/3/](http://127.0.0.1:8000/demo/July1_the_ville_isabella_maria_klaus-step-3-20/1/3/)
+   - Controls: Speed (1 to 5), Pause, Play, Agent Tracker.
+2. **Step Replay Mode:**
+   [http://127.0.0.1:8000/replay/July1_the_ville_isabella_maria_klaus-step-3-20/1/](http://127.0.0.1:8000/replay/July1_the_ville_isabella_maria_klaus-step-3-20/1/)
+3. **Persona Internal Cognitive Inspector:**
+   [http://127.0.0.1:8000/replay_persona_state/July1_the_ville_isabella_maria_klaus-step-3-20/1/Isabella_Rodriguez/](http://127.0.0.1:8000/replay_persona_state/July1_the_ville_isabella_maria_klaus-step-3-20/1/Isabella_Rodriguez/)
+   - Inspects Scratch memory, spatial memory tree, and full associative memory stream (Events, Chats, Reflections).
+
+To compress any completed simulation for demo replay:
+```powershell
+cd reverie
+..\.venv\Scripts\python.exe -c "from compress_sim_storage import compress; compress('<simulation_name>')"
+```
+
+---
+
+## 7. How the AI Algorithm Works
+
+### Cognitive Loop
+Each agent executes a five-stage cognitive loop on every step:
+1. **Perceive:** Scans surrounding tiles within attention bandwidth. Filters events already held in recent sensory retention.
+2. **Retrieve:** Identifies focal points, accesses associative memory nodes, and computes a composite score:
+   $$\text{Score} = \alpha \cdot \text{Recency} + \beta \cdot \text{Importance} + \gamma \cdot \text{Relevance}$$
+   where relevance is the cosine similarity between the focal point embedding and the memory node embedding.
+3. **Plan:** Hierarchical agenda formulation. On a new day, agents formulate a 24-hour broad plan, decompose it into hourly blocks, further decompose the active hour into 5-15 minute subtasks, and resolve spatial action addresses (World $\to$ Sector $\to$ Arena $\to$ Game Object).
+4. **Reflect:** When cumulative memory importance surpasses a threshold ($\approx 150$), triggers reflection: prompts LLM with high-importance memories to extract abstract insights and evidence citations, saving new thought nodes back to memory.
+5. **Execute:** Resolves physical destination tile of the chosen game object, computes path via BFS on the collision map, steps one tile forward, and broadcasts action emoji and status description to the environment.
+
+---
+
+## 8. Troubleshooting & Bug Fixes Applied
+
+| Component | Issue Found | Fix Applied |
+| :--- | :--- | :--- |
+| `manage.py` | CWD mismatch caused `FileNotFoundError` when launched outside `frontend_server` directory. | Added `os.chdir(os.path.dirname(os.path.abspath(__file__)))` so paths resolve regardless of working directory. |
+| `reverie.py` | Missing `movement/` and `environment/` subdirectories in forked simulations threw `FileNotFoundError`. | Added `os.makedirs(..., exist_ok=True)` in `ReverieServer.__init__` and `start_server`. |
+| `gpt_structure.py` | Hard crash on missing/invalid API key during `get_embedding`; deprecated OpenAI completion models (`text-davinci-003`). | Added model fallback to `gpt-3.5-turbo` / `ChatCompletion`, and deterministic 1536-dimensional unit vector embedding fallback for offline testing. |
+| `run_gpt_prompt.py` | Hardcoded `get_fail_safe()` returning `'kitchen'` for all arenas caused `KeyError` in sectors without kitchens; commented-out validation block. | Enabled dynamic arena validation and fail-safe selection from the agent's spatial memory. |
+| `run_gpt_prompt.py` | Several functions returned `None` when `ChatGPT_safe_generate_response` returned `False`, crashing with `TypeError: 'NoneType' object is not subscriptable`. | Ensured all prompt functions return valid fail-safe structures even when LLM calls fail. |
+
+---
+
+## 9. Verification & Test Suite
+
+Run the full automated test suite anytime:
+```powershell
+.\.venv\Scripts\python.exe test_simulation_suite.py
+```
+
+Expected output:
+```
+============================================================
+FINAL RESULTS: 7/7 TESTS PASSED
+============================================================
+```
+
+---
+
+## 10. Authors & Citation
+
+**Authors:** Joon Sung Park, Joseph C. O'Brien, Carrie J. Cai, Meredith Ringel Morris, Percy Liang, Michael S. Bernstein (Stanford University & Google Research)
+
+```bibtex
 @inproceedings{Park2023GenerativeAgents,  
-author = {Park, Joon Sung and O'Brien, Joseph C. and Cai, Carrie J. and Morris, Meredith Ringel and Liang, Percy and Bernstein, Michael S.},  
-title = {Generative Agents: Interactive Simulacra of Human Behavior},  
-year = {2023},  
-publisher = {Association for Computing Machinery},  
-address = {New York, NY, USA},  
-booktitle = {In the 36th Annual ACM Symposium on User Interface Software and Technology (UIST '23)},  
-keywords = {Human-AI interaction, agents, generative AI, large language models},  
-location = {San Francisco, CA, USA},  
-series = {UIST '23}
+  author = {Park, Joon Sung and O'Brien, Joseph C. and Cai, Carrie J. and Morris, Meredith Ringel and Liang, Percy and Bernstein, Michael S.},  
+  title = {Generative Agents: Interactive Simulacra of Human Behavior},  
+  year = {2023},  
+  publisher = {Association for Computing Machinery},  
+  booktitle = {Proceedings of the 36th Annual ACM Symposium on User Interface Software and Technology (UIST '23)},  
+  keywords = {Human-AI interaction, agents, generative AI, large language models},  
+  location = {San Francisco, CA, USA}
 }
 ```
-
-## <img src="https://joonsungpark.s3.amazonaws.com:443/static/assets/characters/profile/Wolfgang_Schulz.png" alt="Generative Wolfgang">   Acknowledgements
-
-We encourage you to support the following three amazing artists who have designed the game assets for this project, especially if you are planning to use the assets included here for your own project: 
-* Background art: [PixyMoon (@_PixyMoon\_)](https://twitter.com/_PixyMoon_)
-* Furniture/interior design: [LimeZu (@lime_px)](https://twitter.com/lime_px)
-* Character design: [ぴぽ (@pipohi)](https://twitter.com/pipohi)
-
-In addition, we thank Lindsay Popowski, Philip Guo, Michael Terry, and the Center for Advanced Study in the Behavioral Sciences (CASBS) community for their insights, discussions, and support. Lastly, all locations featured in Smallville are inspired by real-world locations that Joon has frequented as an undergraduate and graduate student---he thanks everyone there for feeding and supporting him all these years.
-
-

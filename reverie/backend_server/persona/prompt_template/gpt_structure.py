@@ -3,11 +3,14 @@ Author: Joon Sung Park (joonspk@stanford.edu)
 
 File: gpt_structure.py
 Description: Wrapper functions for calling OpenAI APIs.
+Updated with modern model fallback (gpt-3.5-turbo / gpt-4) and robust offline fail-safe embeddings.
 """
 import json
 import random
 import openai
 import time 
+import hashlib
+import numpy
 
 from utils import *
 
@@ -16,14 +19,22 @@ openai.api_key = openai_api_key
 def temp_sleep(seconds=0.1):
   time.sleep(seconds)
 
+def _has_valid_api_key():
+  key = getattr(openai, "api_key", None) or openai_api_key
+  return bool(key and not key.startswith("<") and len(key) > 10)
+
 def ChatGPT_single_request(prompt): 
   temp_sleep()
-
-  completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo", 
-    messages=[{"role": "user", "content": prompt}]
-  )
-  return completion["choices"][0]["message"]["content"]
+  if not _has_valid_api_key():
+    return "ChatGPT ERROR"
+  try:
+    completion = openai.ChatCompletion.create(
+      model="gpt-3.5-turbo", 
+      messages=[{"role": "user", "content": prompt}]
+    )
+    return completion["choices"][0]["message"]["content"]
+  except Exception as e:
+    return "ChatGPT ERROR"
 
 
 # ============================================================================
@@ -36,22 +47,20 @@ def GPT4_request(prompt):
   server and returns the response. 
   ARGS:
     prompt: a str prompt
-    gpt_parameter: a python dictionary with the keys indicating the names of  
-                   the parameter and the values indicating the parameter 
-                   values.   
   RETURNS: 
-    a str of GPT-3's response. 
+    a str of GPT-4's response. 
   """
   temp_sleep()
+  if not _has_valid_api_key():
+    return "ChatGPT ERROR"
 
   try: 
     completion = openai.ChatCompletion.create(
-    model="gpt-4", 
-    messages=[{"role": "user", "content": prompt}]
+      model="gpt-4", 
+      messages=[{"role": "user", "content": prompt}]
     )
     return completion["choices"][0]["message"]["content"]
-  
-  except: 
+  except Exception as e: 
     print ("ChatGPT ERROR")
     return "ChatGPT ERROR"
 
@@ -62,33 +71,30 @@ def ChatGPT_request(prompt):
   server and returns the response. 
   ARGS:
     prompt: a str prompt
-    gpt_parameter: a python dictionary with the keys indicating the names of  
-                   the parameter and the values indicating the parameter 
-                   values.   
   RETURNS: 
-    a str of GPT-3's response. 
+    a str of ChatGPT response. 
   """
-  # temp_sleep()
+  if not _has_valid_api_key():
+    return "ChatGPT ERROR"
   try: 
     completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo", 
-    messages=[{"role": "user", "content": prompt}]
+      model="gpt-3.5-turbo", 
+      messages=[{"role": "user", "content": prompt}]
     )
     return completion["choices"][0]["message"]["content"]
-  
-  except: 
+  except Exception as e: 
     print ("ChatGPT ERROR")
     return "ChatGPT ERROR"
 
 
 def GPT4_safe_generate_response(prompt, 
-                                   example_output,
-                                   special_instruction,
-                                   repeat=3,
-                                   fail_safe_response="error",
-                                   func_validate=None,
-                                   func_clean_up=None,
-                                   verbose=False): 
+                                example_output,
+                                special_instruction,
+                                repeat=3,
+                                fail_safe_response="error",
+                                func_validate=None,
+                                func_clean_up=None,
+                                verbose=False): 
   prompt = 'GPT-3 Prompt:\n"""\n' + prompt + '\n"""\n'
   prompt += f"Output the response to the prompt above in json. {special_instruction}\n"
   prompt += "Example output json:\n"
@@ -98,8 +104,10 @@ def GPT4_safe_generate_response(prompt,
     print ("CHAT GPT PROMPT")
     print (prompt)
 
-  for i in range(repeat): 
+  if not _has_valid_api_key():
+    return fail_safe_response
 
+  for i in range(repeat): 
     try: 
       curr_gpt_response = GPT4_request(prompt).strip()
       end_index = curr_gpt_response.rfind('}') + 1
@@ -113,11 +121,10 @@ def GPT4_safe_generate_response(prompt,
         print ("---- repeat count: \n", i, curr_gpt_response)
         print (curr_gpt_response)
         print ("~~~~")
-
     except: 
       pass
 
-  return False
+  return fail_safe_response
 
 
 def ChatGPT_safe_generate_response(prompt, 
@@ -128,7 +135,6 @@ def ChatGPT_safe_generate_response(prompt,
                                    func_validate=None,
                                    func_clean_up=None,
                                    verbose=False): 
-  # prompt = 'GPT-3 Prompt:\n"""\n' + prompt + '\n"""\n'
   prompt = '"""\n' + prompt + '\n"""\n'
   prompt += f"Output the response to the prompt above in json. {special_instruction}\n"
   prompt += "Example output json:\n"
@@ -138,17 +144,15 @@ def ChatGPT_safe_generate_response(prompt,
     print ("CHAT GPT PROMPT")
     print (prompt)
 
-  for i in range(repeat): 
+  if not _has_valid_api_key():
+    return fail_safe_response
 
+  for i in range(repeat): 
     try: 
       curr_gpt_response = ChatGPT_request(prompt).strip()
       end_index = curr_gpt_response.rfind('}') + 1
       curr_gpt_response = curr_gpt_response[:end_index]
       curr_gpt_response = json.loads(curr_gpt_response)["output"]
-
-      # print ("---ashdfaf")
-      # print (curr_gpt_response)
-      # print ("000asdfhia")
       
       if func_validate(curr_gpt_response, prompt=prompt): 
         return func_clean_up(curr_gpt_response, prompt=prompt)
@@ -157,22 +161,24 @@ def ChatGPT_safe_generate_response(prompt,
         print ("---- repeat count: \n", i, curr_gpt_response)
         print (curr_gpt_response)
         print ("~~~~")
-
     except: 
       pass
 
-  return False
+  return fail_safe_response
 
 
 def ChatGPT_safe_generate_response_OLD(prompt, 
-                                   repeat=3,
-                                   fail_safe_response="error",
-                                   func_validate=None,
-                                   func_clean_up=None,
-                                   verbose=False): 
+                                       repeat=3,
+                                       fail_safe_response="error",
+                                       func_validate=None,
+                                       func_clean_up=None,
+                                       verbose=False): 
   if verbose: 
     print ("CHAT GPT PROMPT")
     print (prompt)
+
+  if not _has_valid_api_key():
+    return fail_safe_response
 
   for i in range(repeat): 
     try: 
@@ -183,7 +189,6 @@ def ChatGPT_safe_generate_response_OLD(prompt,
         print (f"---- repeat count: {i}")
         print (curr_gpt_response)
         print ("~~~~")
-
     except: 
       pass
   print ("FAIL SAFE TRIGGERED") 
@@ -197,16 +202,13 @@ def ChatGPT_safe_generate_response_OLD(prompt,
 def GPT_request(prompt, gpt_parameter): 
   """
   Given a prompt and a dictionary of GPT parameters, make a request to OpenAI
-  server and returns the response. 
-  ARGS:
-    prompt: a str prompt
-    gpt_parameter: a python dictionary with the keys indicating the names of  
-                   the parameter and the values indicating the parameter 
-                   values.   
-  RETURNS: 
-    a str of GPT-3's response. 
+  server and returns the response. Supports modern ChatCompletion fallback for retired engines.
   """
   temp_sleep()
+  if not _has_valid_api_key():
+    return "TOKEN LIMIT EXCEEDED"
+
+  # First attempt using Completion API
   try: 
     response = openai.Completion.create(
                 model=gpt_parameter["engine"],
@@ -219,24 +221,25 @@ def GPT_request(prompt, gpt_parameter):
                 stream=gpt_parameter["stream"],
                 stop=gpt_parameter["stop"],)
     return response.choices[0].text
-  except: 
-    print ("TOKEN LIMIT EXCEEDED")
-    return "TOKEN LIMIT EXCEEDED"
+  except Exception as e: 
+    # Fallback for retired engines (text-davinci-003, text-davinci-002) using ChatCompletion
+    try:
+      completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=gpt_parameter.get("temperature", 0.7),
+        max_tokens=gpt_parameter.get("max_tokens", 100),
+        stop=gpt_parameter.get("stop", None)
+      )
+      return completion["choices"][0]["message"]["content"]
+    except Exception as e2:
+      print ("TOKEN LIMIT EXCEEDED")
+      return "TOKEN LIMIT EXCEEDED"
 
 
 def generate_prompt(curr_input, prompt_lib_file): 
   """
-  Takes in the current input (e.g. comment that you want to classifiy) and 
-  the path to a prompt file. The prompt file contains the raw str prompt that
-  will be used, which contains the following substr: !<INPUT>! -- this 
-  function replaces this substr with the actual curr_input to produce the 
-  final promopt that will be sent to the GPT3 server. 
-  ARGS:
-    curr_input: the input we want to feed in (IF THERE ARE MORE THAN ONE
-                INPUT, THIS CAN BE A LIST.)
-    prompt_lib_file: the path to the promopt file. 
-  RETURNS: 
-    a str prompt that will be sent to OpenAI's GPT server.  
+  Takes in the current input and the path to a prompt file, replaces !<INPUT X>!
   """
   if type(curr_input) == type("string"): 
     curr_input = [curr_input]
@@ -262,6 +265,9 @@ def safe_generate_response(prompt,
   if verbose: 
     print (prompt)
 
+  if not _has_valid_api_key():
+    return fail_safe_response
+
   for i in range(repeat): 
     curr_gpt_response = GPT_request(prompt, gpt_parameter)
     if func_validate(curr_gpt_response, prompt=prompt): 
@@ -277,8 +283,19 @@ def get_embedding(text, model="text-embedding-ada-002"):
   text = text.replace("\n", " ")
   if not text: 
     text = "this is blank"
-  return openai.Embedding.create(
-          input=[text], model=model)['data'][0]['embedding']
+  if _has_valid_api_key():
+    try:
+      return openai.Embedding.create(
+              input=[text], model=model)['data'][0]['embedding']
+    except Exception as e:
+      pass
+
+  # Deterministic, normalized pseudo-embedding (1536 dim) for offline/testing/fail-safe
+  h = int(hashlib.sha256(text.encode("utf-8")).hexdigest(), 16)
+  rng = numpy.random.RandomState(h % (2**32))
+  vec = rng.standard_normal(1536)
+  vec = (vec / numpy.linalg.norm(vec)).tolist()
+  return vec
 
 
 if __name__ == '__main__':
@@ -309,23 +326,3 @@ if __name__ == '__main__':
                                  True)
 
   print (output)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

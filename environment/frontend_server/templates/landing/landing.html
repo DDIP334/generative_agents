@@ -2,9 +2,326 @@
 {% load staticfiles %}
 
 {% block content %}
-<div style="padding:2em">
-<img src="{% static 'img/atlas.png' %}">
-Your environment server is up and running! 
+<style>
+  body {
+    background: #0f172a !important;
+    color: #f1f5f9;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  .hub-container {
+    max-width: 1350px;
+    margin: 0 auto;
+    padding: 24px 20px 60px 20px;
+  }
+  .header-card {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    border: 1px solid #475569;
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  }
+  .header-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #38bdf8;
+    margin: 0 0 10px 0;
+    letter-spacing: -0.5px;
+  }
+  .header-subtitle {
+    font-size: 1.1rem;
+    color: #cbd5e1;
+    margin: 0;
+    line-height: 1.5;
+  }
+  .quick-links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .action-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none !important;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.2);
+  }
+  .action-card:hover {
+    transform: translateY(-3px);
+    border-color: #38bdf8;
+    box-shadow: 0 12px 20px -3px rgba(56, 189, 248, 0.25);
+  }
+  .card-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    width: fit-content;
+  }
+  .badge-primary { background: #0284c7; color: #fff; }
+  .badge-success { background: #16a34a; color: #fff; }
+  .badge-purple { background: #9333ea; color: #fff; }
+  .badge-amber { background: #d97706; color: #fff; }
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #f8fafc;
+    margin: 0 0 8px 0;
+  }
+  .card-desc {
+    font-size: 0.92rem;
+    color: #94a3b8;
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+    flex-grow: 1;
+  }
+  .card-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #0284c7;
+    color: #ffffff !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.15s ease;
+  }
+  .action-card:hover .card-btn {
+    background: #38bdf8;
+    color: #0f172a !important;
+  }
+  .sim-frame-wrapper {
+    background: #1e293b;
+    border: 2px solid #38bdf8;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6);
+    margin-bottom: 30px;
+  }
+  .sim-frame-header {
+    background: #0f172a;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #334155;
+  }
+  .sim-frame-title {
+    font-weight: 700;
+    color: #38bdf8;
+    font-size: 1.05rem;
+  }
+  .sim-frame-controls a {
+    color: #94a3b8;
+    font-size: 0.88rem;
+    margin-left: 15px;
+    text-decoration: underline;
+  }
+  .sim-frame-controls a:hover {
+    color: #38bdf8;
+  }
+  .sim-iframe {
+    width: 100%;
+    height: 860px;
+    border: none;
+    display: block;
+    background: #ffffff;
+  }
+  .agent-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 10px;
+  }
+  .agent-card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .agent-card img {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid #38bdf8;
+    background: #334155;
+  }
+  .agent-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #f1f5f9;
+  }
+  .agent-info p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: #94a3b8;
+  }
+  .agent-info a {
+    font-size: 0.8rem;
+    color: #38bdf8;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .agent-info a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="hub-container">
+  <!-- Premier Flagship Banner: 2D Living AI Society Simulation -->
+  <div class="header-card" style="background: linear-gradient(135deg, #064e3b 0%, #065f46 40%, #0f172a 100%); border: 2px solid #10b981; box-shadow: 0 10px 35px rgba(16, 185, 129, 0.3);">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+      <div>
+        <div style="display:inline-flex; align-items:center; gap:8px; padding:4px 14px; background:rgba(16,185,129,0.2); border:1px solid #10b981; border-radius:20px; margin-bottom:12px;">
+          <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10b981; box-shadow:0 0 10px #10b981;"></span>
+          <span style="font-size:0.75rem; font-weight:800; color:#a7f3d0; letter-spacing:0.8px; text-transform:uppercase;">FLAGSHIP: LIVING 2D AI SOCIETY ACTIVE</span>
+        </div>
+        <h1 class="header-title" style="font-size:2.4rem; margin-bottom:8px; color:#6ee7b7;">🏘️ Smallville: Living 2D AI Human Society</h1>
+        <p class="header-subtitle" style="max-width:850px; color:#e2e8f0;">
+          A living, breathing virtual human society. 15 autonomous AI agents live their daily lives in a handcrafted 2D pixel-art town with real-time utility AI, BFS pathfinding, dynamic needs (Hunger, Energy, Health, Happiness, Hygiene, Social, Money), working jobs, salaries, cafes, pubs, grocery markets, emergent conversations with comic speech bubbles, relationships, and day/night cycles.
+        </p>
+      </div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="/society/" target="_blank" style="display:inline-flex; align-items:center; gap:10px; background:#10b981; color:#064e3b !important; font-weight:800; font-size:1.05rem; padding:14px 26px; border-radius:10px; text-decoration:none; box-shadow:0 0 25px rgba(16,185,129,0.6); transition:all 0.2s;">
+          🚀 ENTER 2D SOCIETY FULLSCREEN
+        </a>
+        <a href="/3d/" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:#1e293b; color:#38bdf8 !important; border:1px solid #38bdf8; font-weight:700; font-size:0.95rem; padding:14px 20px; border-radius:10px; text-decoration:none; transition:all 0.2s;">
+          🤖 3D Robot Lab
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Embedded Live 2D Society Simulation Window -->
+  <div class="sim-frame-wrapper" style="border: 2px solid #10b981; box-shadow: 0 0 35px rgba(16, 185, 129, 0.25); margin-bottom:32px;">
+    <div class="sim-frame-header" style="background: #064e3b;">
+      <div class="sim-frame-title" style="display:flex; align-items:center; gap:10px; color:#a7f3d0;">
+        <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#10b981; box-shadow:0 0 8px #10b981;"></span>
+        🏘️ Interactive Observer Viewport — Smallville Living 2D Society
+      </div>
+      <div class="sim-frame-controls">
+        <span>Click Citizen to Follow &bull; Drag to Pan &bull; Scroll to Zoom &bull; Real-time AI Decisions</span>
+        <a href="/society/" target="_blank" style="color:#6ee7b7; font-weight:700;">Open Fullscreen &#8599;</a>
+      </div>
+    </div>
+    <iframe class="sim-iframe" src="/society/" style="height: 750px; background: #090d16;"></iframe>
+  </div>
+
+  <!-- Quick Launch Navigation Cards -->
+  <div class="quick-links-grid">
+    <a href="/society/" class="action-card" target="_blank" style="border: 2px solid #10b981; background: linear-gradient(135deg, #064e3b 0%, #1e293b 100%);">
+      <div>
+        <span class="card-badge" style="background:#10b981; color:#064e3b; font-weight:800;">★ NEW LIVING SOCIETY</span>
+        <h3 class="card-title" style="color: #6ee7b7;">2D Living AI Human Society</h3>
+        <p class="card-desc">Observe 15 autonomous human agents living in Smallville: eating, working, sleeping, earning money, visiting cafes, chatting, and surviving.</p>
+      </div>
+      <div class="card-btn" style="background: #10b981; color: #064e3b !important; font-weight:800;">Enter Society &rarr;</div>
+    </a>
+
+    <a href="/3d/" class="action-card" target="_blank" style="border: 1px solid #38bdf8; background: linear-gradient(135deg, #0b132b 0%, #1e293b 100%);">
+      <div>
+        <span class="card-badge" style="background:#0284c7; color:#fff;">3D Robotics AI</span>
+        <h3 class="card-title" style="color: #38bdf8;">3D Robot Maze Simulation</h3>
+        <p class="card-desc">Full 3D WebGL robotics environment with articulated robot, 5x laser sensors, Q-learning RL, A* pathfinding, and multi-camera perspectives.</p>
+      </div>
+      <div class="card-btn" style="background: #38bdf8; color: #090d16 !important; font-weight:700;">Launch 3D Robot &rarr;</div>
+    </a>
+    <a href="/demo/July1_the_ville_isabella_maria_klaus-step-3-20/1/3/" class="action-card" target="_blank">
+      <div>
+        <span class="card-badge badge-primary">Recommended</span>
+        <h3 class="card-title">Interactive Demo (Full Screen)</h3>
+        <p class="card-desc">Open the complete Phaser 2D world in full resolution with playback speed controls (1x to 5x), character cameras, and emoji dialogue bubbles.</p>
+      </div>
+      <div class="card-btn">Open Interactive Demo &rarr;</div>
+    </a>
+
+    <a href="/replay/July1_the_ville_isabella_maria_klaus-step-3-20/1/" class="action-card" target="_blank">
+      <div>
+        <span class="card-badge badge-success">Replay Mode</span>
+        <h3 class="card-title">Step-by-Step Replay</h3>
+        <p class="card-desc">Step-by-step navigation across all recorded timesteps to inspect coordinates, collision handling, and tile-by-tile agent movements.</p>
+      </div>
+      <div class="card-btn">Open Step Replay &rarr;</div>
+    </a>
+
+    <a href="/replay_persona_state/July1_the_ville_isabella_maria_klaus-step-3-20/1/Isabella_Rodriguez/" class="action-card" target="_blank">
+      <div>
+        <span class="card-badge badge-purple">Agent Brain</span>
+        <h3 class="card-title">Isabella's Cognitive State</h3>
+        <p class="card-desc">Inspect Isabella Rodriguez's internal mind: active scratch agenda, spatial hierarchy memory tree, and full associative memory stream.</p>
+      </div>
+      <div class="card-btn">Inspect Agent Mind &rarr;</div>
+    </a>
+
+    <a href="/demo/test_auto_run/1/3/" class="action-card" target="_blank">
+      <div>
+        <span class="card-badge badge-amber">Newly Generated</span>
+        <h3 class="card-title">Fresh Simulation Demo</h3>
+        <p class="card-desc">View the newly computed and compressed simulation run (test_auto_run) executed autonomously by the backend engine.</p>
+      </div>
+      <div class="card-btn">View Fresh Run &rarr;</div>
+    </a>
+  </div>
+
+  <!-- Embedded Live Simulation Window -->
+  <div class="sim-frame-wrapper">
+    <div class="sim-frame-header">
+      <div class="sim-frame-title">&#127918; Live Embedded Smallville Canvas</div>
+      <div class="sim-frame-controls">
+        <span>Controls: Arrow Keys to Pan Map | Left Panel: Click Avatar to Follow</span>
+        <a href="/demo/July1_the_ville_isabella_maria_klaus-step-3-20/1/3/" target="_blank">Open Fullscreen &#8599;</a>
+      </div>
+    </div>
+    <iframe class="sim-iframe" src="/demo/July1_the_ville_isabella_maria_klaus-step-3-20/1/3/"></iframe>
+  </div>
+
+  <!-- Active Persona Showcase -->
+  <h3 style="color:#f8fafc; font-weight:700; margin-bottom:14px; font-size:1.3rem;">Active Generative Agents in Smallville</h3>
+  <div class="agent-strip">
+    <div class="agent-card">
+      <img src="{% static 'assets/characters/profile/Isabella_Rodriguez.png' %}" alt="Isabella Rodriguez">
+      <div class="agent-info">
+        <h4>Isabella Rodriguez</h4>
+        <p>Cafe Owner @ Hobbs Cafe &bull; Valentine's Party Planner</p>
+        <a href="/replay_persona_state/July1_the_ville_isabella_maria_klaus-step-3-20/1/Isabella_Rodriguez/" target="_blank">View Mind & Memory &rarr;</a>
+      </div>
+    </div>
+    <div class="agent-card">
+      <img src="{% static 'assets/characters/profile/Klaus_Mueller.png' %}" alt="Klaus Mueller">
+      <div class="agent-info">
+        <h4>Klaus Mueller</h4>
+        <p>Sociology Student @ Oak Hill &bull; Gentrification Researcher</p>
+        <a href="/replay_persona_state/July1_the_ville_isabella_maria_klaus-step-3-20/1/Klaus_Mueller/" target="_blank">View Mind & Memory &rarr;</a>
+      </div>
+    </div>
+    <div class="agent-card">
+      <img src="{% static 'assets/characters/profile/Maria_Lopez.png' %}" alt="Maria Lopez">
+      <div class="agent-info">
+        <h4>Maria Lopez</h4>
+        <p>Physics Student @ Oak Hill &bull; Part-time Twitch Streamer</p>
+        <a href="/replay_persona_state/July1_the_ville_isabella_maria_klaus-step-3-20/1/Maria_Lopez/" target="_blank">View Mind & Memory &rarr;</a>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock content %}
-

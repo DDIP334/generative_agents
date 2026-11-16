@@ -1,0 +1,1829 @@
+{
+  "Giorgio Rossi's apartment -> bathroom": {
+    "center": [
+      88,
+      14
+    ],
+    "tile_count": 17,
+    "sample_tiles": [
+      [
+        86,
+        13
+      ],
+      [
+        87,
+        13
+      ],
+      [
+        88,
+        13
+      ],
+      [
+        89,
+        13
+      ],
+      [
+        90,
+        13
+      ]
+    ]
+  },
+  "Carlos Gomez's apartment -> bathroom": {
+    "center": [
+      95,
+      14
+    ],
+    "tile_count": 17,
+    "sample_tiles": [
+      [
+        93,
+        13
+      ],
+      [
+        94,
+        13
+      ],
+      [
+        95,
+        13
+      ],
+      [
+        96,
+        13
+      ],
+      [
+        97,
+        13
+      ]
+    ]
+  },
+  "Arthur Burton's apartment -> main room": {
+    "center": [
+      56,
+      15
+    ],
+    "tile_count": 27,
+    "sample_tiles": [
+      [
+        53,
+        14
+      ],
+      [
+        54,
+        14
+      ],
+      [
+        55,
+        14
+      ],
+      [
+        56,
+        14
+      ],
+      [
+        57,
+        14
+      ]
+    ]
+  },
+  "Arthur Burton's apartment -> bathroom": {
+    "center": [
+      60,
+      15
+    ],
+    "tile_count": 10,
+    "sample_tiles": [
+      [
+        60,
+        14
+      ],
+      [
+        61,
+        14
+      ],
+      [
+        62,
+        14
+      ],
+      [
+        60,
+        15
+      ],
+      [
+        61,
+        15
+      ]
+    ]
+  },
+  "Ryan Park's apartment -> bathroom": {
+    "center": [
+      67,
+      15
+    ],
+    "tile_count": 17,
+    "sample_tiles": [
+      [
+        65,
+        14
+      ],
+      [
+        66,
+        14
+      ],
+      [
+        67,
+        14
+      ],
+      [
+        68,
+        14
+      ],
+      [
+        69,
+        14
+      ]
+    ]
+  },
+  "Isabella Rodriguez's apartment -> main room": {
+    "center": [
+      76,
+      15
+    ],
+    "tile_count": 28,
+    "sample_tiles": [
+      [
+        72,
+        14
+      ],
+      [
+        73,
+        14
+      ],
+      [
+        74,
+        14
+      ],
+      [
+        75,
+        14
+      ],
+      [
+        76,
+        14
+      ]
+    ]
+  },
+  "Isabella Rodriguez's apartment -> bathroom": {
+    "center": [
+      81,
+      14
+    ],
+    "tile_count": 8,
+    "sample_tiles": [
+      [
+        81,
+        14
+      ],
+      [
+        82,
+        14
+      ],
+      [
+        83,
+        14
+      ],
+      [
+        81,
+        15
+      ],
+      [
+        82,
+        15
+      ]
+    ]
+  },
+  "Giorgio Rossi's apartment -> main room": {
+    "center": [
+      87,
+      21
+    ],
+    "tile_count": 34,
+    "sample_tiles": [
+      [
+        88,
+        17
+      ],
+      [
+        89,
+        17
+      ],
+      [
+        86,
+        18
+      ],
+      [
+        87,
+        18
+      ],
+      [
+        88,
+        18
+      ]
+    ]
+  },
+  "Carlos Gomez's apartment -> main room": {
+    "center": [
+      94,
+      21
+    ],
+    "tile_count": 35,
+    "sample_tiles": [
+      [
+        95,
+        17
+      ],
+      [
+        96,
+        17
+      ],
+      [
+        93,
+        18
+      ],
+      [
+        94,
+        18
+      ],
+      [
+        95,
+        18
+      ]
+    ]
+  },
+  "artist's co-living space -> Latoya Williams's room": {
+    "center": [
+      16,
+      20
+    ],
+    "tile_count": 20,
+    "sample_tiles": [
+      [
+        16,
+        18
+      ],
+      [
+        15,
+        19
+      ],
+      [
+        16,
+        19
+      ],
+      [
+        17,
+        19
+      ],
+      [
+        18,
+        19
+      ]
+    ]
+  },
+  "artist's co-living space -> Latoya Williams's bathroom": {
+    "center": [
+      20,
+      19
+    ],
+    "tile_count": 12,
+    "sample_tiles": [
+      [
+        20,
+        18
+      ],
+      [
+        21,
+        18
+      ],
+      [
+        22,
+        18
+      ],
+      [
+        20,
+        19
+      ],
+      [
+        21,
+        19
+      ]
+    ]
+  },
+  "artist's co-living space -> Rajiv Patel's room": {
+    "center": [
+      26,
+      20
+    ],
+    "tile_count": 20,
+    "sample_tiles": [
+      [
+        25,
+        18
+      ],
+      [
+        26,
+        18
+      ],
+      [
+        25,
+        19
+      ],
+      [
+        26,
+        19
+      ],
+      [
+        27,
+        19
+      ]
+    ]
+  },
+  "artist's co-living space -> Rajiv Patel's bathroom": {
+    "center": [
+      30,
+      19
+    ],
+    "tile_count": 12,
+    "sample_tiles": [
+      [
+        30,
+        18
+      ],
+      [
+        31,
+        18
+      ],
+      [
+        32,
+        18
+      ],
+      [
+        30,
+        19
+      ],
+      [
+        31,
+        19
+      ]
+    ]
+  },
+  "artist's co-living space -> Abigail Chen's room": {
+    "center": [
+      36,
+      20
+    ],
+    "tile_count": 21,
+    "sample_tiles": [
+      [
+        35,
+        18
+      ],
+      [
+        36,
+        18
+      ],
+      [
+        37,
+        18
+      ],
+      [
+        38,
+        18
+      ],
+      [
+        39,
+        18
+      ]
+    ]
+  },
+  "Ryan Park's apartment -> main room": {
+    "center": [
+      67,
+      21
+    ],
+    "tile_count": 34,
+    "sample_tiles": [
+      [
+        67,
+        18
+      ],
+      [
+        68,
+        18
+      ],
+      [
+        65,
+        19
+      ],
+      [
+        66,
+        19
+      ],
+      [
+        67,
+        19
+      ]
+    ]
+  },
+  "Hobbs Cafe -> cafe": {
+    "center": [
+      77,
+      22
+    ],
+    "tile_count": 78,
+    "sample_tiles": [
+      [
+        72,
+        19
+      ],
+      [
+        73,
+        19
+      ],
+      [
+        74,
+        19
+      ],
+      [
+        75,
+        19
+      ],
+      [
+        76,
+        19
+      ]
+    ]
+  },
+  "The Rose and Crown Pub -> pub": {
+    "center": [
+      57,
+      23
+    ],
+    "tile_count": 58,
+    "sample_tiles": [
+      [
+        53,
+        20
+      ],
+      [
+        54,
+        20
+      ],
+      [
+        55,
+        20
+      ],
+      [
+        56,
+        20
+      ],
+      [
+        57,
+        20
+      ]
+    ]
+  },
+  "Oak Hill College -> classroom": {
+    "center": [
+      111,
+      23
+    ],
+    "tile_count": 60,
+    "sample_tiles": [
+      [
+        108,
+        20
+      ],
+      [
+        109,
+        20
+      ],
+      [
+        110,
+        20
+      ],
+      [
+        111,
+        20
+      ],
+      [
+        112,
+        20
+      ]
+    ]
+  },
+  "Oak Hill College -> library": {
+    "center": [
+      120,
+      23
+    ],
+    "tile_count": 51,
+    "sample_tiles": [
+      [
+        118,
+        20
+      ],
+      [
+        119,
+        20
+      ],
+      [
+        120,
+        20
+      ],
+      [
+        121,
+        20
+      ],
+      [
+        122,
+        20
+      ]
+    ]
+  },
+  "artist's co-living space -> Abigail Chen's bathroom": {
+    "center": [
+      40,
+      21
+    ],
+    "tile_count": 10,
+    "sample_tiles": [
+      [
+        38,
+        21
+      ],
+      [
+        39,
+        21
+      ],
+      [
+        40,
+        21
+      ],
+      [
+        41,
+        21
+      ],
+      [
+        42,
+        21
+      ]
+    ]
+  },
+  "artist's co-living space -> kitchen": {
+    "center": [
+      39,
+      25
+    ],
+    "tile_count": 12,
+    "sample_tiles": [
+      [
+        35,
+        25
+      ],
+      [
+        36,
+        25
+      ],
+      [
+        37,
+        25
+      ],
+      [
+        38,
+        25
+      ],
+      [
+        39,
+        25
+      ]
+    ]
+  },
+  "artist's co-living space -> common room": {
+    "center": [
+      37,
+      29
+    ],
+    "tile_count": 51,
+    "sample_tiles": [
+      [
+        35,
+        26
+      ],
+      [
+        36,
+        26
+      ],
+      [
+        37,
+        26
+      ],
+      [
+        38,
+        26
+      ],
+      [
+        39,
+        26
+      ]
+    ]
+  },
+  "artist's co-living space -> Francisco Lopez's room": {
+    "center": [
+      17,
+      29
+    ],
+    "tile_count": 19,
+    "sample_tiles": [
+      [
+        19,
+        27
+      ],
+      [
+        20,
+        27
+      ],
+      [
+        15,
+        28
+      ],
+      [
+        18,
+        28
+      ],
+      [
+        19,
+        28
+      ]
+    ]
+  },
+  "artist's co-living space -> Hailey Johnson's room": {
+    "center": [
+      27,
+      29
+    ],
+    "tile_count": 21,
+    "sample_tiles": [
+      [
+        29,
+        27
+      ],
+      [
+        30,
+        27
+      ],
+      [
+        26,
+        28
+      ],
+      [
+        27,
+        28
+      ],
+      [
+        28,
+        28
+      ]
+    ]
+  },
+  "artist's co-living space -> Francisco Lopez's bathroom": {
+    "center": [
+      21,
+      30
+    ],
+    "tile_count": 9,
+    "sample_tiles": [
+      [
+        21,
+        28
+      ],
+      [
+        22,
+        28
+      ],
+      [
+        21,
+        29
+      ],
+      [
+        21,
+        30
+      ],
+      [
+        21,
+        31
+      ]
+    ]
+  },
+  "artist's co-living space -> Hailey Johnson's bathroom": {
+    "center": [
+      31,
+      30
+    ],
+    "tile_count": 9,
+    "sample_tiles": [
+      [
+        31,
+        28
+      ],
+      [
+        32,
+        28
+      ],
+      [
+        31,
+        29
+      ],
+      [
+        31,
+        30
+      ],
+      [
+        31,
+        31
+      ]
+    ]
+  },
+  "Oak Hill College -> hallway": {
+    "center": [
+      117,
+      31
+    ],
+    "tile_count": 73,
+    "sample_tiles": [
+      [
+        108,
+        30
+      ],
+      [
+        109,
+        30
+      ],
+      [
+        110,
+        30
+      ],
+      [
+        111,
+        30
+      ],
+      [
+        112,
+        30
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> garden": {
+    "center": [
+      125,
+      37
+    ],
+    "tile_count": 68,
+    "sample_tiles": [
+      [
+        128,
+        31
+      ],
+      [
+        129,
+        31
+      ],
+      [
+        130,
+        31
+      ],
+      [
+        131,
+        31
+      ],
+      [
+        128,
+        32
+      ]
+    ]
+  },
+  "Johnson Park -> park": {
+    "center": [
+      27,
+      46
+    ],
+    "tile_count": 95,
+    "sample_tiles": [
+      [
+        24,
+        41
+      ],
+      [
+        25,
+        41
+      ],
+      [
+        30,
+        41
+      ],
+      [
+        31,
+        41
+      ],
+      [
+        21,
+        42
+      ]
+    ]
+  },
+  "The Willows Market and Pharmacy -> store": {
+    "center": [
+      84,
+      47
+    ],
+    "tile_count": 163,
+    "sample_tiles": [
+      [
+        75,
+        42
+      ],
+      [
+        76,
+        42
+      ],
+      [
+        77,
+        42
+      ],
+      [
+        78,
+        42
+      ],
+      [
+        80,
+        43
+      ]
+    ]
+  },
+  "Harvey Oak Supply Store -> supply store": {
+    "center": [
+      63,
+      48
+    ],
+    "tile_count": 123,
+    "sample_tiles": [
+      [
+        57,
+        43
+      ],
+      [
+        58,
+        43
+      ],
+      [
+        59,
+        43
+      ],
+      [
+        60,
+        43
+      ],
+      [
+        61,
+        43
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> kitchen": {
+    "center": [
+      121,
+      46
+    ],
+    "tile_count": 12,
+    "sample_tiles": [
+      [
+        118,
+        45
+      ],
+      [
+        119,
+        45
+      ],
+      [
+        120,
+        45
+      ],
+      [
+        121,
+        45
+      ],
+      [
+        122,
+        45
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Klaus Mueller's room": {
+    "center": [
+      129,
+      46
+    ],
+    "tile_count": 24,
+    "sample_tiles": [
+      [
+        129,
+        45
+      ],
+      [
+        130,
+        45
+      ],
+      [
+        131,
+        45
+      ],
+      [
+        132,
+        45
+      ],
+      [
+        126,
+        46
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> common room": {
+    "center": [
+      117,
+      50
+    ],
+    "tile_count": 54,
+    "sample_tiles": [
+      [
+        117,
+        46
+      ],
+      [
+        118,
+        46
+      ],
+      [
+        119,
+        46
+      ],
+      [
+        120,
+        46
+      ],
+      [
+        121,
+        46
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> man's bathroom": {
+    "center": [
+      108,
+      51
+    ],
+    "tile_count": 20,
+    "sample_tiles": [
+      [
+        106,
+        50
+      ],
+      [
+        107,
+        50
+      ],
+      [
+        108,
+        50
+      ],
+      [
+        109,
+        50
+      ],
+      [
+        110,
+        50
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> woman's bathroom": {
+    "center": [
+      131,
+      54
+    ],
+    "tile_count": 15,
+    "sample_tiles": [
+      [
+        131,
+        51
+      ],
+      [
+        132,
+        51
+      ],
+      [
+        131,
+        52
+      ],
+      [
+        132,
+        52
+      ],
+      [
+        130,
+        53
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Maria Lopez's room": {
+    "center": [
+      124,
+      55
+    ],
+    "tile_count": 23,
+    "sample_tiles": [
+      [
+        124,
+        53
+      ],
+      [
+        125,
+        53
+      ],
+      [
+        122,
+        54
+      ],
+      [
+        123,
+        54
+      ],
+      [
+        124,
+        54
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Ayesha Khan's room": {
+    "center": [
+      116,
+      59
+    ],
+    "tile_count": 31,
+    "sample_tiles": [
+      [
+        119,
+        56
+      ],
+      [
+        114,
+        57
+      ],
+      [
+        115,
+        57
+      ],
+      [
+        116,
+        57
+      ],
+      [
+        117,
+        57
+      ]
+    ]
+  },
+  "Dorm for Oak Hill College -> Wolfgang Schulz's room": {
+    "center": [
+      108,
+      59
+    ],
+    "tile_count": 27,
+    "sample_tiles": [
+      [
+        107,
+        57
+      ],
+      [
+        108,
+        57
+      ],
+      [
+        109,
+        57
+      ],
+      [
+        107,
+        58
+      ],
+      [
+        108,
+        58
+      ]
+    ]
+  },
+  "Adam Smith's house -> main room": {
+    "center": [
+      21,
+      62
+    ],
+    "tile_count": 22,
+    "sample_tiles": [
+      [
+        22,
+        59
+      ],
+      [
+        23,
+        59
+      ],
+      [
+        20,
+        60
+      ],
+      [
+        21,
+        60
+      ],
+      [
+        22,
+        60
+      ]
+    ]
+  },
+  "Yuriko Yamamoto's house -> main room": {
+    "center": [
+      29,
+      62
+    ],
+    "tile_count": 21,
+    "sample_tiles": [
+      [
+        30,
+        59
+      ],
+      [
+        31,
+        59
+      ],
+      [
+        28,
+        60
+      ],
+      [
+        29,
+        60
+      ],
+      [
+        30,
+        60
+      ]
+    ]
+  },
+  "Moore family's house -> main room": {
+    "center": [
+      37,
+      62
+    ],
+    "tile_count": 25,
+    "sample_tiles": [
+      [
+        38,
+        59
+      ],
+      [
+        39,
+        59
+      ],
+      [
+        40,
+        59
+      ],
+      [
+        36,
+        60
+      ],
+      [
+        37,
+        60
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> common room": {
+    "center": [
+      53,
+      67
+    ],
+    "tile_count": 36,
+    "sample_tiles": [
+      [
+        51,
+        65
+      ],
+      [
+        52,
+        65
+      ],
+      [
+        53,
+        65
+      ],
+      [
+        54,
+        65
+      ],
+      [
+        55,
+        65
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> kitchen": {
+    "center": [
+      57,
+      67
+    ],
+    "tile_count": 6,
+    "sample_tiles": [
+      [
+        57,
+        65
+      ],
+      [
+        57,
+        66
+      ],
+      [
+        57,
+        67
+      ],
+      [
+        57,
+        68
+      ],
+      [
+        57,
+        69
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> bathroom": {
+    "center": [
+      61,
+      67
+    ],
+    "tile_count": 12,
+    "sample_tiles": [
+      [
+        60,
+        65
+      ],
+      [
+        61,
+        65
+      ],
+      [
+        62,
+        65
+      ],
+      [
+        62,
+        66
+      ],
+      [
+        60,
+        67
+      ]
+    ]
+  },
+  "Moreno family's house -> common room": {
+    "center": [
+      71,
+      67
+    ],
+    "tile_count": 32,
+    "sample_tiles": [
+      [
+        69,
+        65
+      ],
+      [
+        70,
+        65
+      ],
+      [
+        73,
+        65
+      ],
+      [
+        74,
+        65
+      ],
+      [
+        69,
+        66
+      ]
+    ]
+  },
+  "Moreno family's house -> kitchen": {
+    "center": [
+      75,
+      67
+    ],
+    "tile_count": 6,
+    "sample_tiles": [
+      [
+        75,
+        65
+      ],
+      [
+        75,
+        66
+      ],
+      [
+        75,
+        67
+      ],
+      [
+        75,
+        68
+      ],
+      [
+        75,
+        69
+      ]
+    ]
+  },
+  "Moreno family's house -> bathroom": {
+    "center": [
+      79,
+      67
+    ],
+    "tile_count": 12,
+    "sample_tiles": [
+      [
+        78,
+        65
+      ],
+      [
+        79,
+        65
+      ],
+      [
+        80,
+        65
+      ],
+      [
+        80,
+        66
+      ],
+      [
+        78,
+        67
+      ]
+    ]
+  },
+  "Lin family's house -> common room": {
+    "center": [
+      89,
+      67
+    ],
+    "tile_count": 34,
+    "sample_tiles": [
+      [
+        87,
+        65
+      ],
+      [
+        88,
+        65
+      ],
+      [
+        89,
+        65
+      ],
+      [
+        90,
+        65
+      ],
+      [
+        91,
+        65
+      ]
+    ]
+  },
+  "Lin family's house -> kitchen": {
+    "center": [
+      93,
+      67
+    ],
+    "tile_count": 6,
+    "sample_tiles": [
+      [
+        93,
+        65
+      ],
+      [
+        93,
+        66
+      ],
+      [
+        93,
+        67
+      ],
+      [
+        93,
+        68
+      ],
+      [
+        93,
+        69
+      ]
+    ]
+  },
+  "Lin family's house -> bathroom": {
+    "center": [
+      97,
+      67
+    ],
+    "tile_count": 12,
+    "sample_tiles": [
+      [
+        96,
+        65
+      ],
+      [
+        97,
+        65
+      ],
+      [
+        98,
+        65
+      ],
+      [
+        98,
+        66
+      ],
+      [
+        96,
+        67
+      ]
+    ]
+  },
+  "Adam Smith's house -> bathroom": {
+    "center": [
+      22,
+      68
+    ],
+    "tile_count": 17,
+    "sample_tiles": [
+      [
+        22,
+        66
+      ],
+      [
+        23,
+        66
+      ],
+      [
+        22,
+        67
+      ],
+      [
+        23,
+        67
+      ],
+      [
+        20,
+        68
+      ]
+    ]
+  },
+  "Yuriko Yamamoto's house -> bathroom": {
+    "center": [
+      30,
+      68
+    ],
+    "tile_count": 17,
+    "sample_tiles": [
+      [
+        30,
+        66
+      ],
+      [
+        31,
+        66
+      ],
+      [
+        30,
+        67
+      ],
+      [
+        31,
+        67
+      ],
+      [
+        28,
+        68
+      ]
+    ]
+  },
+  "Moore family's house -> bathroom": {
+    "center": [
+      38,
+      68
+    ],
+    "tile_count": 17,
+    "sample_tiles": [
+      [
+        38,
+        66
+      ],
+      [
+        39,
+        66
+      ],
+      [
+        38,
+        67
+      ],
+      [
+        39,
+        67
+      ],
+      [
+        36,
+        68
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> Tamara Taylor's room": {
+    "center": [
+      53,
+      74
+    ],
+    "tile_count": 11,
+    "sample_tiles": [
+      [
+        51,
+        73
+      ],
+      [
+        52,
+        73
+      ],
+      [
+        53,
+        73
+      ],
+      [
+        54,
+        73
+      ],
+      [
+        53,
+        74
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> Carmen Ortiz's room": {
+    "center": [
+      59,
+      74
+    ],
+    "tile_count": 15,
+    "sample_tiles": [
+      [
+        58,
+        73
+      ],
+      [
+        59,
+        73
+      ],
+      [
+        60,
+        73
+      ],
+      [
+        62,
+        73
+      ],
+      [
+        57,
+        74
+      ]
+    ]
+  },
+  "Moreno family's house -> Tom and Jane Moreno's bedroom": {
+    "center": [
+      71,
+      74
+    ],
+    "tile_count": 11,
+    "sample_tiles": [
+      [
+        69,
+        73
+      ],
+      [
+        70,
+        73
+      ],
+      [
+        71,
+        73
+      ],
+      [
+        72,
+        73
+      ],
+      [
+        71,
+        74
+      ]
+    ]
+  },
+  "Moreno family's house -> empty bedroom": {
+    "center": [
+      77,
+      74
+    ],
+    "tile_count": 15,
+    "sample_tiles": [
+      [
+        76,
+        73
+      ],
+      [
+        77,
+        73
+      ],
+      [
+        78,
+        73
+      ],
+      [
+        80,
+        73
+      ],
+      [
+        75,
+        74
+      ]
+    ]
+  },
+  "Lin family's house -> Mei and John Lin's bedroom": {
+    "center": [
+      89,
+      74
+    ],
+    "tile_count": 11,
+    "sample_tiles": [
+      [
+        87,
+        73
+      ],
+      [
+        88,
+        73
+      ],
+      [
+        89,
+        73
+      ],
+      [
+        90,
+        73
+      ],
+      [
+        89,
+        74
+      ]
+    ]
+  },
+  "Lin family's house -> Eddy Lin's bedroom": {
+    "center": [
+      95,
+      74
+    ],
+    "tile_count": 15,
+    "sample_tiles": [
+      [
+        94,
+        73
+      ],
+      [
+        95,
+        73
+      ],
+      [
+        96,
+        73
+      ],
+      [
+        97,
+        73
+      ],
+      [
+        93,
+        74
+      ]
+    ]
+  },
+  "Tamara Taylor and Carmen Ortiz's house -> garden": {
+    "center": [
+      56,
+      79
+    ],
+    "tile_count": 40,
+    "sample_tiles": [
+      [
+        52,
+        78
+      ],
+      [
+        53,
+        78
+      ],
+      [
+        54,
+        78
+      ],
+      [
+        55,
+        78
+      ],
+      [
+        56,
+        78
+      ]
+    ]
+  },
+  "Moreno family's house -> garden": {
+    "center": [
+      74,
+      79
+    ],
+    "tile_count": 40,
+    "sample_tiles": [
+      [
+        70,
+        78
+      ],
+      [
+        71,
+        78
+      ],
+      [
+        72,
+        78
+      ],
+      [
+        73,
+        78
+      ],
+      [
+        74,
+        78
+      ]
+    ]
+  },
+  "Lin family's house -> garden": {
+    "center": [
+      92,
+      80
+    ],
+    "tile_count": 34,
+    "sample_tiles": [
+      [
+        88,
+        78
+      ],
+      [
+        93,
+        78
+      ],
+      [
+        94,
+        78
+      ],
+      [
+        95,
+        78
+      ],
+      [
+        96,
+        78
+      ]
+    ]
+  }
+}

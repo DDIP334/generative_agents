@@ -5,6 +5,7 @@ import sys
 
 
 def main():
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'frontend_server.settings')
     try:
         from django.core.management import execute_from_command_line
