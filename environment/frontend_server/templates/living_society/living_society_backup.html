@@ -1,0 +1,2278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smallville — Living 2D AI Human Society Simulation</title>
+  <!-- Phaser 3 -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+  <!-- Chart.js for real-time town analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --card-bg: rgba(15, 23, 42, 0.88);
+      --card-border: rgba(56, 189, 248, 0.25);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --purple: #a855f7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* Fullscreen Game Container */
+    #game-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background: #111827;
+    }
+
+    #game-container canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* Ambient Lighting Day/Night Overlay */
+    #ambient-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+      transition: background-color 2.5s ease-in-out;
+    }
+
+    /* Top Navigation & Status Bar */
+    .top-bar {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      right: 16px;
+      height: 58px;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 0 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 10px var(--success);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-subtitle {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Clock & World Controls */
+    .clock-section {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      background: rgba(30, 41, 59, 0.7);
+      padding: 6px 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .clock-display {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #f1f5f9;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .weather-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      padding: 2px 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+    }
+
+    .time-ctrl-btn {
+      background: #1e293b;
+      border: 1px solid #475569;
+      color: #cbd5e1;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .time-ctrl-btn:hover, .time-ctrl-btn.active {
+      background: var(--accent);
+      color: #090d16;
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-action-nav {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #e2e8f0;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      text-decoration: none !important;
+    }
+
+    .btn-action-nav:hover {
+      background: #334155;
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Left Sidebar: Citizen Roster */
+    .left-roster-pane {
+      position: absolute;
+      top: 84px;
+      left: 16px;
+      width: 280px;
+      bottom: 60px;
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .pane-header {
+      padding: 14px 16px 10px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pane-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .roster-count {
+      font-size: 0.78rem;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .roster-filter-tabs {
+      display: flex;
+      gap: 4px;
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .roster-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .roster-tab.active {
+      background: #334155;
+      color: var(--text-main);
+    }
+
+    .roster-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .roster-list::-webkit-scrollbar { width: 4px; }
+    .roster-list::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+    .citizen-card {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .citizen-card:hover {
+      background: rgba(51, 65, 85, 0.8);
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateX(2px);
+    }
+
+    .citizen-card.selected {
+      background: rgba(2, 132, 199, 0.25);
+      border-color: var(--accent);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.25);
+    }
+
+    .citizen-avatar-wrapper {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+
+    .citizen-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: #1e293b;
+      object-fit: cover;
+    }
+
+    .citizen-status-dot {
+      position: absolute;
+      bottom: -1px;
+      right: -1px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid #0f172a;
+    }
+
+    .status-work { background: #38bdf8; }
+    .status-home { background: #10b981; }
+    .status-eat { background: #f59e0b; }
+    .status-social { background: #a855f7; }
+    .status-sleep { background: #64748b; }
+
+    .citizen-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .citizen-name-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+
+    .citizen-name {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .citizen-activity-emoji {
+      font-size: 1rem;
+    }
+
+    .citizen-job {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+
+    .citizen-mini-bar {
+      width: 100%;
+      height: 3px;
+      background: #1e293b;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .citizen-mini-fill {
+      height: 100%;
+      background: var(--success);
+      border-radius: 2px;
+      transition: width 0.3s;
+    }
+
+    /* Right Sidebar: Deep Inspector HUD */
+    .right-inspector-pane {
+      position: absolute;
+      top: 84px;
+      right: 16px;
+      width: 350px;
+      bottom: 60px;
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      overflow-y: auto;
+      padding: 16px;
+      gap: 14px;
+    }
+
+    .right-inspector-pane::-webkit-scrollbar { width: 4px; }
+    .right-inspector-pane::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+    .inspector-profile-header {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      background: rgba(30, 41, 59, 0.7);
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .inspector-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: #1e293b;
+    }
+
+    .inspector-bio h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 2px;
+    }
+
+    .inspector-bio p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    .camera-follow-btn {
+      margin-top: 6px;
+      background: #0284c7;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .camera-follow-btn.following {
+      background: var(--success);
+    }
+
+    /* Current Thought Callout Box */
+    .thought-bubble-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 10px;
+      padding: 12px;
+      position: relative;
+    }
+
+    .thought-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .thought-text {
+      font-size: 0.85rem;
+      color: #f1f5f9;
+      line-height: 1.45;
+      font-style: italic;
+    }
+
+    .thought-location {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Needs Grid */
+    .section-headline {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .needs-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(30, 41, 59, 0.5);
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .need-row {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .need-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+
+    .need-track {
+      width: 100%;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .need-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+
+    /* Financials & Economy */
+    .econ-badge-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .econ-stat {
+      background: rgba(30, 41, 59, 0.6);
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center;
+    }
+
+    .econ-stat-title {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .econ-stat-value {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #f1f5f9;
+    }
+
+    /* Social Relationships */
+    .relations-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .relation-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(30, 41, 59, 0.5);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+    }
+
+    .relation-name {
+      font-weight: 600;
+      color: #f1f5f9;
+    }
+
+    .relation-affinity {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #ec4899;
+    }
+
+    /* Memory / Activity Stream */
+    .memory-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 140px;
+      overflow-y: auto;
+    }
+
+    .memory-item {
+      font-size: 0.74rem;
+      color: #cbd5e1;
+      padding: 6px 8px;
+      background: rgba(15, 23, 42, 0.6);
+      border-left: 2px solid var(--accent);
+      border-radius: 0 4px 4px 0;
+      line-height: 1.35;
+    }
+
+    .memory-time {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+      font-weight: 600;
+    }
+
+    /* Bottom Event Bar */
+    .bottom-event-bar {
+      position: absolute;
+      bottom: 12px;
+      left: 16px;
+      right: 16px;
+      height: 40px;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 10;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      font-size: 0.82rem;
+    }
+
+    .event-ticker {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+
+    .event-badge {
+      background: rgba(56, 189, 248, 0.2);
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .event-text {
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+
+    .event-log-btn {
+      color: var(--accent);
+      background: transparent;
+      border: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding-left: 14px;
+    }
+
+    /* Modal Styles (Analytics, Log, Save/Load, Settings) */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      width: 90%;
+      max-width: 800px;
+      max-height: 85vh;
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 12px;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .btn-close-modal {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+
+    .btn-close-modal:hover { color: #fff; }
+
+    /* Floating Camera Zoom Controls */
+    .zoom-controls {
+      position: absolute;
+      bottom: 60px;
+      right: 380px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 10;
+    }
+
+    .btn-zoom {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(6px);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-zoom:hover { background: #1e293b; color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <!-- Fullscreen Phaser Game Canvas -->
+  <div id="game-container"></div>
+
+  <!-- Ambient Light Color Filter (Day / Evening / Night) -->
+  <div id="ambient-overlay"></div>
+
+  <!-- Top Navigation & Status Bar -->
+  <header class="top-bar">
+    <div class="brand-section">
+      <div class="status-dot"></div>
+      <div>
+        <div class="brand-title">🏘️ SMALLVILLE // LIVING AI SOCIETY</div>
+        <div class="brand-subtitle" id="society-status-sub">15 AUTONOMOUS AGENTS • REAL-TIME UTILITY AI & SIMULATION</div>
+      </div>
+    </div>
+
+    <!-- Simulation Time & Playback Controls -->
+    <div class="clock-section">
+      <div class="clock-display">
+        <span id="clock-day">MON</span>
+        <span id="clock-time" style="color:var(--accent);">08:00 AM</span>
+      </div>
+      <div class="weather-badge" id="weather-badge">
+        <span id="weather-icon">☀️</span>
+        <span id="weather-desc">Sunny</span>
+      </div>
+      <button class="time-ctrl-btn" id="btn-play-pause">⏸ PAUSE</button>
+      <div style="display:flex; gap:4px;">
+        <button class="time-ctrl-btn active" data-speed="1">1x</button>
+        <button class="time-ctrl-btn" data-speed="2">2x</button>
+        <button class="time-ctrl-btn" data-speed="5">5x</button>
+        <button class="time-ctrl-btn" data-speed="10">10x</button>
+      </div>
+    </div>
+
+    <!-- Action Bar Buttons -->
+    <div class="top-actions">
+      <button class="btn-action-nav" id="btn-open-analytics">📊 Town Analytics</button>
+      <button class="btn-action-nav" id="btn-open-journal">📜 Journal</button>
+      <button class="btn-action-nav" id="btn-open-saveload">💾 Save / Load</button>
+      <a href="/" class="btn-action-nav" style="color:#94a3b8;">&larr; Portal</a>
+    </div>
+  </header>
+
+  <!-- Left Sidebar: Citizen Roster -->
+  <aside class="left-roster-pane" id="left-roster-pane">
+    <div class="pane-header">
+      <div class="pane-title">👥 Town Residents</div>
+      <div class="roster-count" id="roster-count">15 Citizens</div>
+    </div>
+    <div class="roster-filter-tabs">
+      <button class="roster-tab active" data-filter="all">All</button>
+      <button class="roster-tab" data-filter="working">Working</button>
+      <button class="roster-tab" data-filter="social">Social</button>
+      <button class="roster-tab" data-filter="home">Home</button>
+    </div>
+    <div class="roster-list" id="citizen-roster-list">
+      <!-- Populated dynamically -->
+    </div>
+  </aside>
+
+  <!-- Right Sidebar: Citizen Deep Inspector -->
+  <aside class="right-inspector-pane" id="right-inspector-pane">
+    <div class="inspector-profile-header">
+      <img src="/static/assets/characters/profile/Isabella_Rodriguez.png" class="inspector-avatar" id="inspect-avatar" alt="Citizen">
+      <div class="inspector-bio">
+        <h2 id="inspect-name">Isabella Rodriguez</h2>
+        <p id="inspect-job" style="color:var(--accent); font-weight:600;">Cafe Owner & Barista</p>
+        <p id="inspect-traits" style="font-size:0.72rem;">Age 34 • Friendly, Outgoing</p>
+        <button class="camera-follow-btn" id="btn-camera-follow">🎯 Follow Citizen</button>
+      </div>
+    </div>
+
+    <!-- Current Thought & Location Card -->
+    <div class="thought-bubble-card">
+      <div class="thought-label">💭 Active Internal Thought</div>
+      <div class="thought-text" id="inspect-thought">
+        "Morning cafe rush is starting! Let's get the fresh espresso machine calibrated and pastries prepared."
+      </div>
+      <div class="thought-location" id="inspect-location">
+        📍 Hobbs Cafe &bull; behind the cafe counter
+      </div>
+    </div>
+
+    <!-- Needs Section -->
+    <div>
+      <div class="section-headline">
+        <span>Vital Needs & State</span>
+        <span id="inspect-overall-mood" style="color:var(--success); font-weight:700;">Happy (88%)</span>
+      </div>
+      <div class="needs-grid">
+        <div class="need-row">
+          <div class="need-header">
+            <span>🍞 Hunger</span>
+            <span id="val-hunger">25%</span>
+          </div>
+          <div class="need-track"><div class="need-fill" id="bar-hunger" style="width:25%; background:var(--success);"></div></div>
+        </div>
+
+        <div class="need-row">
+          <div class="need-header">
+            <span>⚡ Energy</span>
+            <span id="val-energy">85%</span>
+          </div>
+          <div class="need-track"><div class="need-fill" id="bar-energy" style="width:85%; background:var(--accent);"></div></div>
+        </div>
+
+        <div class="need-row">
+          <div class="need-header">
+            <span>❤️ Health</span>
+            <span id="val-health">95%</span>
+          </div>
+          <div class="need-track"><div class="need-fill" id="bar-health" style="width:95%; background:var(--success);"></div></div>
+        </div>
+
+        <div class="need-row">
+          <div class="need-header">
+            <span>😊 Happiness</span>
+            <span id="val-happiness">88%</span>
+          </div>
+          <div class="need-track"><div class="need-fill" id="bar-happiness" style="width:88%; background:#eab308;"></div></div>
+        </div>
+
+        <div class="need-row">
+          <div class="need-header">
+            <span>🚿 Hygiene</span>
+            <span id="val-hygiene">80%</span>
+          </div>
+          <div class="need-track"><div class="need-fill" id="bar-hygiene" style="width:80%; background:#06b6d4;"></div></div>
+        </div>
+
+        <div class="need-row">
+          <div class="need-header">
+            <span>💬 Social</span>
+            <span id="val-social">75%</span>
+          </div>
+          <div class="need-track"><div class="need-fill" id="bar-social" style="width:75%; background:var(--purple);"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Financial Status -->
+    <div>
+      <div class="section-headline">Economic Status</div>
+      <div class="econ-badge-card">
+        <div class="econ-stat">
+          <div class="econ-stat-title">Wallet Balance</div>
+          <div class="econ-stat-value" id="val-money" style="color:#10b981;">$450</div>
+        </div>
+        <div class="econ-stat">
+          <div class="econ-stat-title">Hourly Wage</div>
+          <div class="econ-stat-value" id="val-wage" style="color:var(--accent);">$24/hr</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Relationships -->
+    <div>
+      <div class="section-headline">Social Network</div>
+      <div class="relations-list" id="inspect-relations-list">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- Recent Memories Stream -->
+    <div>
+      <div class="section-headline">Recent Memories & Conversations</div>
+      <div class="memory-stream" id="inspect-memory-stream">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </aside>
+
+  <!-- Bottom Event Notification Ticker -->
+  <div class="bottom-event-bar">
+    <div class="event-ticker">
+      <span class="event-badge">LIVE EVENT</span>
+      <span class="event-text" id="live-event-ticker">Isabella Rodriguez opened Hobbs Cafe for morning breakfast service.</span>
+    </div>
+    <button class="event-log-btn" id="btn-view-all-events">View All &rarr;</button>
+  </div>
+
+  <!-- Zoom Floating Buttons -->
+  <div class="zoom-controls">
+    <button class="btn-zoom" id="btn-zoom-in" title="Zoom In">+</button>
+    <button class="btn-zoom" id="btn-zoom-out" title="Zoom Out">&minus;</button>
+    <button class="btn-zoom" id="btn-zoom-reset" title="Reset View">&#8635;</button>
+  </div>
+
+  <!-- Modals: Analytics, Journal, Save/Load -->
+  <div class="modal-overlay" id="modal-analytics">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">📊 Smallville Town Analytics & Society Health</div>
+        <button class="btn-close-modal">&times;</button>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div style="background:#1e293b; padding:16px; border-radius:10px;">
+          <h4 style="margin-bottom:8px; color:var(--accent); font-size:0.9rem;">Citizen Happiness & Needs Index</h4>
+          <canvas id="chart-happiness" height="180"></canvas>
+        </div>
+        <div style="background:#1e293b; padding:16px; border-radius:10px;">
+          <h4 style="margin-bottom:8px; color:var(--success); font-size:0.9rem;">Town Economic Velocity & Business Revenues</h4>
+          <canvas id="chart-economy" height="180"></canvas>
+        </div>
+      </div>
+      <div style="background:#1e293b; padding:16px; border-radius:10px;">
+        <h4 style="margin-bottom:8px; color:var(--purple); font-size:0.9rem;">Citizen Activity Breakdown</h4>
+        <div id="activity-breakdown-bars" style="display:flex; flex-direction:column; gap:8px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-journal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">📜 Town Event Journal & History</div>
+        <button class="btn-close-modal">&times;</button>
+      </div>
+      <div id="full-journal-list" style="display:flex; flex-direction:column; gap:8px; max-height:60vh; overflow-y:auto;">
+        <!-- Log of all events -->
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-saveload">
+    <div class="modal-box" style="max-width:500px;">
+      <div class="modal-header">
+        <div class="modal-title">💾 Save & Load Simulation State</div>
+        <button class="btn-close-modal">&times;</button>
+      </div>
+      <p style="font-size:0.85rem; color:var(--text-muted);">
+        Save all citizen positions, needs, wallets, relationships, and history. State can be saved to browser storage or downloaded as JSON.
+      </p>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+        <button class="btn-action-nav" id="btn-save-local" style="justify-content:center; background:#0284c7; color:#fff;">
+          💾 Save Current State to Local Storage
+        </button>
+        <button class="btn-action-nav" id="btn-load-local" style="justify-content:center; background:#10b981; color:#fff;">
+          📂 Load State from Local Storage
+        </button>
+        <button class="btn-action-nav" id="btn-export-json" style="justify-content:center;">
+          📥 Download State JSON File
+        </button>
+        <button class="btn-action-nav" id="btn-reset-sim" style="justify-content:center; color:#ef4444; border-color:#ef4444;">
+          🔄 Reset Simulation to Day 1 Morning
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include Simulation Logic Script -->
+  <script>
+    /* ==========================================================================
+       SIMULATION DATA & STATE INITIALIZATION
+       ========================================================================== */
+    window.SIM_DATA = {
+      collisionGrid: null,
+      locations: null,
+      citizens: null
+    };
+
+    // Global Simulation Engine Class
+    class SocietySimulation {
+      constructor() {
+        this.citizens = [];
+        this.selectedCitizen = null;
+        this.followCamera = true;
+        this.speed = 1;
+        this.isRunning = true;
+        
+        // Simulation Clock: starts Day 1 (Monday), 08:00 AM
+        this.day = 1;
+        this.dayName = "Monday";
+        this.hour = 8;
+        this.minute = 0;
+        this.season = "Spring";
+        this.weather = "Sunny";
+        this.weatherIcon = "☀️";
+
+        // Town Economic Totals
+        this.townFoodReserves = 180;
+        this.townEconomy = 5240;
+        this.businessRevenues = {
+          "Hobbs Cafe": 240,
+          "The Rose & Crown Pub": 380,
+          "The Willows Market": 410,
+          "Harvey Oak Supply": 190
+        };
+
+        // Event Journal
+        this.eventLog = [];
+
+        // Historical Metrics for Analytics
+        this.historyMetrics = {
+          times: [],
+          avgHappiness: [],
+          avgHealth: [],
+          cafeRevenue: [],
+          pubRevenue: [],
+          marketRevenue: []
+        };
+      }
+
+      initCitizens(citizenDefs) {
+        this.citizens = citizenDefs.map((def, idx) => {
+          return {
+            id: idx,
+            name: def.name,
+            underscore: def.name.replace(/ /g, '_'),
+            age: def.age,
+            occupation: def.occupation,
+            workplace_name: def.workplace_name,
+            workplace_coords: [...def.workplace_coords],
+            home_name: def.home_name,
+            home_coords: [...def.home_coords],
+            bed_coords: [...def.bed_coords],
+            bathroom_coords: [...def.bathroom_coords],
+            personality: def.personality,
+            traits: def.traits || ["friendly"],
+            bio: def.bio,
+            money: def.money || 250,
+            hourly_wage: def.hourly_wage || 20,
+            schedule: def.schedule,
+
+            // Live Coordinates on 140x100 grid
+            tileX: def.home_coords[0],
+            tileY: def.home_coords[1],
+            pixelX: def.home_coords[0] * 32 + 16,
+            pixelY: def.home_coords[1] * 32 + 16,
+            facing: 'down',
+            isWalking: false,
+            currentPath: [],
+            pathIndex: 0,
+
+            // Dynamic Needs (0 to 100)
+            hunger: 20 + Math.floor(Math.random() * 20),
+            energy: 85 + Math.floor(Math.random() * 15),
+            health: 95,
+            happiness: 85 + Math.floor(Math.random() * 10),
+            hygiene: 80 + Math.floor(Math.random() * 15),
+            social: 75 + Math.floor(Math.random() * 15),
+
+            // Activity State
+            currentAction: "Morning routine at home",
+            actionEmoji: "🌅",
+            currentThought: `Waking up in ${def.home_name}. Ready for the day ahead.`,
+            locationText: def.home_name,
+            state: "home", // home, work, eat, social, sleep
+
+            // Relationships
+            relationships: this.generateInitialRelationships(def.name),
+
+            // Memories
+            memories: [
+              { time: "08:00 AM", text: `Woke up feeling well-rested in ${def.home_name}.` }
+            ],
+
+            // Phaser Sprite Reference
+            sprite: null,
+            speechBubble: null,
+            speechText: null,
+            emojiIcon: null,
+            chatTimer: 0
+          };
+        });
+
+        this.selectedCitizen = this.citizens[0];
+      }
+
+      generateInitialRelationships(name) {
+        const relations = [];
+        const peers = [
+          "Isabella Rodriguez", "Klaus Mueller", "Maria Lopez", "Arthur Burton",
+          "John Lin", "Mei Lin", "Eddy Lin", "Giorgio Rossi", "Tom Moreno",
+          "Jane Moreno", "Sam Moore", "Abigail Chen", "Carlos Gomez", "Hailey Johnson", "Francisco Lopez"
+        ].filter(n => n !== name);
+
+        // Pick 4-6 relationships
+        const count = 4 + Math.floor(Math.random() * 3);
+        for (let i = 0; i < count; i++) {
+          const peerName = peers[i % peers.length];
+          const affinity = 50 + Math.floor(Math.random() * 40);
+          let label = "Acquaintance";
+          if (affinity > 80) label = "Close Friend";
+          else if (affinity > 65) label = "Friend";
+          relations.push({ name: peerName, affinity, label });
+        }
+        return relations;
+      }
+
+      logEvent(text, citizenName = null, emoji = "📌") {
+        const timeStr = `${this.formatTime(this.hour, this.minute)}`;
+        const entry = {
+          day: this.day,
+          time: timeStr,
+          text: text,
+          citizen: citizenName,
+          emoji: emoji
+        };
+        this.eventLog.unshift(entry);
+        if (this.eventLog.length > 100) this.eventLog.pop();
+
+        // Update bottom ticker
+        const ticker = document.getElementById('live-event-ticker');
+        if (ticker) ticker.innerText = `[${timeStr}] ${text}`;
+      }
+
+      formatTime(h, m) {
+        const period = h >= 12 ? 'PM' : 'AM';
+        const displayH = h % 12 === 0 ? 12 : h % 12;
+        const displayM = m < 10 ? '0' + m : m;
+        return `${displayH}:${displayM} ${period}`;
+      }
+
+      // Tick Simulation Forward
+      tickSimulation() {
+        if (!this.isRunning) return;
+
+        // Advance in-game time
+        this.minute += 1;
+        if (this.minute >= 60) {
+          this.minute = 0;
+          this.hour += 1;
+          this.onHourChange();
+        }
+        if (this.hour >= 24) {
+          this.hour = 0;
+          this.day += 1;
+          const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+          this.dayName = days[(this.day - 1) % 7];
+          this.onDayChange();
+        }
+
+        // Update Clock HUD
+        document.getElementById('clock-day').innerText = this.dayName.substring(0, 3).toUpperCase();
+        document.getElementById('clock-time').innerText = this.formatTime(this.hour, this.minute);
+
+        // Update Ambient Daylight
+        this.updateAmbientDaylight();
+
+        // Update each Citizen's Needs & Decision-making
+        this.citizens.forEach(c => this.updateCitizen(c));
+
+        // Check for Nearby Proximity Conversations
+        this.checkConversations();
+
+        // Update Inspector HUD for Selected Citizen
+        if (this.selectedCitizen) {
+          this.updateInspectorHUD(this.selectedCitizen);
+        }
+      }
+
+      updateAmbientDaylight() {
+        const overlay = document.getElementById('ambient-overlay');
+        if (!overlay) return;
+
+        const h = this.hour + this.minute / 60;
+        let color = "rgba(0, 0, 0, 0)";
+
+        if (h >= 5 && h < 7) {
+          // Dawn sunrise (warm peach)
+          const factor = (h - 5) / 2;
+          color = `rgba(251, 146, 60, ${0.25 * (1 - factor)})`;
+        } else if (h >= 7 && h < 17) {
+          // Clear Day
+          color = "rgba(0, 0, 0, 0)";
+        } else if (h >= 17 && h < 19.5) {
+          // Golden Sunset
+          const factor = (h - 17) / 2.5;
+          color = `rgba(249, 115, 22, ${0.22 * factor})`;
+        } else if (h >= 19.5 && h < 22) {
+          // Dusk Twilight (deep indigo)
+          const factor = (h - 19.5) / 2.5;
+          color = `rgba(30, 27, 75, ${0.2 + factor * 0.35})`;
+        } else {
+          // Deep Night (cool moonlight)
+          color = "rgba(15, 23, 42, 0.55)";
+        }
+        overlay.style.backgroundColor = color;
+      }
+
+      onHourChange() {
+        // Hourly wage payout for employed citizens currently working
+        this.citizens.forEach(c => {
+          if (c.state === 'work') {
+            c.money += c.hourly_wage;
+            c.memories.unshift({
+              time: this.formatTime(this.hour, this.minute),
+              text: `Earned $${c.hourly_wage} for shift at ${c.workplace_name}.`
+            });
+            if (c.memories.length > 25) c.memories.pop();
+          }
+        });
+
+        // Record Metrics snapshot for charts
+        this.recordAnalyticsSnapshot();
+      }
+
+      onDayChange() {
+        this.logEvent(`A new day begins in Smallville: ${this.dayName}, Day ${this.day}.`, null, "🌅");
+        // Daily weather shift
+        const weathers = [
+          { desc: "Sunny", icon: "☀️" },
+          { desc: "Breezy", icon: "🍃" },
+          { desc: "Overcast", icon: "⛅" },
+          { desc: "Spring Showers", icon: "🌧️" }
+        ];
+        const w = weathers[Math.floor(Math.random() * weathers.length)];
+        this.weather = w.desc;
+        this.weatherIcon = w.icon;
+        document.getElementById('weather-icon').innerText = this.weatherIcon;
+        document.getElementById('weather-desc').innerText = this.weather;
+      }
+
+      updateCitizen(c) {
+        // 1. Natural Need Shifts
+        c.hunger = Math.min(100, c.hunger + 0.28);
+        c.hygiene = Math.max(0, c.hygiene - 0.14);
+
+        if (c.state === 'sleep') {
+          c.energy = Math.min(100, c.energy + 1.2);
+          c.health = Math.min(100, c.health + 0.1);
+        } else {
+          c.energy = Math.max(0, c.energy - (c.state === 'work' ? 0.35 : 0.2));
+          c.social = Math.max(0, c.social - 0.12);
+        }
+
+        // Happiness calculation
+        let happinessTarget = 90;
+        if (c.hunger > 70) happinessTarget -= 25;
+        if (c.energy < 25) happinessTarget -= 30;
+        if (c.hygiene < 30) happinessTarget -= 15;
+        if (c.social < 30) happinessTarget -= 15;
+        if (c.money < 50) happinessTarget -= 20;
+        c.happiness = Math.round(c.happiness * 0.95 + happinessTarget * 0.05);
+
+        // Health calculation
+        if (c.hunger > 90 || c.energy < 5) c.health = Math.max(20, c.health - 0.5);
+        else c.health = Math.min(100, c.health + 0.2);
+
+        // 2. Adaptive Utility AI: Needs Overrides
+        const timeKey = `${this.hour < 10 ? '0' + this.hour : this.hour}:00`;
+
+        if (c.energy <= 15 && c.state !== 'sleep') {
+          // Exhausted: Override routine and head to bed
+          c.state = 'sleep';
+          c.currentAction = "Exhausted, heading to bed to sleep";
+          c.actionEmoji = "💤";
+          c.currentThought = `Too exhausted to continue. Going home to ${c.home_name} to sleep.`;
+          this.setCitizenTarget(c, c.bed_coords[0], c.bed_coords[1]);
+          return;
+        }
+
+        if (c.state === 'sleep' && c.energy >= 92) {
+          // Waking up refreshed
+          c.state = 'home';
+          c.currentAction = "Waking up and stretching";
+          c.actionEmoji = "🌅";
+          c.currentThought = "Feeling well-rested! Time to begin morning activities.";
+        }
+
+        if (c.hunger >= 75 && c.state !== 'eat' && c.state !== 'sleep') {
+          // Starving: Seek food
+          c.state = 'eat';
+          c.actionEmoji = "🥪";
+
+          if (c.money >= 10 && Math.random() < 0.6) {
+            // Dine out at Hobbs Cafe or Rose & Crown Pub
+            const isPub = (this.hour >= 17);
+            const venue = isPub ? "The Rose & Crown Pub" : "Hobbs Cafe";
+            const cost = isPub ? 14 : 6;
+            const dest = isPub ? [60, 31] : [77, 22];
+
+            c.money -= cost;
+            this.businessRevenues[venue] += cost;
+            this.townFoodReserves = Math.max(0, this.townFoodReserves - 2);
+
+            c.currentAction = `Eating delicious meal at ${venue}`;
+            c.currentThought = `Hungry! Stopped by ${venue} to enjoy a meal (-$${cost}).`;
+            this.setCitizenTarget(c, dest[0], dest[1]);
+          } else {
+            // Cook or eat at home fridge
+            c.currentAction = `Cooking home meal in ${c.home_name}`;
+            c.currentThought = "Looking for something to eat in the kitchen fridge.";
+            this.setCitizenTarget(c, c.home_coords[0], c.home_coords[1]);
+          }
+          c.hunger = Math.max(5, c.hunger - 45);
+          c.happiness = Math.min(100, c.happiness + 8);
+          return;
+        }
+
+        if (c.hygiene <= 25 && c.state !== 'hygiene' && c.state !== 'sleep') {
+          // Urgent shower/wash
+          c.state = 'home';
+          c.currentAction = `Using bathroom in ${c.home_name}`;
+          c.actionEmoji = "🚿";
+          c.currentThought = "Need to freshen up with a quick shower.";
+          this.setCitizenTarget(c, c.bathroom_coords[0], c.bathroom_coords[1]);
+          c.hygiene = 98;
+          return;
+        }
+
+        // 3. Scheduled Routine Tasks
+        if (c.schedule && c.schedule[timeKey] && !c.isWalking && c.state !== 'sleep') {
+          const entry = c.schedule[timeKey];
+          c.currentAction = entry.action;
+          c.actionEmoji = entry.emoji || "🚶";
+          c.currentThought = `Schedule: ${entry.action}.`;
+          
+          if (entry.action.toLowerCase().includes('work') || entry.action.toLowerCase().includes('shift')) {
+            c.state = 'work';
+          } else if (entry.action.toLowerCase().includes('sleep')) {
+            c.state = 'sleep';
+          } else if (entry.action.toLowerCase().includes('walk') || entry.action.toLowerCase().includes('park')) {
+            c.state = 'social';
+          }
+
+          this.setCitizenTarget(c, entry.loc[0], entry.loc[1]);
+        }
+
+        // Farmer special: Giorgio produces town food when farming
+        if (c.name === "Giorgio Rossi" && c.state === 'work' && this.minute === 0) {
+          this.townFoodReserves += 12;
+          this.logEvent("Giorgio Rossi harvested 12 units of fresh organic produce (+12 Food).", c.name, "🌾");
+        }
+      }
+
+      setCitizenTarget(c, targetX, targetY) {
+        if (!window.SIM_DATA.collisionGrid) return;
+        if (c.tileX === targetX && c.tileY === targetY) return;
+
+        const path = findPathBFS(window.SIM_DATA.collisionGrid, c.tileX, c.tileY, targetX, targetY);
+        if (path && path.length > 0) {
+          c.currentPath = path;
+          c.pathIndex = 0;
+          c.isWalking = true;
+        }
+      }
+
+      checkConversations() {
+        for (let i = 0; i < this.citizens.length; i++) {
+          for (let j = i + 1; j < this.citizens.length; j++) {
+            const a = this.citizens[i];
+            const b = this.citizens[j];
+
+            if (a.state === 'sleep' || b.state === 'sleep') continue;
+            if (a.chatTimer > 0 || b.chatTimer > 0) continue;
+
+            const dist = Math.hypot(a.tileX - b.tileX, a.tileY - b.tileY);
+            if (dist <= 2.8) {
+              // Within chatting proximity: 35% chance to start conversation
+              if (Math.random() < 0.35) {
+                this.triggerConversation(a, b);
+                return;
+              }
+            }
+          }
+        }
+      }
+
+      triggerConversation(a, b) {
+        a.chatTimer = 18; // cooldown ticks
+        b.chatTimer = 18;
+        a.social = Math.min(100, a.social + 15);
+        b.social = Math.min(100, b.social + 15);
+        a.happiness = Math.min(100, a.happiness + 6);
+        b.happiness = Math.min(100, b.happiness + 6);
+
+        // Generate context-aware dialogues
+        const dialogues = [
+          [`"Hey ${b.name.split(' ')[0]}! How's your day going?"`, `"Good to see you, ${a.name.split(' ')[0]}! Just enjoying the morning."`],
+          [`"Did you hear about the Valentine's gathering at Hobbs Cafe?"`, `"Yes! Isabella has been prepping decorations all week."`],
+          [`"Heading over to the campus library soon?"`, `"Yeah, got a mountain of reading to finish before lecture!"`],
+          [`"The weather today in Smallville is absolutely wonderful."`, `"Isn't it? Perfect day for a walk through Johnson Park."`],
+          [`"Smells like fresh roasted coffee from Hobbs Cafe!"`, `"Isabella makes the best espresso in town, no doubt."`],
+          [`"Are you coming by The Rose & Crown Pub tonight?"`, `"Definitely! Arthur and Tom have special pies on the menu."`]
+        ];
+
+        const pair = dialogues[Math.floor(Math.random() * dialogues.length)];
+
+        // Show visible comic speech bubble in Phaser
+        this.displaySpeechBubble(a, pair[0]);
+        setTimeout(() => this.displaySpeechBubble(b, pair[1]), 1800);
+
+        // Record in memories
+        const timeStr = this.formatTime(this.hour, this.minute);
+        a.memories.unshift({ time: timeStr, text: `Chatted with ${b.name}: ${pair[0]}` });
+        b.memories.unshift({ time: timeStr, text: `Chatted with ${a.name}: ${pair[1]}` });
+
+        this.logEvent(`${a.name} and ${b.name} had a friendly conversation.`, a.name, "💬");
+      }
+
+      displaySpeechBubble(citizen, text) {
+        if (!citizen.speechBubble || !citizen.speechText) return;
+        citizen.speechText.setText(text.replace(/"/g, ''));
+        citizen.speechBubble.visible = true;
+        citizen.speechText.visible = true;
+
+        clearTimeout(citizen.bubbleHideTimeout);
+        citizen.bubbleHideTimeout = setTimeout(() => {
+          if (citizen.speechBubble) citizen.speechBubble.visible = false;
+          if (citizen.speechText) citizen.speechText.visible = false;
+        }, 3800);
+      }
+
+      recordAnalyticsSnapshot() {
+        const timeStr = `${this.dayName.substring(0,3)} ${this.formatTime(this.hour, 0)}`;
+        this.historyMetrics.times.push(timeStr);
+
+        const avgHappy = Math.round(this.citizens.reduce((acc, c) => acc + c.happiness, 0) / this.citizens.length);
+        const avgHealth = Math.round(this.citizens.reduce((acc, c) => acc + c.health, 0) / this.citizens.length);
+        this.historyMetrics.avgHappiness.push(avgHappy);
+        this.historyMetrics.avgHealth.push(avgHealth);
+
+        this.historyMetrics.cafeRevenue.push(this.businessRevenues["Hobbs Cafe"]);
+        this.historyMetrics.pubRevenue.push(this.businessRevenues["The Rose & Crown Pub"]);
+        this.historyMetrics.marketRevenue.push(this.businessRevenues["The Willows Market"]);
+
+        if (this.historyMetrics.times.length > 24) {
+          this.historyMetrics.times.shift();
+          this.historyMetrics.avgHappiness.shift();
+          this.historyMetrics.avgHealth.shift();
+          this.historyMetrics.cafeRevenue.shift();
+          this.historyMetrics.pubRevenue.shift();
+          this.historyMetrics.marketRevenue.shift();
+        }
+      }
+
+      updateInspectorHUD(c) {
+        document.getElementById('inspect-avatar').src = `/static/assets/characters/profile/${c.underscore}.png`;
+        document.getElementById('inspect-name').innerText = c.name;
+        document.getElementById('inspect-job').innerText = c.occupation;
+        document.getElementById('inspect-traits').innerText = `Age ${c.age} • ${c.personality}`;
+
+        document.getElementById('inspect-thought').innerText = `"${c.currentThought}"`;
+        document.getElementById('inspect-location').innerText = `📍 ${c.currentAction} (${c.tileX}, ${c.tileY})`;
+
+        // Needs meters
+        const needs = [
+          { id: 'hunger', val: c.hunger },
+          { id: 'energy', val: c.energy },
+          { id: 'health', val: c.health },
+          { id: 'happiness', val: c.happiness },
+          { id: 'hygiene', val: c.hygiene },
+          { id: 'social', val: c.social }
+        ];
+
+        needs.forEach(n => {
+          const valEl = document.getElementById(`val-${n.id}`);
+          const barEl = document.getElementById(`bar-${n.id}`);
+          if (valEl) valEl.innerText = `${Math.round(n.val)}%`;
+          if (barEl) barEl.style.width = `${Math.round(n.val)}%`;
+        });
+
+        // Mood label
+        let moodText = "Content";
+        let moodColor = "#10b981";
+        if (c.happiness > 80) { moodText = "Very Happy"; moodColor = "#10b981"; }
+        else if (c.happiness > 50) { moodText = "Good"; moodColor = "#38bdf8"; }
+        else { moodText = "Stressed"; moodColor = "#ef4444"; }
+        document.getElementById('inspect-overall-mood').innerText = `${moodText} (${c.happiness}%)`;
+        document.getElementById('inspect-overall-mood').style.color = moodColor;
+
+        // Financials
+        document.getElementById('val-money').innerText = `$${c.money}`;
+        document.getElementById('val-wage').innerText = `$${c.hourly_wage}/hr`;
+
+        // Relationships List
+        const relContainer = document.getElementById('inspect-relations-list');
+        if (relContainer) {
+          relContainer.innerHTML = c.relationships.map(r => `
+            <div class="relation-item">
+              <span class="relation-name">${r.name}</span>
+              <span class="relation-affinity">❤️ ${r.affinity}% &bull; ${r.label}</span>
+            </div>
+          `).join('');
+        }
+
+        // Memory Stream
+        const memContainer = document.getElementById('inspect-memory-stream');
+        if (memContainer) {
+          memContainer.innerHTML = c.memories.slice(0, 8).map(m => `
+            <div class="memory-item">
+              <div class="memory-time">${m.time}</div>
+              <div>${m.text}</div>
+            </div>
+          `).join('');
+        }
+      }
+    }
+
+    /* ==========================================================================
+       FAST BFS PATHFINDER ON 140x100 GRID
+       ========================================================================== */
+    function findPathBFS(grid, startX, startY, targetX, targetY) {
+      if (startX === targetX && startY === targetY) return [];
+      const h = grid.length;
+      const w = grid[0].length;
+      if (targetX < 0 || targetX >= w || targetY < 0 || targetY >= h) return [];
+
+      // If target is blocked, pick nearest adjacent walkable tile
+      if (grid[targetY][targetX] !== 0) {
+        const adj = [
+          [targetX + 1, targetY], [targetX - 1, targetY],
+          [targetX, targetY + 1], [targetX, targetY - 1]
+        ];
+        let found = false;
+        for (const [ax, ay] of adj) {
+          if (ax >= 0 && ax < w && ay >= 0 && ay < h && grid[ay][ax] === 0) {
+            targetX = ax; targetY = ay;
+            found = true;
+            break;
+          }
+        }
+        if (!found) return [];
+      }
+
+      const queue = [[startX, startY]];
+      const visited = new Uint8Array(w * h);
+      const parent = new Int32Array(w * h).fill(-1);
+
+      visited[startY * w + startX] = 1;
+      let foundTarget = false;
+
+      const dirs = [[0, -1], [0, 1], [-1, 0], [1, 0]]; // Up, Down, Left, Right
+
+      let head = 0;
+      while (head < queue.length) {
+        const [cx, cy] = queue[head++];
+        if (cx === targetX && cy === targetY) {
+          foundTarget = true;
+          break;
+        }
+
+        for (const [dx, dy] of dirs) {
+          const nx = cx + dx;
+          const ny = cy + dy;
+          if (nx >= 0 && nx < w && ny >= 0 && ny < h && grid[ny][nx] === 0) {
+            const nIdx = ny * w + nx;
+            if (!visited[nIdx]) {
+              visited[nIdx] = 1;
+              parent[nIdx] = cy * w + cx;
+              queue.push([nx, ny]);
+            }
+          }
+        }
+      }
+
+      if (!foundTarget) return [];
+
+      // Reconstruct Path
+      const path = [];
+      let curr = targetY * w + targetX;
+      const startIdx = startY * w + startX;
+
+      while (curr !== startIdx && curr !== -1) {
+        path.push([curr % w, Math.floor(curr / w)]);
+        curr = parent[curr];
+      }
+
+      return path.reverse();
+    }
+
+    /* ==========================================================================
+       PHASER 3 GAME SCENE & VISUAL RENDERING
+       ========================================================================== */
+    const sim = new SocietySimulation();
+    window.societySim = sim;
+
+    const phaserConfig = {
+      type: Phaser.AUTO,
+      parent: 'game-container',
+      width: window.innerWidth,
+      height: window.innerHeight,
+      pixelArt: true,
+      physics: {
+        default: 'arcade',
+        arcade: { gravity: { y: 0 } }
+      },
+      scene: {
+        preload: phaserPreload,
+        create: phaserCreate,
+        update: phaserUpdate
+      }
+    };
+
+    let phaserGame;
+    let phaserScene;
+    let cursors;
+    let camera;
+    let followTarget = null;
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+
+    function phaserPreload() {
+      phaserScene = this;
+      this.load.crossOrigin = '';
+
+      // Load Tilesets
+      this.load.image("blocks_1", "/static/assets/the_ville/visuals/map_assets/blocks/blocks_1.png");
+      this.load.image("walls", "/static/assets/the_ville/visuals/map_assets/v1/Room_Builder_32x32.png");
+      this.load.image("interiors_pt1", "/static/assets/the_ville/visuals/map_assets/v1/interiors_pt1.png");
+      this.load.image("interiors_pt2", "/static/assets/the_ville/visuals/map_assets/v1/interiors_pt2.png");
+      this.load.image("interiors_pt3", "/static/assets/the_ville/visuals/map_assets/v1/interiors_pt3.png");
+      this.load.image("interiors_pt4", "/static/assets/the_ville/visuals/map_assets/v1/interiors_pt4.png");
+      this.load.image("interiors_pt5", "/static/assets/the_ville/visuals/map_assets/v1/interiors_pt5.png");
+      this.load.image("CuteRPG_Field_B", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Field_B.png");
+      this.load.image("CuteRPG_Field_C", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Field_C.png");
+      this.load.image("CuteRPG_Harbor_C", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Harbor_C.png");
+      this.load.image("CuteRPG_Village_B", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Village_B.png");
+      this.load.image("CuteRPG_Forest_B", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Forest_B.png");
+      this.load.image("CuteRPG_Desert_C", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Desert_C.png");
+      this.load.image("CuteRPG_Mountains_B", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Mountains_B.png");
+      this.load.image("CuteRPG_Desert_B", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Desert_B.png");
+      this.load.image("CuteRPG_Forest_C", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Forest_C.png");
+
+      // Load Tilemap JSON
+      this.load.tilemapTiledJSON("smallville_map", "/static/assets/the_ville/visuals/the_ville_jan7.json");
+
+      // Load Speech Bubble
+      this.load.image('speech_bubble_img', "/static/assets/speech_bubble/v3.png");
+
+      // Load Character Atlases
+      const characterNames = [
+        "Isabella_Rodriguez", "Klaus_Mueller", "Maria_Lopez", "Arthur_Burton",
+        "John_Lin", "Mei_Lin", "Eddy_Lin", "Giorgio_Rossi", "Tom_Moreno",
+        "Jane_Moreno", "Sam_Moore", "Abigail_Chen", "Carlos_Gomez", "Hailey_Johnson", "Francisco_Lopez"
+      ];
+
+      characterNames.forEach(cName => {
+        this.load.atlas(cName, `/static/assets/characters/${cName}.png`, "/static/assets/characters/atlas.json");
+      });
+    }
+
+    function phaserCreate() {
+      const map = this.make.tilemap({ key: "smallville_map" });
+
+      const collisions = map.addTilesetImage("blocks", "blocks_1");
+      const walls = map.addTilesetImage("Room_Builder_32x32", "walls");
+      const interiors_pt1 = map.addTilesetImage("interiors_pt1", "interiors_pt1");
+      const interiors_pt2 = map.addTilesetImage("interiors_pt2", "interiors_pt2");
+      const interiors_pt3 = map.addTilesetImage("interiors_pt3", "interiors_pt3");
+      const interiors_pt4 = map.addTilesetImage("interiors_pt4", "interiors_pt4");
+      const interiors_pt5 = map.addTilesetImage("interiors_pt5", "interiors_pt5");
+      const CuteRPG_Field_B = map.addTilesetImage("CuteRPG_Field_B", "CuteRPG_Field_B");
+      const CuteRPG_Field_C = map.addTilesetImage("CuteRPG_Field_C", "CuteRPG_Field_C");
+      const CuteRPG_Harbor_C = map.addTilesetImage("CuteRPG_Harbor_C", "CuteRPG_Harbor_C");
+      const CuteRPG_Village_B = map.addTilesetImage("CuteRPG_Village_B", "CuteRPG_Village_B");
+      const CuteRPG_Forest_B = map.addTilesetImage("CuteRPG_Forest_B", "CuteRPG_Forest_B");
+      const CuteRPG_Desert_C = map.addTilesetImage("CuteRPG_Desert_C", "CuteRPG_Desert_C");
+      const CuteRPG_Mountains_B = map.addTilesetImage("CuteRPG_Mountains_B", "CuteRPG_Mountains_B");
+      const CuteRPG_Desert_B = map.addTilesetImage("CuteRPG_Desert_B", "CuteRPG_Desert_B");
+      const CuteRPG_Forest_C = map.addTilesetImage("CuteRPG_Forest_C", "CuteRPG_Forest_C");
+
+      const tilesetGroup = [
+        CuteRPG_Field_B, CuteRPG_Field_C, CuteRPG_Harbor_C, CuteRPG_Village_B,
+        CuteRPG_Forest_B, CuteRPG_Desert_C, CuteRPG_Mountains_B, CuteRPG_Desert_B, CuteRPG_Forest_C,
+        interiors_pt1, interiors_pt2, interiors_pt3, interiors_pt4, interiors_pt5, walls
+      ];
+
+      // Create Map Layers with Depth
+      map.createLayer("Bottom Ground", tilesetGroup, 0, 0);
+      map.createLayer("Exterior Ground", tilesetGroup, 0, 0);
+      map.createLayer("Exterior Decoration L1", tilesetGroup, 0, 0);
+      map.createLayer("Exterior Decoration L2", tilesetGroup, 0, 0);
+      map.createLayer("Interior Ground", tilesetGroup, 0, 0);
+      map.createLayer("Wall", [CuteRPG_Field_C, walls], 0, 0);
+      map.createLayer("Interior Furniture L1", tilesetGroup, 0, 0);
+      map.createLayer("Interior Furniture L2 ", tilesetGroup, 0, 0);
+
+      const foregroundL1 = map.createLayer("Foreground L1", tilesetGroup, 0, 0);
+      const foregroundL2 = map.createLayer("Foreground L2", tilesetGroup, 0, 0);
+      foregroundL1.setDepth(2);
+      foregroundL2.setDepth(2);
+
+      // Camera setup
+      camera = this.cameras.main;
+      camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+      camera.setZoom(1.1);
+
+      // Center on Isabella's Cafe/Apartment (77*32, 22*32)
+      camera.centerOn(77 * 32, 22 * 32);
+
+      // Setup Walking Animations for all Citizens
+      sim.citizens.forEach(c => {
+        const cKey = c.underscore;
+        this.anims.create({
+          key: `${cKey}-down-walk`,
+          frames: this.anims.generateFrameNames(cKey, { prefix: "down-walk.", start: 0, end: 3, zeroPad: 3 }),
+          frameRate: 6,
+          repeat: -1
+        });
+        this.anims.create({
+          key: `${cKey}-up-walk`,
+          frames: this.anims.generateFrameNames(cKey, { prefix: "up-walk.", start: 0, end: 3, zeroPad: 3 }),
+          frameRate: 6,
+          repeat: -1
+        });
+        this.anims.create({
+          key: `${cKey}-left-walk`,
+          frames: this.anims.generateFrameNames(cKey, { prefix: "left-walk.", start: 0, end: 3, zeroPad: 3 }),
+          frameRate: 6,
+          repeat: -1
+        });
+        this.anims.create({
+          key: `${cKey}-right-walk`,
+          frames: this.anims.generateFrameNames(cKey, { prefix: "right-walk.", start: 0, end: 3, zeroPad: 3 }),
+          frameRate: 6,
+          repeat: -1
+        });
+
+        // Create Character Sprite
+        const sprite = this.physics.add.sprite(c.pixelX, c.pixelY, cKey, "down");
+        sprite.setDepth(1);
+        sprite.displayWidth = 36;
+        sprite.displayHeight = 44;
+        sprite.setInteractive({ cursor: 'pointer' });
+
+        // Sprite Click Handler
+        sprite.on('pointerdown', () => {
+          selectCitizen(c);
+        });
+
+        c.sprite = sprite;
+
+        // Activity Emoji Badge
+        c.emojiIcon = this.add.text(c.pixelX - 10, c.pixelY - 42, c.actionEmoji, {
+          font: '18px monospace',
+          padding: { x: 4, y: 4 },
+          backgroundColor: '#0f172a',
+          borderRadius: 6
+        }).setDepth(3);
+
+        // Speech Bubble & Dialogue Text
+        c.speechBubble = this.add.image(c.pixelX + 60, c.pixelY - 35, 'speech_bubble_img').setDepth(3);
+        c.speechBubble.displayWidth = 160;
+        c.speechBubble.displayHeight = 65;
+        c.speechBubble.visible = false;
+
+        c.speechText = this.add.text(c.pixelX - 10, c.pixelY - 55, '', {
+          font: '11px sans-serif',
+          color: '#0f172a',
+          wordWrap: { width: 140 },
+          align: 'center',
+          fontStyle: 'bold'
+        }).setDepth(4);
+        c.speechText.visible = false;
+      });
+
+      // Default follow target
+      followTarget = sim.citizens[0].sprite;
+
+      // Mouse drag controls for camera
+      this.input.on('pointerdown', (pointer) => {
+        isDragging = true;
+        dragStartX = pointer.x;
+        dragStartY = pointer.y;
+      });
+
+      this.input.on('pointerup', () => { isDragging = false; });
+
+      this.input.on('pointermove', (pointer) => {
+        if (isDragging) {
+          followTarget = null;
+          updateFollowButtonState(false);
+          camera.scrollX -= (pointer.x - dragStartX) / camera.zoom;
+          camera.scrollY -= (pointer.y - dragStartY) / camera.zoom;
+          dragStartX = pointer.x;
+          dragStartY = pointer.y;
+        }
+      });
+
+      // Mouse Wheel Zoom
+      this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY) => {
+        const newZoom = Phaser.Math.Clamp(camera.zoom - deltaY * 0.001, 0.45, 2.2);
+        camera.setZoom(newZoom);
+      });
+
+      cursors = this.input.keyboard.createCursorKeys();
+
+      // Window resize handler
+      window.addEventListener('resize', () => {
+        phaserGame.scale.resize(window.innerWidth, window.innerHeight);
+      });
+    }
+
+    function phaserUpdate(time, delta) {
+      // Keyboard Arrow camera pan
+      const panSpeed = 400 * (delta / 1000) / camera.zoom;
+      if (cursors.left.isDown) { followTarget = null; updateFollowButtonState(false); camera.scrollX -= panSpeed; }
+      if (cursors.right.isDown) { followTarget = null; updateFollowButtonState(false); camera.scrollX += panSpeed; }
+      if (cursors.up.isDown) { followTarget = null; updateFollowButtonState(false); camera.scrollY -= panSpeed; }
+      if (cursors.down.isDown) { followTarget = null; updateFollowButtonState(false); camera.scrollY += panSpeed; }
+
+      // Camera Follow Target
+      if (followTarget) {
+        camera.scrollX = Phaser.Math.Linear(camera.scrollX, followTarget.x - camera.width / 2, 0.08);
+        camera.scrollY = Phaser.Math.Linear(camera.scrollY, followTarget.y - camera.height / 2, 0.08);
+      }
+
+      // Smooth Character Movement along Paths
+      sim.citizens.forEach(c => {
+        if (c.chatTimer > 0) c.chatTimer -= delta / 1000;
+
+        if (c.isWalking && c.currentPath.length > 0 && c.pathIndex < c.currentPath.length) {
+          const targetTile = c.currentPath[c.pathIndex];
+          const targetPxX = targetTile[0] * 32 + 16;
+          const targetPxY = targetTile[1] * 32 + 16;
+
+          const dx = targetPxX - c.pixelX;
+          const dy = targetPxY - c.pixelY;
+          const dist = Math.hypot(dx, dy);
+
+          const moveStep = 90 * (delta / 1000) * sim.speed;
+
+          if (dist <= moveStep) {
+            c.pixelX = targetPxX;
+            c.pixelY = targetPxY;
+            c.tileX = targetTile[0];
+            c.tileY = targetTile[1];
+            c.pathIndex++;
+
+            if (c.pathIndex >= c.currentPath.length) {
+              c.isWalking = false;
+              c.sprite.anims.stop();
+              c.sprite.setTexture(c.underscore, c.facing);
+            }
+          } else {
+            // Move towards tile
+            const vx = (dx / dist) * moveStep;
+            const vy = (dy / dist) * moveStep;
+            c.pixelX += vx;
+            c.pixelY += vy;
+
+            // Determine Facing & Animation
+            if (Math.abs(dx) > Math.abs(dy)) {
+              c.facing = dx > 0 ? 'right' : 'left';
+            } else {
+              c.facing = dy > 0 ? 'down' : 'up';
+            }
+            c.sprite.anims.play(`${c.underscore}-${c.facing}-walk`, true);
+          }
+        }
+
+        // Sync Sprite Position
+        if (c.sprite) {
+          c.sprite.x = c.pixelX;
+          c.sprite.y = c.pixelY;
+
+          // Sync Badges & Speech
+          if (c.emojiIcon) {
+            c.emojiIcon.x = c.pixelX - 10;
+            c.emojiIcon.y = c.pixelY - 42;
+            c.emojiIcon.setText(c.actionEmoji);
+          }
+          if (c.speechBubble) {
+            c.speechBubble.x = c.pixelX + 60;
+            c.speechBubble.y = c.pixelY - 35;
+          }
+          if (c.speechText) {
+            c.speechText.x = c.pixelX - 10;
+            c.speechText.y = c.pixelY - 55;
+          }
+        }
+      });
+    }
+
+    /* ==========================================================================
+       UI INTERACTION & EVENT LISTENERS
+       ========================================================================== */
+    function selectCitizen(c) {
+      sim.selectedCitizen = c;
+      followTarget = c.sprite;
+      updateFollowButtonState(true);
+      sim.updateInspectorHUD(c);
+
+      // Highlight in Roster
+      document.querySelectorAll('.citizen-card').forEach(card => {
+        card.classList.toggle('selected', card.dataset.id == c.id);
+      });
+    }
+
+    function updateFollowButtonState(isFollowing) {
+      const btn = document.getElementById('btn-camera-follow');
+      if (btn) {
+        btn.classList.toggle('following', isFollowing);
+        btn.innerHTML = isFollowing ? "✓ Following" : "🎯 Follow Citizen";
+      }
+    }
+
+    function renderRosterList(filter = 'all') {
+      const container = document.getElementById('citizen-roster-list');
+      if (!container) return;
+
+      const filtered = sim.citizens.filter(c => {
+        if (filter === 'all') return true;
+        if (filter === 'working') return c.state === 'work';
+        if (filter === 'social') return c.state === 'social' || c.state === 'eat';
+        if (filter === 'home') return c.state === 'home' || c.state === 'sleep';
+        return true;
+      });
+
+      container.innerHTML = filtered.map(c => `
+        <div class="citizen-card ${sim.selectedCitizen && sim.selectedCitizen.id === c.id ? 'selected' : ''}" data-id="${c.id}">
+          <div class="citizen-avatar-wrapper">
+            <img src="/static/assets/characters/profile/${c.underscore}.png" class="citizen-avatar" alt="${c.name}">
+            <div class="citizen-status-dot status-${c.state}"></div>
+          </div>
+          <div class="citizen-info">
+            <div class="citizen-name-row">
+              <span class="citizen-name">${c.name}</span>
+              <span class="citizen-activity-emoji">${c.actionEmoji}</span>
+            </div>
+            <div class="citizen-job">${c.occupation}</div>
+            <div class="citizen-mini-bar">
+              <div class="citizen-mini-fill" style="width:${c.happiness}%;"></div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Add click handlers
+      container.querySelectorAll('.citizen-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const id = parseInt(card.dataset.id);
+          const c = sim.citizens.find(item => item.id === id);
+          if (c) selectCitizen(c);
+        });
+      });
+    }
+
+    // Initialize Application on Window Load
+    window.addEventListener('load', async () => {
+      try {
+        // Fetch Simulation JSON Data
+        const [gridRes, citizensRes, locsRes] = await Promise.all([
+          fetch('/static/assets/the_ville/the_ville_collision_grid.json'),
+          fetch('/static/assets/the_ville/society_citizens.json'),
+          fetch('/static/assets/the_ville/world_locations.json')
+        ]);
+
+        window.SIM_DATA.collisionGrid = await gridRes.json();
+        window.SIM_DATA.citizens = await citizensRes.json();
+        window.SIM_DATA.locations = await locsRes.json();
+
+        // Initialize Society Citizens
+        sim.initCitizens(window.SIM_DATA.citizens);
+
+        // Start Phaser Game
+        phaserGame = new Phaser.Game(phaserConfig);
+
+        // Render Roster
+        renderRosterList();
+
+        // Setup Simulation Clock Interval (1 tick per real second at 1x)
+        setInterval(() => {
+          sim.tickSimulation();
+        }, 1000 / sim.speed);
+
+        // Setup Speed Control Buttons
+        document.querySelectorAll('.time-ctrl-btn[data-speed]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.time-ctrl-btn[data-speed]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            sim.speed = parseInt(btn.dataset.speed);
+          });
+        });
+
+        // Play / Pause Toggle
+        const btnPlay = document.getElementById('btn-play-pause');
+        btnPlay.addEventListener('click', () => {
+          sim.isRunning = !sim.isRunning;
+          btnPlay.innerText = sim.isRunning ? '⏸ PAUSE' : '▶ RESUME';
+          btnPlay.classList.toggle('active', !sim.isRunning);
+        });
+
+        // Filter tabs in roster
+        document.querySelectorAll('.roster-tab').forEach(tab => {
+          tab.addEventListener('click', () => {
+            document.querySelectorAll('.roster-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            renderRosterList(tab.dataset.filter);
+          });
+        });
+
+        // Follow Button
+        document.getElementById('btn-camera-follow').addEventListener('click', () => {
+          if (sim.selectedCitizen) {
+            followTarget = sim.selectedCitizen.sprite;
+            updateFollowButtonState(true);
+          }
+        });
+
+        // Zoom Buttons
+        document.getElementById('btn-zoom-in').addEventListener('click', () => {
+          if (camera) camera.setZoom(Math.min(2.2, camera.zoom + 0.2));
+        });
+        document.getElementById('btn-zoom-out').addEventListener('click', () => {
+          if (camera) camera.setZoom(Math.max(0.45, camera.zoom - 0.2));
+        });
+        document.getElementById('btn-zoom-reset').addEventListener('click', () => {
+          if (camera) camera.setZoom(1.1);
+        });
+
+        // Modals Wiring
+        setupModal('btn-open-analytics', 'modal-analytics', renderAnalyticsCharts);
+        setupModal('btn-open-journal', 'modal-journal', renderJournalModal);
+        setupModal('btn-view-all-events', 'modal-journal', renderJournalModal);
+        setupModal('btn-open-saveload', 'modal-saveload');
+
+        // Save / Load actions
+        document.getElementById('btn-save-local').addEventListener('click', () => {
+          saveWorldState();
+        });
+        document.getElementById('btn-load-local').addEventListener('click', () => {
+          loadWorldState();
+        });
+        document.getElementById('btn-export-json').addEventListener('click', () => {
+          exportWorldStateJSON();
+        });
+        document.getElementById('btn-reset-sim').addEventListener('click', () => {
+          location.reload();
+        });
+
+        sim.logEvent("Smallville Artificial Society initialized successfully. 15 citizens active.", null, "🚀");
+      } catch (err) {
+        console.error("Error loading simulation assets:", err);
+      }
+    });
+
+    function setupModal(triggerId, modalId, onOpen = null) {
+      const trigger = document.getElementById(triggerId);
+      const modal = document.getElementById(modalId);
+      if (!trigger || !modal) return;
+
+      trigger.addEventListener('click', () => {
+        modal.classList.add('open');
+        if (onOpen) onOpen();
+      });
+
+      modal.querySelector('.btn-close-modal').addEventListener('click', () => {
+        modal.classList.remove('open');
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('open');
+      });
+    }
+
+    function renderJournalModal() {
+      const container = document.getElementById('full-journal-list');
+      if (!container) return;
+      container.innerHTML = sim.eventLog.map(e => `
+        <div style="background:#1e293b; padding:10px 14px; border-radius:8px; border-left:3px solid var(--accent); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.75rem; color:var(--text-muted); font-weight:700;">Day ${e.day} &bull; ${e.time}</span>
+            <div style="color:#f1f5f9; font-size:0.88rem; margin-top:2px;">${e.emoji} ${e.text}</div>
+          </div>
+          ${e.citizen ? `<button class="time-ctrl-btn" onclick="focusCitizenByName('${e.citizen}')">Focus</button>` : ''}
+        </div>
+      `).join('');
+    }
+
+    window.focusCitizenByName = function(name) {
+      const c = sim.citizens.find(item => item.name === name);
+      if (c) {
+        selectCitizen(c);
+        document.getElementById('modal-journal').classList.remove('open');
+      }
+    };
+
+    function renderAnalyticsCharts() {
+      // Happiness Chart
+      const happyCtx = document.getElementById('chart-happiness');
+      if (happyCtx) {
+        new Chart(happyCtx, {
+          type: 'line',
+          data: {
+            labels: sim.historyMetrics.times,
+            datasets: [
+              { label: 'Avg Happiness', data: sim.historyMetrics.avgHappiness, borderColor: '#38bdf8', tension: 0.3 },
+              { label: 'Avg Health', data: sim.historyMetrics.avgHealth, borderColor: '#10b981', tension: 0.3 }
+            ]
+          },
+          options: { responsive: true, plugins: { legend: { labels: { color: '#e2e8f0' } } } }
+        });
+      }
+
+      // Economy Chart
+      const econCtx = document.getElementById('chart-economy');
+      if (econCtx) {
+        new Chart(econCtx, {
+          type: 'bar',
+          data: {
+            labels: Object.keys(sim.businessRevenues),
+            datasets: [{
+              label: 'Revenue ($)',
+              data: Object.values(sim.businessRevenues),
+              backgroundColor: ['#38bdf8', '#f59e0b', '#10b981', '#a855f7']
+            }]
+          },
+          options: { responsive: true, plugins: { legend: { display: false } } }
+        });
+      }
+    }
+
+    function saveWorldState() {
+      const state = {
+        day: sim.day,
+        hour: sim.hour,
+        minute: sim.minute,
+        townEconomy: sim.townEconomy,
+        townFoodReserves: sim.townFoodReserves,
+        businessRevenues: sim.businessRevenues,
+        citizens: sim.citizens.map(c => ({
+          id: c.id,
+          name: c.name,
+          tileX: c.tileX,
+          tileY: c.tileY,
+          hunger: c.hunger,
+          energy: c.energy,
+          health: c.health,
+          happiness: c.happiness,
+          hygiene: c.hygiene,
+          social: c.social,
+          money: c.money,
+          state: c.state,
+          memories: c.memories
+        }))
+      };
+      localStorage.setItem('smallville_saved_society', JSON.stringify(state));
+      alert("✅ Simulation state successfully saved to browser Local Storage!");
+    }
+
+    function loadWorldState() {
+      const raw = localStorage.getItem('smallville_saved_society');
+      if (!raw) {
+        alert("⚠️ No saved simulation state found in Local Storage.");
+        return;
+      }
+      const state = JSON.parse(raw);
+      sim.day = state.day;
+      sim.hour = state.hour;
+      sim.minute = state.minute;
+      sim.townEconomy = state.townEconomy;
+      sim.townFoodReserves = state.townFoodReserves;
+      sim.businessRevenues = state.businessRevenues;
+
+      state.citizens.forEach(savedC => {
+        const c = sim.citizens.find(item => item.id === savedC.id);
+        if (c) {
+          c.tileX = savedC.tileX;
+          c.tileY = savedC.tileY;
+          c.pixelX = c.tileX * 32 + 16;
+          c.pixelY = c.tileY * 32 + 16;
+          c.hunger = savedC.hunger;
+          c.energy = savedC.energy;
+          c.health = savedC.health;
+          c.happiness = savedC.happiness;
+          c.hygiene = savedC.hygiene;
+          c.social = savedC.social;
+          c.money = savedC.money;
+          c.state = savedC.state;
+          c.memories = savedC.memories;
+        }
+      });
+      alert("✅ Simulation state successfully restored!");
+      document.getElementById('modal-saveload').classList.remove('open');
+    }
+
+    function exportWorldStateJSON() {
+      const state = {
+        timestamp: new Date().toISOString(),
+        day: sim.day,
+        hour: sim.hour,
+        minute: sim.minute,
+        citizens: sim.citizens
+      };
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `smallville_state_day${sim.day}.json`;
+      a.click();
+    }
+  </script>
+</body>
+</html>
