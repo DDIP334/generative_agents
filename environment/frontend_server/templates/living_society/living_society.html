@@ -3,26 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smallville — 2D Living AI Society & Divine God Simulator</title>
+  <title>Smallville — 16-Bit Retro Pixel-Art Living AI Society & God Simulator</title>
+  
+  <!-- Retro Pixel Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+
   <!-- Phaser 3 -->
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
   <!-- Chart.js for real-time town analytics -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+
   <style>
+    /* ==========================================================================
+       16-BIT RETRO PIXEL-ART DESIGN SYSTEM
+       Inspired by classic warm-toned pixel games & 16-bit RPG interfaces
+       ========================================================================== */
     :root {
-      --bg-dark: #070a12;
-      --card-bg: rgba(13, 20, 36, 0.92);
-      --card-border: rgba(56, 189, 248, 0.28);
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --accent: #38bdf8;
-      --accent-hover: #0284c7;
-      --gold: #f59e0b;
-      --gold-glow: rgba(245, 158, 11, 0.4);
-      --divine-purple: #a855f7;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
+      /* Warm Retro Palette */
+      --pixel-bg-dark: #120b08;
+      --pixel-wood-base: #df9b6d;
+      --pixel-wood-dark: #63331d;
+      --pixel-wood-deep: #3b1d10;
+      --pixel-wood-border: #26140e;
+      --pixel-wood-highlight: #f5d5b8;
+      --pixel-cream: #fffbeb;
+      --pixel-cream-dark: #fef3c7;
+      
+      /* Vibrant 16-Bit Action Colors */
+      --pixel-green: #22c55e;
+      --pixel-green-shadow: #15803d;
+      --pixel-green-border: #14532d;
+      
+      --pixel-orange: #f97316;
+      --pixel-orange-shadow: #c2410c;
+      --pixel-orange-border: #431407;
+      
+      --pixel-red: #ef4444;
+      --pixel-red-shadow: #b91c1c;
+      --pixel-red-border: #450a0a;
+      
+      --pixel-gold: #eab308;
+      --pixel-gold-shadow: #a16207;
+      --pixel-gold-border: #422006;
+      
+      --pixel-blue: #3b82f6;
+      --pixel-blue-shadow: #1d4ed8;
+      --pixel-blue-border: #172554;
+      
+      --pixel-purple: #a855f7;
+      --pixel-purple-shadow: #7e22ce;
+      --pixel-purple-border: #3b0764;
+
+      /* Typography */
+      --font-arcade: 'Press Start 2P', monospace;
+      --font-pixel: 'Silkscreen', monospace;
+      --font-readable: 'Pixelify Sans', monospace, sans-serif;
     }
 
     * {
@@ -30,15 +67,19 @@
       margin: 0;
       padding: 0;
       user-select: none;
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
     }
 
     body {
-      background: var(--bg-dark);
-      color: var(--text-main);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--pixel-bg-dark);
+      color: var(--pixel-cream);
+      font-family: var(--font-readable);
       overflow: hidden;
       width: 100vw;
       height: 100vh;
+      -webkit-font-smoothing: none;
     }
 
     /* Fullscreen Game Canvas */
@@ -49,7 +90,7 @@
       width: 100%;
       height: 100%;
       z-index: 1;
-      background: #0f172a;
+      background: #110e0c;
     }
 
     #game-container canvas {
@@ -78,7 +119,7 @@
       height: 100%;
       pointer-events: none;
       z-index: 3;
-      transition: background-color 1.5s ease-in-out;
+      transition: background-color 1.5s steps(10);
     }
 
     /* Screen Flash Overlay for Lightning & Cataclysms */
@@ -91,34 +132,159 @@
       pointer-events: none;
       z-index: 4;
       background: rgba(255, 255, 255, 0);
-      transition: background-color 0.08s ease;
+      transition: background-color 0.08s steps(2);
     }
 
     /* ==========================================================================
-       TOP STATUS BAR & NAVIGATION
+       PIXEL-ART BUTTONS & BEVELS (WITH AUTHENTIC CLICK ANIMATIONS)
+       ========================================================================== */
+    .pixel-btn {
+      font-family: var(--font-pixel);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 7px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      text-decoration: none !important;
+      transition: transform 0.05s ease, box-shadow 0.05s ease;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .pixel-btn:active {
+      transform: translateY(3px) !important;
+    }
+
+    /* Green Bevel Button (Play / Primary) */
+    .pixel-btn-green {
+      background: var(--pixel-green);
+      color: #ffffff;
+      border-color: var(--pixel-green-border);
+      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.4),
+                  inset -2px -2px 0px rgba(0, 0, 0, 0.35),
+                  0 4px 0 var(--pixel-green-border);
+    }
+    .pixel-btn-green:hover { background: #4ade80; }
+    .pixel-btn-green:active {
+      box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.4),
+                  inset -2px -2px 0px rgba(255, 255, 255, 0.4),
+                  0 1px 0 var(--pixel-green-border);
+    }
+
+    /* Orange Bevel Button (Options / Commands) */
+    .pixel-btn-orange {
+      background: var(--pixel-orange);
+      color: #ffffff;
+      border-color: var(--pixel-orange-border);
+      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.4),
+                  inset -2px -2px 0px rgba(0, 0, 0, 0.35),
+                  0 4px 0 var(--pixel-orange-border);
+    }
+    .pixel-btn-orange:hover { background: #fb923c; }
+    .pixel-btn-orange:active {
+      box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.4),
+                  inset -2px -2px 0px rgba(255, 255, 255, 0.4),
+                  0 1px 0 var(--pixel-orange-border);
+    }
+
+    /* Red Bevel Button (Exit / Pause / Danger) */
+    .pixel-btn-red {
+      background: var(--pixel-red);
+      color: #ffffff;
+      border-color: var(--pixel-red-border);
+      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.4),
+                  inset -2px -2px 0px rgba(0, 0, 0, 0.35),
+                  0 4px 0 var(--pixel-red-border);
+    }
+    .pixel-btn-red:hover { background: #f87171; }
+    .pixel-btn-red:active {
+      box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.4),
+                  inset -2px -2px 0px rgba(255, 255, 255, 0.4),
+                  0 1px 0 var(--pixel-red-border);
+    }
+
+    /* Gold Bevel Button (God Powers / Currency) */
+    .pixel-btn-gold {
+      background: var(--pixel-gold);
+      color: #26140e;
+      border-color: var(--pixel-gold-border);
+      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.5),
+                  inset -2px -2px 0px rgba(0, 0, 0, 0.35),
+                  0 4px 0 var(--pixel-gold-border);
+    }
+    .pixel-btn-gold:hover { background: #facc15; }
+    .pixel-btn-gold:active {
+      box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.4),
+                  inset -2px -2px 0px rgba(255, 255, 255, 0.4),
+                  0 1px 0 var(--pixel-gold-border);
+    }
+
+    /* Wood / Brown Bevel Button (Standard / Nav) */
+    .pixel-btn-wood {
+      background: var(--pixel-wood-dark);
+      color: var(--pixel-cream);
+      border-color: var(--pixel-wood-border);
+      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.2),
+                  inset -2px -2px 0px rgba(0, 0, 0, 0.4),
+                  0 4px 0 var(--pixel-wood-border);
+    }
+    .pixel-btn-wood:hover { background: #783e23; color: #fff; }
+    .pixel-btn-wood:active, .pixel-btn-wood.active {
+      background: #783e23;
+      box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.4),
+                  inset -2px -2px 0px rgba(255, 255, 255, 0.2),
+                  0 1px 0 var(--pixel-wood-border);
+    }
+
+    /* Blue Bevel Button (Navigation / Camera) */
+    .pixel-btn-blue {
+      background: var(--pixel-blue);
+      color: #ffffff;
+      border-color: var(--pixel-blue-border);
+      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.4),
+                  inset -2px -2px 0px rgba(0, 0, 0, 0.35),
+                  0 4px 0 var(--pixel-blue-border);
+    }
+    .pixel-btn-blue:hover { background: #60a5fa; }
+    .pixel-btn-blue:active {
+      box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.4),
+                  inset -2px -2px 0px rgba(255, 255, 255, 0.4),
+                  0 1px 0 var(--pixel-blue-border);
+    }
+
+    /* ==========================================================================
+       RETRO GAME-STYLE TOP BAR (HUD RIBBON)
        ========================================================================== */
     .top-bar {
       position: absolute;
-      top: 12px;
-      left: 16px;
-      right: 16px;
+      top: 10px;
+      left: 14px;
+      right: 14px;
       height: 56px;
-      background: rgba(13, 20, 36, 0.94);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 0 16px;
+      background: var(--pixel-wood-dark);
+      border: 4px solid var(--pixel-wood-border);
+      border-radius: 6px;
+      padding: 0 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 20;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.65);
+      box-shadow: inset 0 2px 0 var(--pixel-wood-highlight),
+                  inset 0 -2px 0 rgba(0,0,0,0.4),
+                  0 6px 0 var(--pixel-wood-border),
+                  0 10px 24px rgba(0, 0, 0, 0.7);
     }
 
     .brand-section {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .brand-badge {
@@ -128,176 +294,180 @@
     }
 
     .status-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 10px var(--gold);
-      animation: divinePulse 1.8s infinite;
+      width: 12px;
+      height: 12px;
+      background: var(--pixel-gold);
+      border: 2px solid var(--pixel-wood-border);
+      box-shadow: 0 0 0 1px #fef08a;
+      animation: pixelBlink 1.4s infinite steps(2);
     }
 
-    @keyframes divinePulse {
-      0% { transform: scale(0.9); opacity: 0.8; box-shadow: 0 0 8px var(--gold); }
-      50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 16px #eab308; }
-      100% { transform: scale(0.9); opacity: 0.8; box-shadow: 0 0 8px var(--gold); }
+    @keyframes pixelBlink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.9); }
     }
 
     .brand-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      letter-spacing: -0.2px;
-      background: linear-gradient(135deg, #f8fafc 0%, #38bdf8 50%, #f59e0b 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-family: var(--font-arcade);
+      font-size: 0.85rem;
+      color: #fef08a;
+      text-shadow: 2px 2px 0px #000, -1px -1px 0px #713f12;
       display: flex;
       align-items: center;
       gap: 6px;
+      letter-spacing: 0.5px;
     }
 
     .brand-subtitle {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      font-weight: 500;
+      font-family: var(--font-pixel);
+      font-size: 0.62rem;
+      color: var(--pixel-wood-highlight);
+      letter-spacing: 0.5px;
+      margin-top: 2px;
     }
 
     /* Simulation Clock & Speed Controls */
     .clock-section {
       display: flex;
       align-items: center;
-      gap: 12px;
-      background: rgba(30, 41, 59, 0.75);
-      padding: 5px 14px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 8px;
+      background: var(--pixel-wood-deep);
+      padding: 4px 10px;
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      box-shadow: inset 2px 2px 0px rgba(0,0,0,0.5);
     }
 
     .clock-display {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-weight: 700;
-      font-size: 1rem;
-      color: #f1f5f9;
-      font-variant-numeric: tabular-nums;
+      gap: 6px;
+      font-family: var(--font-arcade);
+      font-size: 0.76rem;
+      color: #fef08a;
+      text-shadow: 1px 1px 0px #000;
     }
 
     .weather-badge {
       display: flex;
       align-items: center;
-      gap: 5px;
-      font-size: 0.8rem;
-      color: #cbd5e1;
-      padding: 3px 8px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 6px;
+      gap: 4px;
+      font-family: var(--font-pixel);
+      font-size: 0.72rem;
+      color: #fff;
+      padding: 2px 6px;
+      background: #1c0e0a;
+      border: 2px solid #3b1d10;
+      border-radius: 3px;
     }
 
     .season-badge {
-      font-size: 0.75rem;
-      color: #a78bfa;
-      font-weight: 600;
+      font-family: var(--font-pixel);
+      font-size: 0.68rem;
+      color: #f472b6;
+      font-weight: 700;
       padding: 2px 6px;
-      background: rgba(168, 85, 247, 0.15);
-      border-radius: 4px;
+      background: #3b1424;
+      border: 2px solid #50132e;
+      border-radius: 3px;
+    }
+
+    .speed-btn-group {
+      display: flex;
+      gap: 3px;
     }
 
     .time-ctrl-btn {
-      background: #1e293b;
-      border: 1px solid #475569;
-      color: #cbd5e1;
-      padding: 4px 9px;
-      border-radius: 6px;
-      font-size: 0.78rem;
-      font-weight: 600;
+      font-family: var(--font-pixel);
+      background: var(--pixel-wood-dark);
+      border: 2px solid var(--pixel-wood-border);
+      color: var(--pixel-cream);
+      padding: 3px 6px;
+      border-radius: 3px;
+      font-size: 0.68rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: all 0.15s;
+      box-shadow: 0 2px 0 var(--pixel-wood-border);
     }
 
     .time-ctrl-btn:hover, .time-ctrl-btn.active {
-      background: var(--gold);
-      color: #090d16;
-      border-color: var(--gold);
-      font-weight: 700;
+      background: var(--pixel-gold);
+      color: #26140e;
+      border-color: var(--pixel-gold-border);
+      box-shadow: 0 1px 0 var(--pixel-gold-border);
+      transform: translateY(1px);
     }
 
     /* Top Action Buttons */
     .top-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
-    }
-
-    .btn-action-nav {
-      background: #1e293b;
-      border: 1px solid #334155;
-      color: #e2e8f0;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
       gap: 6px;
-      transition: all 0.2s;
-      text-decoration: none !important;
-    }
-
-    .btn-action-nav:hover {
-      background: #334155;
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .btn-god-powers {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(168, 85, 247, 0.25) 100%);
-      border: 1px solid #f59e0b;
-      color: #fde047;
-      font-weight: 700;
-      box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
-    }
-
-    .btn-god-powers:hover {
-      background: linear-gradient(135deg, #f59e0b 0%, #a855f7 100%);
-      color: #090d16;
-      border-color: #fde047;
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
-    }
-
-    .btn-command-toggle {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25) 0%, rgba(14, 165, 233, 0.2) 100%);
-      border: 1px solid #38bdf8;
-      color: #38bdf8;
-      font-weight: 700;
-    }
-
-    .btn-command-toggle:hover {
-      background: #38bdf8;
-      color: #090d16;
-      box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
     }
 
     /* ==========================================================================
-       LEFT ROSTER PANE (COLLAPSIBLE / DRAWER)
+       RETRO WOOD/PARCHMENT PANELS & DRAWERS (INSPIRED BY REFERENCE IMAGE)
+       ========================================================================== */
+    .pixel-card-frame {
+      background: var(--pixel-wood-base);
+      border: 4px solid var(--pixel-wood-border);
+      border-radius: 6px;
+      box-shadow: inset 0 2px 0 var(--pixel-wood-highlight),
+                  inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+                  0 6px 0 var(--pixel-wood-border),
+                  0 12px 28px rgba(0, 0, 0, 0.7);
+    }
+
+    .pane-header-tab {
+      background: var(--pixel-wood-dark);
+      padding: 8px 12px;
+      border-bottom: 3px solid var(--pixel-wood-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pane-title-text {
+      font-family: var(--font-arcade);
+      font-size: 0.74rem;
+      color: #fef08a;
+      text-shadow: 1px 1px 0px #000;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-pixel-close {
+      font-family: var(--font-arcade);
+      background: var(--pixel-red);
+      color: #fff;
+      border: 2px solid var(--pixel-red-border);
+      border-radius: 3px;
+      padding: 2px 6px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      box-shadow: 0 2px 0 var(--pixel-red-border);
+    }
+
+    .btn-pixel-close:hover { background: #f87171; }
+    .btn-pixel-close:active { transform: translateY(2px); box-shadow: none; }
+
+    /* ==========================================================================
+       LEFT ROSTER PANE (RETRO RPG CHARACTER SELECTOR)
        ========================================================================== */
     .left-roster-pane {
       position: absolute;
-      top: 78px;
-      left: 16px;
-      width: 290px;
+      top: 76px;
+      left: 14px;
+      width: 300px;
       bottom: 70px;
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
       display: flex;
       flex-direction: column;
       z-index: 15;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-      transform: translateX(-340px);
+      transform: translateX(-350px);
       opacity: 0;
       pointer-events: none;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      transition: transform 0.25s steps(8), opacity 0.2s ease;
     }
 
     .left-roster-pane.open {
@@ -306,70 +476,31 @@
       pointer-events: all;
     }
 
-    .pane-header {
-      padding: 12px 14px 10px 14px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .pane-title {
-      font-size: 0.88rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn-close-pane {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.1rem;
-      cursor: pointer;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    .btn-close-pane:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-    }
-
-    .roster-count {
-      font-size: 0.74rem;
-      background: rgba(56, 189, 248, 0.15);
-      color: var(--accent);
-      padding: 2px 7px;
-      border-radius: 10px;
-      font-weight: 700;
-    }
-
     .roster-filter-tabs {
       display: flex;
       gap: 4px;
-      padding: 8px 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 6px 10px;
+      background: var(--pixel-wood-deep);
+      border-bottom: 3px solid var(--pixel-wood-border);
     }
 
     .roster-tab {
+      font-family: var(--font-pixel);
       background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 4px 7px;
-      border-radius: 4px;
+      border: 2px solid transparent;
+      color: var(--pixel-wood-highlight);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 6px;
+      border-radius: 3px;
       cursor: pointer;
     }
 
     .roster-tab.active {
-      background: #334155;
-      color: var(--text-main);
+      background: var(--pixel-wood-dark);
+      border-color: var(--pixel-wood-border);
+      color: #fef08a;
+      box-shadow: inset 1px 1px 0px rgba(255,255,255,0.2);
     }
 
     .roster-list {
@@ -379,76 +510,73 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
+      background: var(--pixel-wood-base);
     }
 
-    .roster-list::-webkit-scrollbar { width: 4px; }
-    .roster-list::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    .roster-list::-webkit-scrollbar { width: 6px; }
+    .roster-list::-webkit-scrollbar-thumb { background: var(--pixel-wood-dark); border: 1px solid var(--pixel-wood-border); }
 
     .citizen-card {
-      background: rgba(30, 41, 59, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 8px;
-      padding: 7px 9px;
+      background: var(--pixel-wood-deep);
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      padding: 6px 8px;
       display: flex;
       align-items: center;
-      gap: 9px;
+      gap: 8px;
       cursor: pointer;
-      transition: all 0.18s ease;
+      box-shadow: inset 1px 1px 0px rgba(255,255,255,0.1),
+                  0 2px 0 var(--pixel-wood-border);
+      transition: transform 0.05s ease;
     }
 
     .citizen-card:hover {
-      background: rgba(51, 65, 85, 0.85);
-      border-color: rgba(56, 189, 248, 0.4);
-      transform: translateX(2px);
+      background: var(--pixel-wood-dark);
+      transform: translateX(3px);
     }
 
     .citizen-card.selected {
-      background: rgba(2, 132, 199, 0.3);
-      border-color: var(--accent);
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+      background: #783e23;
+      border-color: var(--pixel-gold);
+      box-shadow: inset 1px 1px 0px #fef08a, 0 3px 0 var(--pixel-wood-border);
     }
 
     .citizen-card.divine-controlled {
-      border-color: var(--gold);
-      box-shadow: 0 0 12px var(--gold-glow);
+      border-color: #facc15;
+      background: #4a2810;
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
     }
 
     .citizen-avatar-wrapper {
       position: relative;
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       flex-shrink: 0;
+      border: 2px solid var(--pixel-wood-border);
+      background: #110e0c;
     }
 
     .citizen-avatar {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      border: 2px solid var(--accent);
-      background: #1e293b;
+      width: 36px;
+      height: 36px;
       object-fit: cover;
-    }
-
-    .citizen-card.divine-controlled .citizen-avatar {
-      border-color: var(--gold);
     }
 
     .citizen-status-dot {
       position: absolute;
-      bottom: -1px;
-      right: -1px;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      border: 2px solid #0f172a;
+      bottom: -2px;
+      right: -2px;
+      width: 8px;
+      height: 8px;
+      border: 2px solid var(--pixel-wood-border);
     }
 
-    .status-work { background: #38bdf8; }
-    .status-home { background: #10b981; }
-    .status-eat { background: #f59e0b; }
-    .status-social { background: #a855f7; }
+    .status-work { background: var(--pixel-blue); }
+    .status-home { background: var(--pixel-green); }
+    .status-eat { background: var(--pixel-orange); }
+    .status-social { background: var(--pixel-purple); }
     .status-sleep { background: #64748b; }
-    .status-divine { background: #eab308; }
+    .status-divine { background: var(--pixel-gold); }
 
     .citizen-info {
       flex: 1;
@@ -463,17 +591,19 @@
     }
 
     .citizen-name {
+      font-family: var(--font-readable);
       font-size: 0.82rem;
       font-weight: 700;
-      color: #f1f5f9;
+      color: #fff;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .citizen-job {
-      font-size: 0.7rem;
-      color: var(--text-muted);
+      font-family: var(--font-pixel);
+      font-size: 0.65rem;
+      color: var(--pixel-wood-highlight);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -482,17 +612,15 @@
 
     .citizen-mini-bar {
       width: 100%;
-      height: 3px;
-      background: #1e293b;
-      border-radius: 2px;
+      height: 5px;
+      background: #1a0e08;
+      border: 1px solid var(--pixel-wood-border);
       overflow: hidden;
     }
 
     .citizen-mini-fill {
       height: 100%;
-      background: var(--success);
-      border-radius: 2px;
-      transition: width 0.3s;
+      background: var(--pixel-green);
     }
 
     /* ==========================================================================
@@ -500,25 +628,20 @@
        ========================================================================== */
     .right-inspector-pane {
       position: absolute;
-      top: 78px;
-      right: 16px;
-      width: 380px;
+      top: 76px;
+      right: 14px;
+      width: 390px;
       bottom: 70px;
-      background: var(--card-bg);
-      backdrop-filter: blur(18px);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
       display: flex;
       flex-direction: column;
       z-index: 15;
-      box-shadow: 0 14px 44px rgba(0, 0, 0, 0.65);
       overflow-y: auto;
-      padding: 16px;
-      gap: 12px;
-      transform: translateX(440px);
+      padding: 12px;
+      gap: 10px;
+      transform: translateX(450px);
       opacity: 0;
       pointer-events: none;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      transition: transform 0.25s steps(8), opacity 0.2s ease;
     }
 
     .right-inspector-pane.open {
@@ -527,56 +650,63 @@
       pointer-events: all;
     }
 
-    .right-inspector-pane::-webkit-scrollbar { width: 4px; }
-    .right-inspector-pane::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    .right-inspector-pane::-webkit-scrollbar { width: 6px; }
+    .right-inspector-pane::-webkit-scrollbar-thumb { background: var(--pixel-wood-dark); border: 1px solid var(--pixel-wood-border); }
 
     .inspector-header-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding-bottom: 6px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 3px solid var(--pixel-wood-border);
     }
 
     .inspector-mode-pill {
-      font-size: 0.72rem;
+      font-family: var(--font-pixel);
+      font-size: 0.68rem;
       font-weight: 700;
       padding: 3px 8px;
-      border-radius: 12px;
+      border: 2px solid var(--pixel-wood-border);
+      border-radius: 3px;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
     }
 
     .mode-autonomous {
-      background: rgba(16, 185, 129, 0.15);
-      color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      background: #14532d;
+      color: #86efac;
     }
 
     .mode-divine {
-      background: rgba(245, 158, 11, 0.2);
-      color: #fde047;
-      border: 1px solid #f59e0b;
-      box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+      background: #713f12;
+      color: #fef08a;
     }
 
+    /* Profile Header */
     .inspector-profile-header {
       display: flex;
       gap: 12px;
       align-items: center;
-      background: rgba(30, 41, 59, 0.75);
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--pixel-wood-deep);
+      padding: 10px;
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      box-shadow: inset 1px 1px 0px rgba(255,255,255,0.1);
+    }
+
+    .inspector-avatar-box {
+      width: 64px;
+      height: 64px;
+      border: 3px solid var(--pixel-gold);
+      background: #110e0c;
+      box-shadow: 0 0 0 2px var(--pixel-wood-border);
+      flex-shrink: 0;
     }
 
     .inspector-avatar {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      border: 2px solid var(--accent);
-      background: #1e293b;
+      width: 64px;
+      height: 64px;
       object-fit: cover;
     }
 
@@ -586,97 +716,103 @@
     }
 
     .inspector-bio h2 {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: #f8fafc;
-      margin-bottom: 2px;
+      font-family: var(--font-arcade);
+      font-size: 0.88rem;
+      color: #fff;
+      text-shadow: 1px 1px 0px #000;
+      margin-bottom: 3px;
     }
 
     .inspector-bio p {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      line-height: 1.3;
+      font-family: var(--font-readable);
+      font-size: 0.78rem;
+      color: var(--pixel-wood-highlight);
+      line-height: 1.25;
     }
 
     .cam-shortcuts-row {
       display: flex;
-      gap: 5px;
+      gap: 4px;
       margin-top: 6px;
       flex-wrap: wrap;
     }
 
     .btn-cam-shortcut {
-      background: #1e293b;
-      border: 1px solid #475569;
-      color: #cbd5e1;
-      border-radius: 4px;
-      padding: 3px 7px;
-      font-size: 0.68rem;
-      font-weight: 600;
+      font-family: var(--font-pixel);
+      background: var(--pixel-wood-dark);
+      border: 2px solid var(--pixel-wood-border);
+      color: #fff;
+      padding: 3px 6px;
+      border-radius: 3px;
+      font-size: 0.65rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: all 0.15s;
+      box-shadow: 0 2px 0 var(--pixel-wood-border);
     }
 
-    .btn-cam-shortcut:hover, .btn-cam-shortcut.active {
-      background: var(--accent);
-      color: #090d16;
-      border-color: var(--accent);
+    .btn-cam-shortcut:hover {
+      background: var(--pixel-blue);
+      border-color: var(--pixel-blue-border);
     }
+    .btn-cam-shortcut:active { transform: translateY(2px); box-shadow: none; }
 
-    /* Active Internal Thought Callout */
+    /* Retro RPG Dialogue Thought Box */
     .thought-bubble-card {
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      border-radius: 10px;
-      padding: 10px 12px;
+      background: #fffbeb;
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      padding: 8px 10px;
+      color: #26140e;
       position: relative;
+      box-shadow: inset 1px 1px 0px #fff, 0 3px 0 var(--pixel-wood-border);
     }
 
     .thought-label {
-      font-size: 0.7rem;
+      font-family: var(--font-pixel);
+      font-size: 0.66rem;
       font-weight: 700;
-      color: var(--accent);
+      color: #8c5338;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .thought-text {
-      font-size: 0.82rem;
-      color: #f1f5f9;
-      line-height: 1.4;
-      font-style: italic;
-    }
-
-    .thought-location {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      margin-top: 5px;
+      margin-bottom: 3px;
       display: flex;
       align-items: center;
       gap: 4px;
     }
 
-    /* Divine Interventions Card */
+    .thought-text {
+      font-family: var(--font-readable);
+      font-size: 0.84rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: #1c0e0a;
+    }
+
+    .thought-location {
+      font-family: var(--font-pixel);
+      font-size: 0.65rem;
+      color: #63331d;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* 16-Bit RPG Spell / Ability Action Grid */
     .divine-actions-card {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      border-radius: 10px;
-      padding: 12px;
+      background: var(--pixel-wood-deep);
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      padding: 8px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .divine-title {
-      font-size: 0.75rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: #fde047;
+      font-family: var(--font-arcade);
+      font-size: 0.7rem;
+      color: #fef08a;
+      text-shadow: 1px 1px 0px #000;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -685,53 +821,26 @@
     .divine-btn-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6px;
+      gap: 5px;
     }
 
     .btn-divine-action {
-      background: #1e293b;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: #f1f5f9;
-      padding: 6px 8px;
-      border-radius: 6px;
-      font-size: 0.73rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      justify-content: center;
-      transition: all 0.15s;
-    }
-
-    .btn-divine-action:hover {
-      background: #334155;
-      border-color: var(--gold);
-      color: #fde047;
-      transform: translateY(-1px);
+      font-family: var(--font-pixel);
+      font-size: 0.68rem;
+      padding: 6px 4px;
     }
 
     .btn-divine-full {
       grid-column: span 2;
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(16, 185, 129, 0.2) 100%);
-      border-color: #f59e0b;
-      color: #fef08a;
-      font-weight: 700;
     }
 
-    .btn-divine-full:hover {
-      background: #f59e0b;
-      color: #090d16;
-    }
-
-    /* Needs Section */
+    /* Segmented Need Bars (Reference Image Style) */
     .section-headline {
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
+      font-family: var(--font-arcade);
+      font-size: 0.72rem;
+      color: #fff;
+      text-shadow: 1px 1px 0px #000;
+      margin-bottom: 4px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -740,11 +849,11 @@
     .needs-grid {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      background: rgba(30, 41, 59, 0.5);
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      gap: 5px;
+      background: var(--pixel-wood-deep);
+      padding: 8px;
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
     }
 
     .need-row {
@@ -756,26 +865,34 @@
     .need-header {
       display: flex;
       justify-content: space-between;
-      font-size: 0.72rem;
-      color: #cbd5e1;
-      font-weight: 600;
+      font-family: var(--font-pixel);
+      font-size: 0.68rem;
+      color: var(--pixel-cream);
     }
 
     .need-track {
       width: 100%;
-      height: 5px;
-      background: #1e293b;
-      border-radius: 3px;
+      height: 8px;
+      background: #110e0c;
+      border: 2px solid var(--pixel-wood-border);
+      border-radius: 2px;
       overflow: hidden;
+      box-shadow: inset 1px 1px 0px rgba(0,0,0,0.6);
     }
 
     .need-fill {
       height: 100%;
-      border-radius: 3px;
-      transition: width 0.3s ease, background-color 0.3s ease;
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent 0,
+        transparent 6px,
+        rgba(0, 0, 0, 0.4) 6px,
+        rgba(0, 0, 0, 0.4) 8px
+      );
+      transition: width 0.2s steps(10);
     }
 
-    /* Financials & Economy */
+    /* Economic Status Card */
     .econ-badge-card {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -783,217 +900,194 @@
     }
 
     .econ-stat {
-      background: rgba(30, 41, 59, 0.6);
-      padding: 8px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: var(--pixel-wood-deep);
+      border: 2px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      padding: 6px;
       text-align: center;
     }
 
     .econ-stat-title {
-      font-size: 0.65rem;
-      color: var(--text-muted);
+      font-family: var(--font-pixel);
+      font-size: 0.62rem;
+      color: var(--pixel-wood-highlight);
       text-transform: uppercase;
-      font-weight: 600;
     }
 
     .econ-stat-value {
-      font-size: 1.05rem;
-      font-weight: 800;
-      margin-top: 1px;
+      font-family: var(--font-arcade);
+      font-size: 0.92rem;
+      color: #fef08a;
+      text-shadow: 1px 1px 0px #000;
+      margin-top: 2px;
     }
 
     .relations-list, .memory-stream {
       display: flex;
       flex-direction: column;
-      gap: 5px;
-      max-height: 110px;
+      gap: 4px;
+      max-height: 100px;
       overflow-y: auto;
     }
 
-    .relations-list::-webkit-scrollbar, .memory-stream::-webkit-scrollbar { width: 3px; }
-    .relations-list::-webkit-scrollbar-thumb, .memory-stream::-webkit-scrollbar-thumb { background: #334155; }
+    .relations-list::-webkit-scrollbar, .memory-stream::-webkit-scrollbar { width: 4px; }
+    .relations-list::-webkit-scrollbar-thumb, .memory-stream::-webkit-scrollbar-thumb { background: var(--pixel-wood-dark); }
 
     .relation-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 5px 8px;
-      background: rgba(30, 41, 59, 0.5);
-      border-radius: 6px;
-      font-size: 0.72rem;
+      padding: 4px 6px;
+      background: var(--pixel-wood-deep);
+      border: 2px solid var(--pixel-wood-border);
+      border-radius: 3px;
+      font-family: var(--font-readable);
+      font-size: 0.74rem;
     }
 
     .memory-item {
-      padding: 5px 8px;
-      background: rgba(30, 41, 59, 0.5);
-      border-radius: 6px;
-      font-size: 0.72rem;
-      color: #cbd5e1;
-      border-left: 2px solid var(--accent);
+      padding: 4px 6px;
+      background: var(--pixel-wood-deep);
+      border: 2px solid var(--pixel-wood-border);
+      border-left: 3px solid var(--pixel-gold);
+      border-radius: 3px;
+      font-family: var(--font-readable);
+      font-size: 0.74rem;
+      color: var(--pixel-cream);
     }
 
     /* ==========================================================================
-       DIVINE COMMAND CONSOLE ("GOD'S COMMAND")
+       RETRO 16-BIT RPG GOD'S COMMAND CONSOLE (BOTTOM DOCKED)
        ========================================================================== */
     .divine-console-container {
       position: absolute;
-      bottom: 14px;
+      bottom: 12px;
       left: 50%;
       transform: translateX(-50%);
-      width: min(840px, 92vw);
-      background: rgba(13, 20, 36, 0.94);
-      backdrop-filter: blur(18px);
-      border: 1px solid rgba(245, 158, 11, 0.45);
-      box-shadow: 0 0 25px rgba(245, 158, 11, 0.25), 0 10px 40px rgba(0, 0, 0, 0.75);
-      border-radius: 14px;
-      padding: 10px 14px;
+      width: min(840px, 94vw);
+      background: var(--pixel-wood-base);
+      border: 4px solid var(--pixel-wood-border);
+      border-radius: 6px;
+      box-shadow: inset 0 2px 0 var(--pixel-wood-highlight),
+                  inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+                  0 6px 0 var(--pixel-wood-border),
+                  0 12px 32px rgba(0, 0, 0, 0.85);
+      padding: 8px 12px;
       z-index: 25;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      transition: all 0.3s ease;
+      gap: 6px;
     }
 
     .console-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      background: var(--pixel-wood-dark);
+      padding: 4px 8px;
+      border: 2px solid var(--pixel-wood-border);
+      border-radius: 3px;
     }
 
     .console-title-pill {
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.76rem;
-      font-weight: 800;
-      color: #fde047;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
+      font-family: var(--font-arcade);
+      font-size: 0.72rem;
+      color: #fef08a;
+      text-shadow: 1px 1px 0px #000;
+      letter-spacing: 0.5px;
     }
 
     .console-status-pill {
-      font-size: 0.7rem;
-      color: #94a3b8;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+      font-family: var(--font-pixel);
+      font-size: 0.65rem;
+      color: var(--pixel-wood-highlight);
     }
 
     .console-input-row {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
     }
 
     .god-input {
       flex: 1;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      border-radius: 8px;
-      padding: 9px 14px;
-      color: #f8fafc;
+      background: var(--pixel-wood-deep);
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      padding: 8px 10px;
+      color: #fff;
+      font-family: var(--font-readable);
       font-size: 0.88rem;
+      font-weight: 600;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      box-shadow: inset 2px 2px 0px rgba(0,0,0,0.6);
     }
 
     .god-input:focus {
-      border-color: #f59e0b;
-      box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
-    }
-
-    .btn-execute-divine {
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-      color: #090d16;
-      border: none;
-      border-radius: 8px;
-      padding: 9px 18px;
-      font-size: 0.84rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 0 14px rgba(245, 158, 11, 0.4);
-      transition: all 0.15s ease;
-      white-space: nowrap;
-    }
-
-    .btn-execute-divine:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 0 20px rgba(245, 158, 11, 0.65);
+      border-color: var(--pixel-gold);
     }
 
     .suggestion-chips-row {
       display: flex;
-      gap: 6px;
+      gap: 5px;
       overflow-x: auto;
       padding-bottom: 2px;
     }
 
-    .suggestion-chips-row::-webkit-scrollbar { height: 3px; }
-    .suggestion-chips-row::-webkit-scrollbar-thumb { background: #334155; }
+    .suggestion-chips-row::-webkit-scrollbar { height: 4px; }
+    .suggestion-chips-row::-webkit-scrollbar-thumb { background: var(--pixel-wood-dark); }
 
     .chip-btn {
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #cbd5e1;
-      border-radius: 12px;
-      padding: 3px 9px;
-      font-size: 0.7rem;
+      font-family: var(--font-pixel);
+      background: var(--pixel-wood-deep);
+      border: 2px solid var(--pixel-wood-border);
+      color: var(--pixel-wood-highlight);
+      border-radius: 3px;
+      padding: 3px 7px;
+      font-size: 0.65rem;
       white-space: nowrap;
       cursor: pointer;
-      transition: all 0.15s;
+      box-shadow: 0 2px 0 var(--pixel-wood-border);
     }
 
     .chip-btn:hover {
-      background: rgba(56, 189, 248, 0.2);
-      border-color: var(--accent);
-      color: #f8fafc;
+      background: var(--pixel-wood-dark);
+      color: #fef08a;
+      transform: translateY(-1px);
     }
+    .chip-btn:active { transform: translateY(1px); box-shadow: none; }
 
-    /* Execution Feedback Alert Box */
+    /* Retro Message Feedback Box */
     .command-feedback-card {
       display: none;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid #10b981;
-      border-radius: 8px;
-      padding: 7px 10px;
-      font-size: 0.76rem;
+      background: #110e0c;
+      border: 2px solid var(--pixel-green);
+      border-radius: 3px;
+      padding: 5px 8px;
+      font-size: 0.74rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      animation: fadeIn 0.25s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .feedback-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .feedback-badge {
-      font-weight: 800;
-      color: #34d399;
-      background: rgba(16, 185, 129, 0.15);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.68rem;
+      font-family: var(--font-arcade);
+      font-size: 0.65rem;
+      color: var(--pixel-green);
     }
 
     .feedback-text {
-      color: #f1f5f9;
+      font-family: var(--font-readable);
+      font-weight: 600;
+      color: #fff;
     }
 
     /* ==========================================================================
-       DEDICATED GOD MODE WORLD CONTROL DRAWER (#god-mode-drawer)
+       DEDICATED GOD MODE WORLD CONTROL DRAWER (RETRO RPG WORLD MENU)
        ========================================================================== */
     .god-drawer-overlay {
       position: fixed;
@@ -1001,8 +1095,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.7);
       z-index: 50;
       display: none;
       justify-content: center;
@@ -1014,59 +1107,63 @@
     }
 
     .god-drawer-box {
-      width: min(860px, 94vw);
+      width: min(840px, 94vw);
       max-height: 86vh;
-      background: #0b1120;
-      border: 1px solid #f59e0b;
-      box-shadow: 0 0 35px rgba(245, 158, 11, 0.3), 0 20px 60px rgba(0, 0, 0, 0.85);
-      border-radius: 16px;
+      background: var(--pixel-wood-base);
+      border: 4px solid var(--pixel-wood-border);
+      border-radius: 6px;
+      box-shadow: inset 0 2px 0 var(--pixel-wood-highlight),
+                  0 8px 0 var(--pixel-wood-border),
+                  0 20px 48px rgba(0, 0, 0, 0.9);
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
 
     .god-drawer-header {
-      padding: 14px 20px;
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(168, 85, 247, 0.18) 100%);
-      border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 10px 14px;
+      background: var(--pixel-wood-dark);
+      border-bottom: 3px solid var(--pixel-wood-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .god-drawer-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #fde047;
+      font-family: var(--font-arcade);
+      font-size: 0.92rem;
+      color: #fef08a;
+      text-shadow: 2px 2px 0px #000;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
     .god-drawer-body {
-      padding: 20px;
+      padding: 14px;
       overflow-y: auto;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 12px;
+      background: var(--pixel-wood-base);
     }
 
     .god-power-section {
-      background: rgba(30, 41, 59, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 14px;
+      background: var(--pixel-wood-deep);
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
+      box-shadow: inset 1px 1px 0px rgba(255,255,255,0.1);
     }
 
     .god-sec-title {
-      font-size: 0.82rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--accent);
+      font-family: var(--font-arcade);
+      font-size: 0.72rem;
+      color: #fef08a;
+      text-shadow: 1px 1px 0px #000;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -1075,50 +1172,33 @@
     .control-row {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
 
     .control-label {
-      font-size: 0.74rem;
-      color: #cbd5e1;
+      font-family: var(--font-pixel);
+      font-size: 0.68rem;
+      color: var(--pixel-wood-highlight);
       display: flex;
       justify-content: space-between;
-      font-weight: 600;
     }
 
     .power-btn-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+      gap: 5px;
     }
 
     .btn-power-option {
-      background: #1e293b;
-      border: 1px solid #475569;
-      color: #e2e8f0;
-      padding: 6px 8px;
-      border-radius: 6px;
-      font-size: 0.74rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      transition: all 0.15s;
-    }
-
-    .btn-power-option:hover, .btn-power-option.active {
-      background: var(--gold);
-      color: #090d16;
-      border-color: #fde047;
-      font-weight: 700;
+      font-family: var(--font-pixel);
+      font-size: 0.68rem;
+      padding: 5px 4px;
     }
 
     .god-range-slider {
       width: 100%;
-      height: 6px;
-      accent-color: #f59e0b;
+      height: 8px;
+      accent-color: var(--pixel-gold);
       cursor: pointer;
     }
 
@@ -1127,18 +1207,13 @@
        ========================================================================== */
     .divine-log-drawer {
       position: absolute;
-      top: 78px;
-      left: 16px;
+      top: 76px;
+      left: 14px;
       width: 320px;
       max-height: 480px;
-      background: var(--card-bg);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      z-index: 15;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65);
       display: none;
       flex-direction: column;
+      z-index: 15;
       overflow: hidden;
     }
 
@@ -1147,67 +1222,56 @@
     }
 
     .log-list {
-      padding: 10px;
+      padding: 8px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
       flex: 1;
+      background: var(--pixel-wood-base);
     }
 
-    .log-list::-webkit-scrollbar { width: 3px; }
-    .log-list::-webkit-scrollbar-thumb { background: #334155; }
+    .log-list::-webkit-scrollbar { width: 4px; }
+    .log-list::-webkit-scrollbar-thumb { background: var(--pixel-wood-dark); }
 
     .log-entry {
-      background: rgba(30, 41, 59, 0.6);
-      border-radius: 6px;
-      padding: 6px 8px;
-      font-size: 0.72rem;
-      line-height: 1.35;
-      border-left: 3px solid var(--accent);
+      background: var(--pixel-wood-deep);
+      border: 2px solid var(--pixel-wood-border);
+      border-radius: 3px;
+      padding: 5px 7px;
+      font-family: var(--font-readable);
+      font-size: 0.74rem;
+      line-height: 1.3;
+      border-left: 4px solid var(--pixel-gold);
     }
 
-    .log-entry.divine { border-left-color: var(--gold); }
-    .log-entry.weather { border-left-color: #06b6d4; }
-    .log-entry.event { border-left-color: #a855f7; }
+    .log-entry.weather { border-left-color: var(--pixel-blue); }
+    .log-entry.event { border-left-color: var(--pixel-purple); }
 
     .log-time {
-      font-size: 0.65rem;
-      color: var(--text-muted);
-      font-weight: 700;
+      font-family: var(--font-pixel);
+      font-size: 0.62rem;
+      color: var(--pixel-wood-highlight);
       margin-bottom: 2px;
     }
 
-    /* Zoom Controls */
+    /* Zoom Controls (D-pad Style) */
     .zoom-controls {
       position: absolute;
-      right: 20px;
-      bottom: 20px;
+      right: 18px;
+      bottom: 18px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
       z-index: 10;
     }
 
     .btn-zoom {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid var(--card-border);
-      color: #f1f5f9;
-      font-size: 1.15rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s;
-    }
-
-    .btn-zoom:hover {
-      background: #334155;
-      color: var(--accent);
+      width: 34px;
+      height: 34px;
+      font-family: var(--font-arcade);
+      font-size: 0.95rem;
+      padding: 0;
     }
 
     /* Modals Generic */
@@ -1217,8 +1281,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.75);
       z-index: 100;
       display: none;
       justify-content: center;
@@ -1230,40 +1293,35 @@
     .modal-box {
       width: min(720px, 92vw);
       max-height: 85vh;
-      background: #0f172a;
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 20px;
+      background: var(--pixel-wood-base);
+      border: 4px solid var(--pixel-wood-border);
+      border-radius: 6px;
+      padding: 14px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8);
+      gap: 12px;
+      box-shadow: inset 0 2px 0 var(--pixel-wood-highlight),
+                  0 8px 0 var(--pixel-wood-border),
+                  0 20px 48px rgba(0, 0, 0, 0.9);
     }
 
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 10px;
+      background: var(--pixel-wood-dark);
+      padding: 8px 12px;
+      border: 2px solid var(--pixel-wood-border);
+      border-radius: 4px;
     }
 
     .modal-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--accent);
+      font-family: var(--font-arcade);
+      font-size: 0.82rem;
+      color: #fef08a;
+      text-shadow: 1px 1px 0px #000;
     }
-
-    .btn-close-modal {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.3rem;
-      cursor: pointer;
-    }
-
-    .btn-close-modal:hover { color: #fff; }
   </style>
 </head>
 <body>
@@ -1281,33 +1339,33 @@
   <div id="flash-overlay"></div>
 
   <!-- ==========================================================================
-       TOP STATUS BAR & NAVIGATION
+       RETRO GAME-STYLE TOP BAR (HUD RIBBON)
        ========================================================================== -->
   <header class="top-bar">
     <div class="brand-section">
       <div class="brand-badge">
         <div class="status-dot"></div>
         <div>
-          <div class="brand-title">👑 SMALLVILLE // GOD SIMULATOR</div>
-          <div class="brand-subtitle" id="society-status-sub">15 AUTONOMOUS RESIDENTS • DIVINE AUTHORITY ACTIVE</div>
+          <div class="brand-title">👑 SMALLVILLE // GOD SIM</div>
+          <div class="brand-subtitle" id="society-status-sub">15 RESIDENTS • 16-BIT RETRO INTERFACE</div>
         </div>
       </div>
     </div>
 
-    <!-- Simulation Time & Playback Controls -->
+    <!-- Clock, Season & Playback -->
     <div class="clock-section">
       <div class="clock-display">
         <span id="clock-day">MON</span>
-        <span id="clock-time" style="color:var(--accent);">08:00 AM</span>
+        <span id="clock-time">08:00 AM</span>
       </div>
       <div class="season-badge" id="season-badge">🌸 Spring</div>
       <div class="weather-badge" id="weather-badge">
         <span id="weather-icon">☀️</span>
         <span id="weather-desc">Sunny</span>
       </div>
-      <button class="time-ctrl-btn" id="btn-play-pause">⏸ PAUSE</button>
-      <div style="display:flex; gap:3px;">
-        <button class="time-ctrl-btn" data-speed="0.5">0.5x</button>
+      <button class="pixel-btn pixel-btn-red" id="btn-play-pause" style="padding:4px 8px; font-size:0.65rem;">⏸ PAUSE</button>
+      <div class="speed-btn-group">
+        <button class="time-ctrl-btn" data-speed="0.5">.5x</button>
         <button class="time-ctrl-btn active" data-speed="1">1x</button>
         <button class="time-ctrl-btn" data-speed="2">2x</button>
         <button class="time-ctrl-btn" data-speed="5">5x</button>
@@ -1315,32 +1373,32 @@
       </div>
     </div>
 
-    <!-- Action Bar Buttons -->
+    <!-- Top Action Buttons -->
     <div class="top-actions">
-      <button class="btn-action-nav btn-god-powers" id="btn-toggle-god-drawer">👑 God Powers</button>
-      <button class="btn-action-nav btn-command-toggle" id="btn-focus-command">⚡ God's Command</button>
-      <button class="btn-action-nav" id="btn-toggle-roster">👥 Residents (<span id="top-roster-count">15</span>)</button>
-      <button class="btn-action-nav" id="btn-toggle-log">📜 Event Log</button>
-      <button class="btn-action-nav" id="btn-open-analytics">📊 Analytics</button>
-      <button class="btn-action-nav" id="btn-open-saveload">💾 Save / Load</button>
-      <a href="/" class="btn-action-nav" style="color:#94a3b8;">&larr; Portal</a>
+      <button class="pixel-btn pixel-btn-gold" id="btn-toggle-god-drawer">👑 God Powers</button>
+      <button class="pixel-btn pixel-btn-orange" id="btn-focus-command">⚡ Command</button>
+      <button class="pixel-btn pixel-btn-wood" id="btn-toggle-roster">👥 Residents (<span id="top-roster-count">15</span>)</button>
+      <button class="pixel-btn pixel-btn-wood" id="btn-toggle-log">📜 Log</button>
+      <button class="pixel-btn pixel-btn-wood" id="btn-open-analytics">📊 Stats</button>
+      <button class="pixel-btn pixel-btn-wood" id="btn-open-saveload">💾 Save</button>
+      <a href="/" class="pixel-btn pixel-btn-wood" style="color:#fef08a;">&larr; Portal</a>
     </div>
   </header>
 
   <!-- ==========================================================================
        LEFT ROSTER PANE (COLLAPSED BY DEFAULT)
        ========================================================================== -->
-  <aside class="left-roster-pane" id="left-roster-pane">
-    <div class="pane-header">
-      <div class="pane-title">👥 Town Residents</div>
-      <div style="display:flex; align-items:center; gap:8px;">
-        <div class="roster-count" id="roster-count">15 Citizens</div>
-        <button class="btn-close-pane" id="btn-close-roster">&times;</button>
+  <aside class="left-roster-pane pixel-card-frame" id="left-roster-pane">
+    <div class="pane-header-tab">
+      <div class="pane-title-text">👥 Town Residents</div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span style="font-family:var(--font-pixel); font-size:0.68rem; color:#fef08a;" id="roster-count">15 Citizens</span>
+        <button class="btn-pixel-close" id="btn-close-roster">&times;</button>
       </div>
     </div>
     <div class="roster-filter-tabs">
       <button class="roster-tab active" data-filter="all">All</button>
-      <button class="roster-tab" data-filter="working">Working</button>
+      <button class="roster-tab" data-filter="working">Work</button>
       <button class="roster-tab" data-filter="social">Social</button>
       <button class="roster-tab" data-filter="home">Home</button>
     </div>
@@ -1352,68 +1410,70 @@
   <!-- ==========================================================================
        RIGHT DEEP INSPECTOR HUD (SLIDE-OUT ON AGENT CLICK ONLY)
        ========================================================================== -->
-  <aside class="right-inspector-pane" id="right-inspector-pane">
+  <aside class="right-inspector-pane pixel-card-frame" id="right-inspector-pane">
     <div class="inspector-header-bar">
       <div class="inspector-mode-pill mode-autonomous" id="inspect-mode-pill">
         <span>🤖</span>
         <span id="inspect-mode-text">Autonomous AI Mode</span>
       </div>
-      <button class="btn-close-pane" id="btn-close-inspector">&times;</button>
+      <button class="btn-pixel-close" id="btn-close-inspector">&times;</button>
     </div>
 
     <!-- Profile Header -->
     <div class="inspector-profile-header">
-      <img src="/static/assets/characters/profile/Isabella_Rodriguez.png" class="inspector-avatar" id="inspect-avatar" alt="Citizen">
+      <div class="inspector-avatar-box">
+        <img src="/static/assets/characters/profile/Isabella_Rodriguez.png" class="inspector-avatar" id="inspect-avatar" alt="Citizen">
+      </div>
       <div class="inspector-bio">
         <h2 id="inspect-name">Isabella Rodriguez</h2>
-        <p id="inspect-job" style="color:var(--accent); font-weight:600;">Cafe Owner & Barista</p>
-        <p id="inspect-traits" style="font-size:0.72rem;">Age 34 • Friendly, Outgoing</p>
+        <p id="inspect-job" style="color:#fef08a; font-weight:700;">Cafe Owner & Barista</p>
+        <p id="inspect-traits" style="font-size:0.7rem;">Age 34 • Friendly, Outgoing</p>
         <div class="cam-shortcuts-row">
           <button class="btn-cam-shortcut" id="btn-cam-follow">🎯 Follow</button>
           <button class="btn-cam-shortcut" id="btn-cam-focus">📍 Focus</button>
           <button class="btn-cam-shortcut" id="btn-cam-home">🏠 Home</button>
           <button class="btn-cam-shortcut" id="btn-cam-work">🏢 Work</button>
-          <button class="btn-cam-shortcut" id="btn-open-schedule">🗓️ Schedule</button>
+          <button class="btn-cam-shortcut" id="btn-open-schedule">🗓️ Routine</button>
         </div>
       </div>
     </div>
 
-    <!-- Active Internal Thought -->
+    <!-- Active Thought (Retro RPG Message Box) -->
     <div class="thought-bubble-card">
-      <div class="thought-label">💭 Active Internal Thought</div>
+      <div class="thought-label">💭 Internal Thought</div>
       <div class="thought-text" id="inspect-thought">
-        "Morning cafe rush is starting! Let's get the fresh espresso machine calibrated."
+        "Morning rush is starting! Let's get the espresso machine calibrated."
       </div>
       <div class="thought-location" id="inspect-location">
-        📍 Hobbs Cafe &bull; behind the cafe counter
+        📍 Hobbs Cafe &bull; behind counter
       </div>
     </div>
 
-    <!-- DIVINE INTERVENTIONS (DIRECT GOD CONTROLS) -->
+    <!-- DIVINE INTERVENTIONS (16-BIT SPELL/ACTION GRID) -->
     <div class="divine-actions-card">
       <div class="divine-title">
         <span>⚡ Divine Interventions</span>
-        <span style="font-size:0.65rem; color:#94a3b8;">Direct Authority</span>
+        <span style="font-size:0.62rem; color:var(--pixel-wood-highlight);">Direct Authority</span>
       </div>
       <div class="divine-btn-grid">
-        <button class="btn-divine-action" id="btn-god-give-money">💰 +$100 Gift</button>
-        <button class="btn-divine-action" id="btn-god-take-money">💸 -$50 Fine</button>
-        <button class="btn-divine-action" id="btn-god-force-work">🏢 Force Work</button>
-        <button class="btn-divine-action" id="btn-god-force-home">🏠 Force Home</button>
-        <button class="btn-divine-action" id="btn-god-force-cafe">☕ Force Cafe</button>
-        <button class="btn-divine-action" id="btn-god-force-park">🌳 Force Park</button>
-        <button class="btn-divine-action" id="btn-god-force-sleep">🛏️ Force Sleep</button>
-        <button class="btn-divine-action" id="btn-god-target-tile">🎯 Click Map Tile</button>
-        <button class="btn-divine-action btn-divine-full" id="btn-god-bless-needs">✨ Divine Blessing (Max All Needs 100%)</button>
-        <button class="btn-divine-action btn-divine-full" id="btn-god-release-control" style="background:#1e293b; color:#94a3b8; border-color:#475569;">🕊️ Release Control to Autonomous AI</button>
+        <button class="pixel-btn pixel-btn-gold btn-divine-action" id="btn-god-give-money">💰 +$100 Gift</button>
+        <button class="pixel-btn pixel-btn-red btn-divine-action" id="btn-god-take-money">💸 -$50 Fine</button>
+        <button class="pixel-btn pixel-btn-blue btn-divine-action" id="btn-god-force-work">🏢 Force Work</button>
+        <button class="pixel-btn pixel-btn-green btn-divine-action" id="btn-god-force-home">🏠 Force Home</button>
+        <button class="pixel-btn pixel-btn-orange btn-divine-action" id="btn-god-force-cafe">☕ Force Cafe</button>
+        <button class="pixel-btn pixel-btn-green btn-divine-action" id="btn-god-force-park">🌳 Force Park</button>
+        <button class="pixel-btn pixel-btn-wood btn-divine-action" id="btn-god-force-sleep">🛏️ Force Sleep</button>
+        <button class="pixel-btn pixel-btn-blue btn-divine-action" id="btn-god-target-tile">🎯 Click Tile</button>
+        <button class="pixel-btn pixel-btn-gold btn-divine-action btn-divine-full" id="btn-god-bless-needs">✨ Divine Blessing (Max 100% Needs)</button>
+        <button class="pixel-btn pixel-btn-wood btn-divine-action btn-divine-full" id="btn-god-release-control">🕊️ Release Control to Autonomous AI</button>
       </div>
     </div>
 
-    <!-- Needs Grid -->
+    <!-- Needs Grid (Segmented Pixel Bars) -->
     <div>
       <div class="section-headline">
-        <span>Vital Needs & State</span>
-        <span id="inspect-overall-mood" style="color:var(--success); font-weight:700;">Happy (88%)</span>
+        <span>Vital Needs</span>
+        <span id="inspect-overall-mood" style="color:#fef08a;">Happy (88%)</span>
       </div>
       <div class="needs-grid">
         <div class="need-row">
@@ -1421,7 +1481,7 @@
             <span>🍞 Hunger</span>
             <span id="val-hunger">25%</span>
           </div>
-          <div class="need-track"><div class="need-fill" id="bar-hunger" style="width:25%; background:var(--success);"></div></div>
+          <div class="need-track"><div class="need-fill" id="bar-hunger" style="width:25%; background-color:var(--pixel-orange);"></div></div>
         </div>
 
         <div class="need-row">
@@ -1429,7 +1489,7 @@
             <span>⚡ Energy</span>
             <span id="val-energy">85%</span>
           </div>
-          <div class="need-track"><div class="need-fill" id="bar-energy" style="width:85%; background:var(--accent);"></div></div>
+          <div class="need-track"><div class="need-fill" id="bar-energy" style="width:85%; background-color:var(--pixel-blue);"></div></div>
         </div>
 
         <div class="need-row">
@@ -1437,7 +1497,7 @@
             <span>❤️ Health</span>
             <span id="val-health">95%</span>
           </div>
-          <div class="need-track"><div class="need-fill" id="bar-health" style="width:95%; background:var(--success);"></div></div>
+          <div class="need-track"><div class="need-fill" id="bar-health" style="width:95%; background-color:var(--pixel-red);"></div></div>
         </div>
 
         <div class="need-row">
@@ -1445,7 +1505,7 @@
             <span>😊 Happiness</span>
             <span id="val-happiness">88%</span>
           </div>
-          <div class="need-track"><div class="need-fill" id="bar-happiness" style="width:88%; background:#eab308;"></div></div>
+          <div class="need-track"><div class="need-fill" id="bar-happiness" style="width:88%; background-color:var(--pixel-gold);"></div></div>
         </div>
 
         <div class="need-row">
@@ -1453,7 +1513,7 @@
             <span>🚿 Hygiene</span>
             <span id="val-hygiene">80%</span>
           </div>
-          <div class="need-track"><div class="need-fill" id="bar-hygiene" style="width:80%; background:#06b6d4;"></div></div>
+          <div class="need-track"><div class="need-fill" id="bar-hygiene" style="width:80%; background-color:#06b6d4;"></div></div>
         </div>
 
         <div class="need-row">
@@ -1461,7 +1521,7 @@
             <span>💬 Social</span>
             <span id="val-social">75%</span>
           </div>
-          <div class="need-track"><div class="need-fill" id="bar-social" style="width:75%; background:var(--divine-purple);"></div></div>
+          <div class="need-track"><div class="need-fill" id="bar-social" style="width:75%; background-color:var(--pixel-purple);"></div></div>
         </div>
       </div>
     </div>
@@ -1472,68 +1532,67 @@
       <div class="econ-badge-card">
         <div class="econ-stat">
           <div class="econ-stat-title">Wallet Balance</div>
-          <div class="econ-stat-value" id="val-money" style="color:#10b981;">$450</div>
+          <div class="econ-stat-value" id="val-money">$450</div>
         </div>
         <div class="econ-stat">
           <div class="econ-stat-title">Hourly Wage</div>
-          <div class="econ-stat-value" id="val-wage" style="color:var(--accent);">$24/hr</div>
+          <div class="econ-stat-value" id="val-wage">$24/hr</div>
         </div>
       </div>
     </div>
 
-    <!-- Social Relationships -->
+    <!-- Social Connections -->
     <div>
-      <div class="section-headline">Social Connections</div>
+      <div class="section-headline">Social Network</div>
       <div class="relations-list" id="inspect-relations-list"></div>
     </div>
 
     <!-- Memories -->
     <div>
-      <div class="section-headline">Recent Memories & Encounters</div>
+      <div class="section-headline">Recent Memories</div>
       <div class="memory-stream" id="inspect-memory-stream"></div>
     </div>
   </aside>
 
   <!-- ==========================================================================
-       DIVINE COMMAND CONSOLE ("GOD'S COMMAND")
+       RETRO 16-BIT RPG GOD'S COMMAND CONSOLE (BOTTOM DOCKED)
        ========================================================================== -->
   <div class="divine-console-container" id="divine-console">
     <div class="console-header">
       <div class="console-title-pill">
         <span>⚡ GOD'S COMMAND</span>
-        <span style="color:#94a3b8; font-weight:500;">• Type Natural-Language Simulation Directives</span>
+        <span style="font-family:var(--font-pixel); font-size:0.65rem; color:#fff;">• 16-Bit NLP Directive Console</span>
       </div>
       <div class="console-status-pill">
-        <span id="console-mode-indicator">🟢 NLP Engine Ready</span>
+        <span id="console-mode-indicator">🟢 Engine Ready</span>
       </div>
     </div>
 
-    <!-- Command Input & Submit -->
     <div class="console-input-row">
       <input type="text" id="god-command-input" class="god-input" placeholder='Type a divine command... e.g. "Make Isabella go to cafe", "Give Klaus 500 coins", "Make it rain", "Make everyone gather at Johnson Park"'>
-      <button class="btn-execute-divine" id="btn-submit-divine">⚡ EXECUTE WILL</button>
+      <button class="pixel-btn pixel-btn-green" id="btn-submit-divine">⚡ EXECUTE WILL</button>
     </div>
 
     <!-- Suggestion Chips -->
     <div class="suggestion-chips-row">
       <button class="chip-btn" data-cmd="Make Isabella go to cafe">☕ Make Isabella go to cafe</button>
-      <button class="chip-cmd chip-btn" data-cmd="Make Klaus visit the park">🌳 Make Klaus visit the park</button>
-      <button class="chip-cmd chip-btn" data-cmd="Give Maria 500 coins">💰 Give Maria 500 coins</button>
-      <button class="chip-cmd chip-btn" data-cmd="Make everyone gather at Johnson Park">📢 Gather everyone at Johnson Park</button>
-      <button class="chip-cmd chip-btn" data-cmd="Make it rain for two hours">🌧️ Make it rain for two hours</button>
-      <button class="chip-cmd chip-btn" data-cmd="Make everyone go to sleep">🛏️ Make everyone go to sleep</button>
-      <button class="chip-cmd chip-btn" data-cmd="Trigger Town Festival">🎪 Trigger Town Festival</button>
-      <button class="chip-cmd chip-btn" data-cmd="Increase the happiness of all residents">✨ Increase happiness of all residents</button>
-      <button class="chip-cmd chip-btn" data-cmd="Create a food shortage in the town">⚠️ Create food shortage</button>
+      <button class="chip-btn" data-cmd="Make Klaus visit the park">🌳 Make Klaus visit park</button>
+      <button class="chip-btn" data-cmd="Give Maria 500 coins">💰 Give Maria 500 coins</button>
+      <button class="chip-btn" data-cmd="Make everyone gather at Johnson Park">📢 Gather everyone at park</button>
+      <button class="chip-btn" data-cmd="Make it rain for two hours">🌧️ Summon rain</button>
+      <button class="chip-btn" data-cmd="Make everyone go to sleep">🛏️ Send all to sleep</button>
+      <button class="chip-btn" data-cmd="Trigger Town Festival">🎪 Town Festival</button>
+      <button class="chip-btn" data-cmd="Increase the happiness of all residents">✨ Bless all residents</button>
+      <button class="chip-btn" data-cmd="Create a food shortage in the town">⚠️ Food shortage</button>
     </div>
 
-    <!-- Execution Feedback Alert -->
+    <!-- Feedback Message Box -->
     <div class="command-feedback-card" id="command-feedback-card">
-      <div class="feedback-left">
+      <div style="display:flex; align-items:center; gap:8px;">
         <span class="feedback-badge" id="feedback-badge">DIVINE WILL</span>
         <span class="feedback-text" id="feedback-text">Command executed successfully.</span>
       </div>
-      <button class="btn-close-pane" id="btn-close-feedback">&times;</button>
+      <button class="btn-pixel-close" id="btn-close-feedback" style="padding:1px 5px;">&times;</button>
     </div>
   </div>
 
@@ -1544,121 +1603,117 @@
     <div class="god-drawer-box">
       <div class="god-drawer-header">
         <div class="god-drawer-title">
-          <span>👑 GOD MODE — COMPLETE WORLD AUTHORITY</span>
+          <span>👑 GOD MODE — WORLD AUTHORITY</span>
         </div>
-        <button class="btn-close-pane" id="btn-close-god-drawer" style="font-size:1.4rem;">&times;</button>
+        <button class="btn-pixel-close" id="btn-close-god-drawer" style="font-size:0.9rem;">&times;</button>
       </div>
 
       <div class="god-drawer-body">
         <!-- 1. World Simulation Flow -->
         <div class="god-power-section">
-          <div class="god-sec-title">⏳ 1. Society Flow & Playback</div>
+          <div class="god-sec-title">⏳ 1. Simulation Flow</div>
           <div class="power-btn-grid" style="grid-template-columns: 1fr 1fr 1fr;">
-            <button class="btn-power-option" id="btn-drawer-pause">⏸ Pause</button>
-            <button class="btn-power-option active" id="btn-drawer-resume">▶ Resume</button>
-            <button class="btn-power-option" id="btn-drawer-reset" style="color:#ef4444;">🔄 Reset</button>
+            <button class="pixel-btn pixel-btn-red btn-power-option" id="btn-drawer-pause">⏸ Pause</button>
+            <button class="pixel-btn pixel-btn-green btn-power-option" id="btn-drawer-resume">▶ Resume</button>
+            <button class="pixel-btn pixel-btn-wood btn-power-option" id="btn-drawer-reset" style="color:#ef4444;">🔄 Reset</button>
           </div>
           <div class="control-row">
             <div class="control-label">
-              <span>Simulation Speed</span>
-              <span id="label-speed-val">1x Normal</span>
+              <span>Speed Factor</span>
+              <span id="label-speed-val" style="color:#fef08a;">1x Normal</span>
             </div>
             <div class="power-btn-grid" style="grid-template-columns: repeat(5, 1fr);">
-              <button class="btn-power-option" data-god-speed="0.5">0.5x</button>
-              <button class="btn-power-option active" data-god-speed="1">1x</button>
-              <button class="btn-power-option" data-god-speed="2">2x</button>
-              <button class="btn-power-option" data-god-speed="5">5x</button>
-              <button class="btn-power-option" data-god-speed="10">10x</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-speed="0.5">.5x</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option active" data-god-speed="1">1x</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-speed="2">2x</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-speed="5">5x</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-speed="10">10x</button>
             </div>
           </div>
         </div>
 
         <!-- 2. Celestial Time & Seasons -->
         <div class="god-power-section">
-          <div class="god-sec-title">☀️ 2. Celestial Time & Seasons</div>
+          <div class="god-sec-title">☀️ 2. Time & Seasons</div>
           <div class="control-row">
             <div class="control-label">
-              <span>Time of Day Scrub</span>
-              <span id="label-drawer-time" style="color:var(--accent);">08:00 AM</span>
+              <span>Time Scrub</span>
+              <span id="label-drawer-time" style="color:#fef08a;">08:00 AM</span>
             </div>
             <input type="range" min="0" max="1439" value="480" class="god-range-slider" id="slider-time-scrub">
           </div>
           <div class="power-btn-grid" style="grid-template-columns: repeat(4, 1fr);">
-            <button class="btn-power-option" data-jump-time="6">🌅 Dawn</button>
-            <button class="btn-power-option" data-jump-time="12">☀️ Noon</button>
-            <button class="btn-power-option" data-jump-time="18">🌇 Sunset</button>
-            <button class="btn-power-option" data-jump-time="0">🌙 Night</button>
+            <button class="pixel-btn pixel-btn-gold btn-power-option" data-jump-time="6">🌅 Dawn</button>
+            <button class="pixel-btn pixel-btn-gold btn-power-option" data-jump-time="12">☀️ Noon</button>
+            <button class="pixel-btn pixel-btn-gold btn-power-option" data-jump-time="18">🌇 Sunset</button>
+            <button class="pixel-btn pixel-btn-gold btn-power-option" data-jump-time="0">🌙 Night</button>
           </div>
           <div class="control-row">
-            <div class="control-label">
-              <span>Season of the Year</span>
-            </div>
+            <div class="control-label"><span>Season</span></div>
             <div class="power-btn-grid" style="grid-template-columns: repeat(4, 1fr);">
-              <button class="btn-power-option active" data-god-season="Spring">🌸 Spring</button>
-              <button class="btn-power-option" data-god-season="Summer">☀️ Summer</button>
-              <button class="btn-power-option" data-god-season="Autumn">🍂 Autumn</button>
-              <button class="btn-power-option" data-god-season="Winter">❄️ Winter</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option active" data-god-season="Spring">🌸 Spring</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-season="Summer">☀️ Summer</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-season="Autumn">🍂 Autumn</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-season="Winter">❄️ Winter</button>
             </div>
           </div>
         </div>
 
         <!-- 3. Environmental Powers & Weather -->
         <div class="god-power-section">
-          <div class="god-sec-title">🌧️ 3. Environmental Powers & Weather</div>
+          <div class="god-sec-title">🌧️ 3. Weather Powers</div>
           <div class="power-btn-grid">
-            <button class="btn-power-option active" data-god-weather="Sunny">☀️ Sunny</button>
-            <button class="btn-power-option" data-god-weather="Rain">🌧️ Rain</button>
-            <button class="btn-power-option" data-god-weather="Storm">⛈️ Storm</button>
-            <button class="btn-power-option" data-god-weather="Snow">❄️ Snow</button>
-            <button class="btn-power-option" data-god-weather="Drought">🔥 Drought</button>
-            <button class="btn-power-option" data-god-weather="Overcast">☁️ Overcast</button>
+            <button class="pixel-btn pixel-btn-gold btn-power-option active" data-god-weather="Sunny">☀️ Sunny</button>
+            <button class="pixel-btn pixel-btn-blue btn-power-option" data-god-weather="Rain">🌧️ Rain</button>
+            <button class="pixel-btn pixel-btn-blue btn-power-option" data-god-weather="Storm">⛈️ Storm</button>
+            <button class="pixel-btn pixel-btn-blue btn-power-option" data-god-weather="Snow">❄️ Snow</button>
+            <button class="pixel-btn pixel-btn-orange btn-power-option" data-god-weather="Drought">🔥 Drought</button>
+            <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-weather="Overcast">☁️ Overcast</button>
           </div>
           <div class="control-row">
-            <div class="control-label">
-              <span>Ambient Lighting Override</span>
-            </div>
+            <div class="control-label"><span>Daylight Filter</span></div>
             <div class="power-btn-grid" style="grid-template-columns: 1fr 1fr 1fr;">
-              <button class="btn-power-option active" id="btn-ambient-auto">🕒 Auto Clock</button>
-              <button class="btn-power-option" id="btn-ambient-day">☀️ Force Day</button>
-              <button class="btn-power-option" id="btn-ambient-night">🌙 Force Night</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option active" id="btn-ambient-auto">🕒 Auto</button>
+              <button class="pixel-btn pixel-btn-gold btn-power-option" id="btn-ambient-day">☀️ Day</button>
+              <button class="pixel-btn pixel-btn-blue btn-power-option" id="btn-ambient-night">🌙 Night</button>
             </div>
           </div>
         </div>
 
         <!-- 4. Resources & Economy -->
         <div class="god-power-section">
-          <div class="god-sec-title">🌾 4. Resources & Economy</div>
+          <div class="god-sec-title">🌾 4. Resources & Treasury</div>
           <div class="control-row">
             <div class="control-label">
               <span>Town Food Reserves</span>
-              <span id="label-food-val">180 Units</span>
+              <span id="label-food-val" style="color:#fef08a;">180 Units</span>
             </div>
             <div class="power-btn-grid" style="grid-template-columns: 1fr 1fr 1fr;">
-              <button class="btn-power-option" id="btn-add-food">➕ +50 Food</button>
-              <button class="btn-power-option" id="btn-sub-food">➖ -50 Food</button>
-              <button class="btn-power-option" id="btn-famine" style="color:#ef4444;">⚠️ Famine (0)</button>
+              <button class="pixel-btn pixel-btn-green btn-power-option" id="btn-add-food">➕ +50 Food</button>
+              <button class="pixel-btn pixel-btn-orange btn-power-option" id="btn-sub-food">➖ -50 Food</button>
+              <button class="pixel-btn pixel-btn-red btn-power-option" id="btn-famine">⚠️ Famine</button>
             </div>
           </div>
           <div class="control-row">
             <div class="control-label">
-              <span>Town Treasury & Stimulus</span>
-              <span id="label-econ-val">$5,240</span>
+              <span>Town Treasury</span>
+              <span id="label-econ-val" style="color:#fef08a;">$5,240</span>
             </div>
             <div class="power-btn-grid" style="grid-template-columns: 1fr 1fr;">
-              <button class="btn-power-option" id="btn-stimulus-boom">💰 +$2,000 Stimulus</button>
-              <button class="btn-power-option" id="btn-econ-crash" style="color:#ef4444;">📉 Economic Panic</button>
+              <button class="pixel-btn pixel-btn-gold btn-power-option" id="btn-stimulus-boom">💰 +$2,000 Stimulus</button>
+              <button class="pixel-btn pixel-btn-red btn-power-option" id="btn-econ-crash">📉 Panic</button>
             </div>
           </div>
         </div>
 
-        <!-- 5. Major Town Events & Festivals -->
+        <!-- 5. Major Town Events -->
         <div class="god-power-section" style="grid-column: span 2;">
-          <div class="god-sec-title">🎪 5. Major World Events & Gatherings</div>
+          <div class="god-sec-title">🎪 5. Major World Events & Celebrations</div>
           <div class="power-btn-grid" style="grid-template-columns: repeat(4, 1fr);">
-            <button class="btn-power-option" id="btn-event-festival">🎉 Town Festival</button>
-            <button class="btn-power-option" id="btn-event-gather-park">📢 Gather in Park</button>
-            <button class="btn-power-option" id="btn-event-curfew">😴 Town Curfew</button>
-            <button class="btn-power-option" id="btn-event-work-rush">💼 Morning Rush</button>
+            <button class="pixel-btn pixel-btn-gold btn-power-option" id="btn-event-festival">🎉 Festival</button>
+            <button class="pixel-btn pixel-btn-blue btn-power-option" id="btn-event-gather-park">📢 Assembly</button>
+            <button class="pixel-btn pixel-btn-wood btn-power-option" id="btn-event-curfew">😴 Curfew</button>
+            <button class="pixel-btn pixel-btn-orange btn-power-option" id="btn-event-work-rush">💼 Work Rush</button>
           </div>
         </div>
       </div>
@@ -1668,37 +1723,35 @@
   <!-- ==========================================================================
        DIVINE EVENT LOG DRAWER
        ========================================================================== -->
-  <aside class="divine-log-drawer" id="divine-log-drawer">
-    <div class="pane-header">
-      <div class="pane-title">📜 Divine Event Log</div>
-      <button class="btn-close-pane" id="btn-close-log">&times;</button>
+  <aside class="divine-log-drawer pixel-card-frame" id="divine-log-drawer">
+    <div class="pane-header-tab">
+      <div class="pane-title-text">📜 Event Log</div>
+      <button class="btn-pixel-close" id="btn-close-log">&times;</button>
     </div>
-    <div class="log-list" id="divine-log-list">
-      <!-- Logs inserted dynamically -->
-    </div>
+    <div class="log-list" id="divine-log-list"></div>
   </aside>
 
-  <!-- Zoom Floating Buttons -->
+  <!-- Zoom Controls (D-pad Style) -->
   <div class="zoom-controls">
-    <button class="btn-zoom" id="btn-zoom-in" title="Zoom In">+</button>
-    <button class="btn-zoom" id="btn-zoom-out" title="Zoom Out">&minus;</button>
-    <button class="btn-zoom" id="btn-zoom-reset" title="Reset View">&#8635;</button>
+    <button class="pixel-btn pixel-btn-wood btn-zoom" id="btn-zoom-in" title="Zoom In">+</button>
+    <button class="pixel-btn pixel-btn-wood btn-zoom" id="btn-zoom-out" title="Zoom Out">&minus;</button>
+    <button class="pixel-btn pixel-btn-wood btn-zoom" id="btn-zoom-reset" title="Reset View">&#8635;</button>
   </div>
 
   <!-- Modals: Analytics, Schedule, Save/Load -->
   <div class="modal-overlay" id="modal-analytics">
     <div class="modal-box">
       <div class="modal-header">
-        <div class="modal-title">📊 Smallville Town Analytics & Society Health</div>
-        <button class="btn-close-modal">&times;</button>
+        <div class="modal-title">📊 Town Analytics & Society Health</div>
+        <button class="btn-pixel-close">&times;</button>
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-        <div style="background:#1e293b; padding:16px; border-radius:10px;">
-          <h4 style="margin-bottom:8px; color:var(--accent); font-size:0.9rem;">Citizen Happiness & Needs Index</h4>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div style="background:var(--pixel-wood-deep); padding:12px; border:2px solid var(--pixel-wood-border); border-radius:4px;">
+          <h4 style="margin-bottom:6px; color:#fef08a; font-family:var(--font-arcade); font-size:0.7rem;">Happiness & Needs Index</h4>
           <canvas id="chart-happiness" height="180"></canvas>
         </div>
-        <div style="background:#1e293b; padding:16px; border-radius:10px;">
-          <h4 style="margin-bottom:8px; color:var(--success); font-size:0.9rem;">Town Economic Velocity & Business Revenues</h4>
+        <div style="background:var(--pixel-wood-deep); padding:12px; border:2px solid var(--pixel-wood-border); border-radius:4px;">
+          <h4 style="margin-bottom:6px; color:var(--pixel-green); font-family:var(--font-arcade); font-size:0.7rem;">Business Revenues</h4>
           <canvas id="chart-economy" height="180"></canvas>
         </div>
       </div>
@@ -1708,40 +1761,32 @@
   <div class="modal-overlay" id="modal-schedule">
     <div class="modal-box" style="max-width:550px;">
       <div class="modal-header">
-        <div class="modal-title" id="schedule-modal-title">🗓️ Citizen Daily Schedule</div>
-        <button class="btn-close-modal">&times;</button>
+        <div class="modal-title" id="schedule-modal-title">🗓️ Daily Schedule</div>
+        <button class="btn-pixel-close">&times;</button>
       </div>
-      <div id="schedule-timeline" style="display:flex; flex-direction:column; gap:8px; max-height:60vh; overflow-y:auto;"></div>
+      <div id="schedule-timeline" style="display:flex; flex-direction:column; gap:6px; max-height:60vh; overflow-y:auto; background:var(--pixel-wood-deep); padding:8px; border:2px solid var(--pixel-wood-border);"></div>
     </div>
   </div>
 
   <div class="modal-overlay" id="modal-saveload">
-    <div class="modal-box" style="max-width:500px;">
+    <div class="modal-box" style="max-width:480px;">
       <div class="modal-header">
-        <div class="modal-title">💾 Save & Load Simulation State</div>
-        <button class="btn-close-modal">&times;</button>
+        <div class="modal-title">💾 Save & Load State</div>
+        <button class="btn-pixel-close">&times;</button>
       </div>
-      <p style="font-size:0.85rem; color:var(--text-muted);">
+      <p style="font-family:var(--font-readable); font-size:0.8rem; color:var(--pixel-wood-highlight);">
         Save all citizen positions, needs, wallets, relationships, and history.
       </p>
-      <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
-        <button class="btn-action-nav" id="btn-save-local" style="justify-content:center; background:#0284c7; color:#fff;">
-          💾 Save Current State to Local Storage
-        </button>
-        <button class="btn-action-nav" id="btn-load-local" style="justify-content:center; background:#10b981; color:#fff;">
-          📂 Load State from Local Storage
-        </button>
-        <button class="btn-action-nav" id="btn-export-json" style="justify-content:center;">
-          📥 Download State JSON File
-        </button>
-        <button class="btn-action-nav" id="btn-reset-sim" style="justify-content:center; color:#ef4444; border-color:#ef4444;">
-          🔄 Reset Simulation to Day 1 Morning
-        </button>
+      <div style="display:flex; flex-direction:column; gap:8px; margin-top:6px;">
+        <button class="pixel-btn pixel-btn-blue" id="btn-save-local">💾 Save State to Browser</button>
+        <button class="pixel-btn pixel-btn-green" id="btn-load-local">📂 Load Saved State</button>
+        <button class="pixel-btn pixel-btn-wood" id="btn-export-json">📥 Download State JSON</button>
+        <button class="pixel-btn pixel-btn-red" id="btn-reset-sim">🔄 Reset to Day 1 Morning</button>
       </div>
     </div>
   </div>
 
-  <!-- Include Simulation Logic Script -->
+  <!-- Simulation Logic Script -->
   <script>
     /* ==========================================================================
        SIMULATION DATA & STATE INITIALIZATION
@@ -1754,7 +1799,6 @@
 
     window.isMapTargetSelectionActive = false;
 
-    // Global Simulation Engine Class
     class SocietySimulation {
       constructor() {
         this.citizens = [];
@@ -1763,7 +1807,7 @@
         this.speed = 1;
         this.isRunning = true;
         
-        // Simulation Clock: starts Day 1 (Monday), 08:00 AM
+        // Clock: Day 1 (Monday), 08:00 AM
         this.day = 1;
         this.dayName = "Monday";
         this.hour = 8;
@@ -1771,7 +1815,7 @@
         this.season = "Spring";
         this.weather = "Sunny";
         this.weatherIcon = "☀️";
-        this.forceAmbient = null; // null for auto, 'day', 'night'
+        this.forceAmbient = null;
 
         // Town Economic Totals
         this.townFoodReserves = 180;
@@ -1783,10 +1827,9 @@
           "Harvey Oak Supply": 190
         };
 
-        // Event Journal
+        // Event Log
         this.eventLog = [];
 
-        // Historical Metrics for Analytics
         this.historyMetrics = {
           times: [],
           avgHappiness: [],
@@ -1818,7 +1861,7 @@
             hourly_wage: def.hourly_wage || 20,
             schedule: def.schedule,
 
-            // Live Coordinates on 140x100 grid
+            // Live Coordinates
             tileX: def.home_coords[0],
             tileY: def.home_coords[1],
             pixelX: def.home_coords[0] * 32 + 16,
@@ -1836,25 +1879,18 @@
             hygiene: 80 + Math.floor(Math.random() * 15),
             social: 75 + Math.floor(Math.random() * 15),
 
-            // Activity State
             currentAction: "Morning routine at home",
             actionEmoji: "🌅",
             currentThought: `Waking up in ${def.home_name}. Ready for the day ahead.`,
             locationText: def.home_name,
-            state: "home", // home, work, eat, social, sleep, divine
+            state: "home",
 
-            // Divine Intervention State
-            divineCommand: null, // { action: string, dest: [x,y], resumeState: string }
-
-            // Relationships
+            divineCommand: null,
             relationships: this.generateInitialRelationships(def.name),
-
-            // Memories
             memories: [
               { time: "08:00 AM", text: `Woke up feeling well-rested in ${def.home_name}.` }
             ],
 
-            // Phaser Sprite Reference
             sprite: null,
             speechBubble: null,
             speechText: null,
@@ -1894,11 +1930,9 @@
         return `${displayH}:${displayM} ${period}`;
       }
 
-      // Tick Simulation Forward
       tickSimulation() {
         if (!this.isRunning) return;
 
-        // Advance in-game time
         this.minute += 1;
         if (this.minute >= 60) {
           this.minute = 0;
@@ -1913,21 +1947,14 @@
           this.onDayChange();
         }
 
-        // Update Clock HUD
         document.getElementById('clock-day').innerText = this.dayName.substring(0, 3).toUpperCase();
         document.getElementById('clock-time').innerText = this.formatTime(this.hour, this.minute);
         document.getElementById('label-drawer-time').innerText = this.formatTime(this.hour, this.minute);
 
-        // Update Ambient Daylight
         this.updateAmbientDaylight();
-
-        // Update each Citizen's Needs & Decision-making
         this.citizens.forEach(c => this.updateCitizen(c));
-
-        // Check for Nearby Proximity Conversations
         this.checkConversations();
 
-        // Update Inspector HUD for Selected Citizen
         if (this.selectedCitizen) {
           this.updateInspectorHUD(this.selectedCitizen);
         }
@@ -1956,7 +1983,6 @@
         document.getElementById('weather-icon').innerText = target.icon;
         document.getElementById('weather-desc').innerText = target.desc;
         
-        // Update weather canvas particle mode
         if (window.weatherEngine) {
           window.weatherEngine.setMode(this.weather);
         }
@@ -1985,7 +2011,7 @@
         }
 
         if (this.weather === 'Drought') {
-          overlay.style.backgroundColor = "rgba(180, 83, 9, 0.22)"; // sepia heat haze
+          overlay.style.backgroundColor = "rgba(180, 83, 9, 0.22)";
           return;
         }
 
@@ -1993,29 +2019,23 @@
         let color = "rgba(0, 0, 0, 0)";
 
         if (h >= 5 && h < 7) {
-          // Dawn sunrise (warm peach)
           const factor = (h - 5) / 2;
           color = `rgba(251, 146, 60, ${0.25 * (1 - factor)})`;
         } else if (h >= 7 && h < 17) {
-          // Clear Day
           color = "rgba(0, 0, 0, 0)";
         } else if (h >= 17 && h < 19.5) {
-          // Golden Sunset
           const factor = (h - 17) / 2.5;
           color = `rgba(249, 115, 22, ${0.22 * factor})`;
         } else if (h >= 19.5 && h < 22) {
-          // Dusk Twilight
           const factor = (h - 19.5) / 2.5;
           color = `rgba(30, 27, 75, ${0.2 + factor * 0.35})`;
         } else {
-          // Deep Night
           color = "rgba(15, 23, 42, 0.58)";
         }
         overlay.style.backgroundColor = color;
       }
 
       onHourChange() {
-        // Hourly wage payout
         this.citizens.forEach(c => {
           if (c.state === 'work') {
             c.money += c.hourly_wage;
@@ -2027,7 +2047,6 @@
           }
         });
 
-        // Drought penalty
         if (this.weather === 'Drought') {
           this.townFoodReserves = Math.max(0, this.townFoodReserves - 4);
         }
@@ -2040,7 +2059,6 @@
       }
 
       updateCitizen(c) {
-        // 1. Natural Need Shifts
         c.hunger = Math.min(100, c.hunger + 0.28);
         c.hygiene = Math.max(0, c.hygiene - 0.14);
 
@@ -2052,7 +2070,6 @@
           c.social = Math.max(0, c.social - 0.12);
         }
 
-        // Happiness calculation
         let happinessTarget = 90;
         if (c.hunger > 70) happinessTarget -= 25;
         if (c.energy < 25) happinessTarget -= 30;
@@ -2061,16 +2078,13 @@
         if (c.money < 50) happinessTarget -= 20;
         c.happiness = Math.round(c.happiness * 0.95 + happinessTarget * 0.05);
 
-        // Health calculation
         if (c.hunger > 90 || c.energy < 5) c.health = Math.max(20, c.health - 0.5);
         else c.health = Math.min(100, c.health + 0.2);
 
-        // If under active Divine Command, do not let basic schedule interrupt!
         if (c.divineCommand && c.divineCommand.active) {
-          // If citizen reached destination, divine command completes
           if (!c.isWalking && c.tileX === c.divineCommand.dest[0] && c.tileY === c.divineCommand.dest[1]) {
             c.divineCommand.ticksAtDest = (c.divineCommand.ticksAtDest || 0) + 1;
-            if (c.divineCommand.ticksAtDest > 15) { // after ~15 simulation seconds, release control
+            if (c.divineCommand.ticksAtDest > 15) {
               c.divineCommand.active = false;
               c.state = c.divineCommand.resumeState || 'home';
               c.currentAction = "Resumed daily autonomous routine";
@@ -2081,7 +2095,6 @@
           return;
         }
 
-        // 2. Adaptive Utility AI: Needs Overrides
         const timeKey = `${this.hour < 10 ? '0' + this.hour : this.hour}:00`;
 
         if (c.energy <= 15 && c.state !== 'sleep') {
@@ -2137,7 +2150,6 @@
           return;
         }
 
-        // 3. Scheduled Routine Tasks
         if (c.schedule && c.schedule[timeKey] && !c.isWalking && c.state !== 'sleep') {
           const entry = c.schedule[timeKey];
           c.currentAction = entry.action;
@@ -2234,7 +2246,6 @@
         this.eventLog.unshift(entry);
         if (this.eventLog.length > 80) this.eventLog.pop();
 
-        // Append to drawer log DOM
         const logContainer = document.getElementById('divine-log-list');
         if (logContainer) {
           const div = document.createElement('div');
@@ -2276,7 +2287,6 @@
         document.getElementById('inspect-thought').innerText = `"${c.currentThought}"`;
         document.getElementById('inspect-location').innerText = `📍 ${c.locationText || c.home_name}`;
 
-        // Mode Pill
         const modePill = document.getElementById('inspect-mode-pill');
         const modeText = document.getElementById('inspect-mode-text');
         if (c.divineCommand && c.divineCommand.active) {
@@ -2287,7 +2297,6 @@
           modeText.innerText = "🤖 Autonomous AI Mode";
         }
 
-        // Needs
         const setNeed = (id, val, color) => {
           document.getElementById(`val-${id}`).innerText = `${Math.round(val)}%`;
           const bar = document.getElementById(`bar-${id}`);
@@ -2295,34 +2304,32 @@
           bar.style.backgroundColor = color;
         };
 
-        setNeed('hunger', c.hunger, c.hunger > 60 ? 'var(--warning)' : 'var(--success)');
-        setNeed('energy', c.energy, c.energy < 30 ? 'var(--danger)' : 'var(--accent)');
-        setNeed('health', c.health, c.health < 40 ? 'var(--danger)' : 'var(--success)');
-        setNeed('happiness', c.happiness, '#eab308');
+        setNeed('hunger', c.hunger, c.hunger > 60 ? 'var(--pixel-orange)' : 'var(--pixel-green)');
+        setNeed('energy', c.energy, c.energy < 30 ? 'var(--pixel-red)' : 'var(--pixel-blue)');
+        setNeed('health', c.health, c.health < 40 ? 'var(--pixel-red)' : 'var(--pixel-green)');
+        setNeed('happiness', c.happiness, 'var(--pixel-gold)');
         setNeed('hygiene', c.hygiene, '#06b6d4');
-        setNeed('social', c.social, 'var(--divine-purple)');
+        setNeed('social', c.social, 'var(--pixel-purple)');
 
         document.getElementById('inspect-overall-mood').innerText = `${c.happiness > 70 ? 'Happy' : 'Neutral'} (${Math.round(c.happiness)}%)`;
         document.getElementById('val-money').innerText = `$${c.money}`;
         document.getElementById('val-wage').innerText = `$${c.hourly_wage}/hr`;
 
-        // Render Relationships
         const relContainer = document.getElementById('inspect-relations-list');
         if (relContainer) {
           relContainer.innerHTML = (c.relationships || []).map(r => `
             <div class="relation-item">
               <span><strong>${r.name}</strong> • ${r.relation}</span>
-              <span style="color:var(--accent); font-weight:700;">${r.affinity}%</span>
+              <span style="color:#fef08a; font-weight:700;">${r.affinity}%</span>
             </div>
           `).join('');
         }
 
-        // Render Memories
         const memContainer = document.getElementById('inspect-memory-stream');
         if (memContainer) {
           memContainer.innerHTML = (c.memories || []).slice(0, 5).map(m => `
             <div class="memory-item">
-              <span style="color:var(--accent); font-weight:700;">[${m.time}]</span> ${m.text}
+              <span style="color:#fef08a; font-weight:700;">[${m.time}]</span> ${m.text}
             </div>
           `).join('');
         }
@@ -2340,7 +2347,6 @@
       if (startX < 0 || startX >= w || startY < 0 || startY >= h) return [];
       if (startX === targetX && startY === targetY) return [];
 
-      // If target is blocked, find nearest walkable tile
       if (grid[targetY][targetX] === 1) {
         let found = false;
         for (let r = 1; r <= 3; r++) {
@@ -2522,7 +2528,7 @@
           return { success: true, msg: "🔥 Scorching drought cast over Smallville." };
         }
 
-        // 2. World Events & Cataclysms
+        // 2. World Events
         if (text.includes("festival") || text.includes("celebration") || text.includes("party")) {
           return this.triggerFestival();
         }
@@ -2547,7 +2553,7 @@
             this.sim.setCitizenTarget(c, c.bed_coords[0], c.bed_coords[1]);
           });
           this.sim.logEvent("Divine Curfew: All residents ordered to sleep.", null, "divine", "💤");
-          return { success: true, msg: "💤 Divine Curfew enacted: All 15 residents are walking home to sleep." };
+          return { success: true, msg: "💤 Divine Curfew enacted: All 15 residents walking home to sleep." };
         }
         if (text.includes("increase happiness") || text.includes("make everyone happy") || text.includes("heal everyone") || text.includes("feed everyone")) {
           this.sim.citizens.forEach(c => {
@@ -2558,14 +2564,10 @@
             c.currentThought = "I feel blessed by an unseen celestial grace!";
           });
           this.sim.logEvent("Divine Blessing bestowed upon all citizens (100% Needs).", null, "divine", "✨");
-          return { success: true, msg: "✨ Divine Blessing granted: All residents restored to 100% Happiness, Health, and Energy." };
-        }
-        if (text.includes("unemployed") && (text.includes("job") || text.includes("work"))) {
-          return { success: true, msg: "💼 All residents are actively assigned town professions." };
+          return { success: true, msg: "✨ Divine Blessing granted: All residents restored to 100% Needs." };
         }
 
         // 3. Citizen Specific Commands
-        // Find matching target citizen
         let targetCitizen = null;
         for (const c of this.sim.citizens) {
           const firstName = c.name.split(' ')[0].toLowerCase();
@@ -2577,7 +2579,6 @@
         }
 
         if (targetCitizen) {
-          // Check for Money commands
           const moneyMatch = text.match(/(?:give|grant|award|send)\s+.*?(\d+)\s*(?:coins|dollars|money|\$)?/i) || text.match(/\$(\d+)/);
           if (moneyMatch && (text.includes("give") || text.includes("grant") || text.includes("send"))) {
             const amount = parseInt(moneyMatch[1]);
@@ -2588,10 +2589,9 @@
             });
             this.sim.logEvent(`Granted $${amount} to ${targetCitizen.name}.`, targetCitizen.name, "divine", "💰");
             selectCitizen(targetCitizen);
-            return { success: true, msg: `💰 Granted $${amount} to ${targetCitizen.name} (New Balance: $${targetCitizen.money}).` };
+            return { success: true, msg: `💰 Granted $${amount} to ${targetCitizen.name} (Balance: $${targetCitizen.money}).` };
           }
 
-          // Check for Destination Commands
           if (text.includes("work") || text.includes("job") || text.includes("office") || text.includes("counter")) {
             executeDivineMoveTarget(targetCitizen, targetCitizen.workplace_coords[0], targetCitizen.workplace_coords[1], "work", `Heading to work at ${targetCitizen.workplace_name}`);
             return { success: true, msg: `🏢 ${targetCitizen.name} commanded to work at ${targetCitizen.workplace_name}.` };
@@ -2634,7 +2634,6 @@
           c.currentThought = "The Town Festival is happening! Everyone is gathering in Johnson Park to celebrate!";
           c.currentAction = "Celebrating at Smallville Town Festival";
           c.actionEmoji = "🎉";
-          // Scatter slightly around Johnson Park center [39, 44]
           const offsetDX = Math.floor(Math.random() * 5) - 2;
           const offsetDY = Math.floor(Math.random() * 5) - 2;
           this.sim.setCitizenTarget(c, 39 + offsetDX, 44 + offsetDY);
@@ -2697,7 +2696,6 @@
       phaserScene = this;
       this.load.crossOrigin = '';
 
-      // Load Tilesets
       this.load.image("blocks_1", "/static/assets/the_ville/visuals/map_assets/blocks/blocks_1.png");
       this.load.image("walls", "/static/assets/the_ville/visuals/map_assets/v1/Room_Builder_32x32.png");
       this.load.image("interiors_pt1", "/static/assets/the_ville/visuals/map_assets/v1/interiors_pt1.png");
@@ -2715,13 +2713,9 @@
       this.load.image("CuteRPG_Desert_B", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Desert_B.png");
       this.load.image("CuteRPG_Forest_C", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Forest_C.png");
 
-      // Load Tilemap JSON
       this.load.tilemapTiledJSON("smallville_map", "/static/assets/the_ville/visuals/the_ville_jan7.json");
-
-      // Load Speech Bubble
       this.load.image('speech_bubble_img', "/static/assets/speech_bubble/v3.png");
 
-      // Load Character Atlases
       const characterNames = [
         "Isabella_Rodriguez", "Klaus_Mueller", "Maria_Lopez", "Arthur_Burton",
         "John_Lin", "Mei_Lin", "Eddy_Lin", "Giorgio_Rossi", "Tom_Moreno",
@@ -2759,7 +2753,6 @@
         interiors_pt1, interiors_pt2, interiors_pt3, interiors_pt4, interiors_pt5, walls
       ];
 
-      // Create Layers
       map.createLayer("Bottom Ground", tilesetGroup, 0, 0);
       map.createLayer("Exterior Ground", tilesetGroup, 0, 0);
       map.createLayer("Exterior Decoration L1", tilesetGroup, 0, 0);
@@ -2774,19 +2767,16 @@
       foregroundL1.setDepth(2);
       foregroundL2.setDepth(2);
 
-      // Camera setup
       camera = this.cameras.main;
       camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
       camera.setZoom(1.1);
       camera.centerOn(77 * 32, 22 * 32);
 
-      // Divine Reticle for click target
-      divineReticle = this.add.circle(0, 0, 16, 0xf59e0b, 0.4);
-      divineReticle.setStrokeStyle(2, 0xfde047);
+      divineReticle = this.add.circle(0, 0, 16, 0xeab308, 0.4);
+      divineReticle.setStrokeStyle(3, 0xfef08a);
       divineReticle.setDepth(10);
       divineReticle.visible = false;
 
-      // Setup Walking Animations
       sim.citizens.forEach(c => {
         const cKey = c.underscore;
         this.anims.create({
@@ -2814,7 +2804,6 @@
           repeat: -1
         });
 
-        // Create Character Sprite
         const sprite = this.physics.add.sprite(c.pixelX, c.pixelY, cKey, "down");
         sprite.setDepth(1);
         sprite.displayWidth = 36;
@@ -2828,16 +2817,14 @@
 
         c.sprite = sprite;
 
-        // Activity Emoji Badge
         c.emojiIcon = this.add.text(c.pixelX - 10, c.pixelY - 42, c.actionEmoji, {
-          font: '18px monospace',
-          padding: { x: 4, y: 4 },
-          backgroundColor: '#0f172a',
+          font: '16px monospace',
+          padding: { x: 3, y: 3 },
+          backgroundColor: '#26140e',
           color: '#ffffff'
         });
         c.emojiIcon.setDepth(3);
 
-        // Comic Speech Bubble
         c.speechBubble = this.add.image(c.pixelX + 60, c.pixelY - 35, 'speech_bubble_img');
         c.speechBubble.setDepth(4);
         c.speechBubble.displayWidth = 135;
@@ -2845,7 +2832,7 @@
         c.speechBubble.visible = false;
 
         c.speechText = this.add.text(c.pixelX - 10, c.pixelY - 55, '', {
-          font: '10px sans-serif',
+          font: '10px monospace',
           color: '#000000',
           wordWrap: { width: 110 }
         });
@@ -2853,7 +2840,6 @@
         c.speechText.visible = false;
       });
 
-      // Canvas Map Click Handler: Deselect or Divine Click-to-Move
       this.input.on('pointerdown', (pointer) => {
         if (pointer.rightButtonDown()) return;
         const worldPoint = camera.getWorldPoint(pointer.x, pointer.y);
@@ -2861,18 +2847,15 @@
         const tileY = Math.floor(worldPoint.y / 32);
 
         if (window.isMapTargetSelectionActive && sim.selectedCitizen) {
-          // Send selected citizen to this exact tile!
           executeDivineMoveTarget(sim.selectedCitizen, tileX, tileY, "divine", `Navigating to target [${tileX}, ${tileY}] by Divine Decree`);
           window.isMapTargetSelectionActive = false;
           document.body.style.cursor = 'default';
           return;
         }
 
-        // Click on empty ground closes the inspector HUD!
         deselectCitizen();
       });
 
-      // Camera Dragging
       this.input.on('pointerdown', (pointer) => {
         if (pointer.rightButtonDown() || pointer.middleButtonDown() || this.input.keyboard.checkDown(this.input.keyboard.addKey('SPACE'))) {
           isDragging = true;
@@ -2893,7 +2876,6 @@
 
       this.input.on('pointerup', () => { isDragging = false; });
 
-      // Mouse Wheel Zoom
       this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY) => {
         if (deltaY > 0) camera.setZoom(Math.max(0.45, camera.zoom - 0.1));
         else camera.setZoom(Math.min(2.4, camera.zoom + 0.1));
@@ -2908,7 +2890,6 @@
         );
       }
 
-      // Update Citizen Movements along BFS Path
       sim.citizens.forEach(c => {
         if (c.isWalking && c.currentPath.length > 0) {
           const targetTile = c.currentPath[c.pathIndex];
@@ -2945,7 +2926,6 @@
           }
         }
 
-        // Sync Sprite Position
         if (c.sprite) {
           c.sprite.x = c.pixelX;
           c.sprite.y = c.pixelY;
@@ -2968,18 +2948,16 @@
     }
 
     /* ==========================================================================
-       UI INTERACTION & DIVINE ACTIONS
+       UI INTERACTION & RETRO EVENT WIRING
        ========================================================================== */
     function selectCitizen(c) {
       sim.selectedCitizen = c;
       followTarget = c.sprite;
       sim.updateInspectorHUD(c);
 
-      // Open Inspector HUD
       const inspector = document.getElementById('right-inspector-pane');
       if (inspector) inspector.classList.add('open');
 
-      // Highlight in Roster
       document.querySelectorAll('.citizen-card').forEach(card => {
         card.classList.toggle('selected', card.dataset.id == c.id);
       });
@@ -2997,7 +2975,7 @@
       c.state = stateType;
       c.currentAction = actionDesc;
       c.actionEmoji = "⚡";
-      c.currentThought = `An overwhelming divine clarity compels me to visit [${targetX}, ${targetY}]!`;
+      c.currentThought = `A divine clarity compels me to visit [${targetX}, ${targetY}]!`;
       c.divineCommand = { active: true, action: actionDesc, dest: [targetX, targetY], resumeState: 'home', ticksAtDest: 0 };
       
       sim.setCitizenTarget(c, targetX, targetY);
@@ -3061,9 +3039,6 @@
       });
     }
 
-    /* ==========================================================================
-       INITIALIZATION ON WINDOW LOAD
-       ========================================================================== */
     window.addEventListener('load', async () => {
       try {
         const [gridRes, citizensRes, locsRes] = await Promise.all([
@@ -3076,32 +3051,24 @@
         window.SIM_DATA.citizens = await citizensRes.json();
         window.SIM_DATA.locations = await locsRes.json();
 
-        // Initialize Society
         sim.initCitizens(window.SIM_DATA.citizens);
 
-        // Start Phaser Game
         phaserGame = new Phaser.Game(phaserConfig);
-
-        // Start Weather Canvas Engine
         window.weatherEngine = new WeatherEngine('weather-canvas');
 
-        // Populate Roster
         renderRosterList();
 
-        // Setup Simulation Clock Interval
         setInterval(() => {
           sim.tickSimulation();
         }, 1000 / sim.speed);
 
-        // Setup Play / Pause
         const btnPlay = document.getElementById('btn-play-pause');
         btnPlay.addEventListener('click', () => {
           sim.isRunning = !sim.isRunning;
           btnPlay.innerText = sim.isRunning ? '⏸ PAUSE' : '▶ RESUME';
-          btnPlay.classList.toggle('active', !sim.isRunning);
+          btnPlay.className = sim.isRunning ? 'pixel-btn pixel-btn-red' : 'pixel-btn pixel-btn-green';
         });
 
-        // Top Speed buttons
         document.querySelectorAll('.time-ctrl-btn[data-speed]').forEach(btn => {
           btn.addEventListener('click', () => {
             document.querySelectorAll('.time-ctrl-btn[data-speed]').forEach(b => b.classList.remove('active'));
@@ -3110,7 +3077,6 @@
           });
         });
 
-        // Left Roster Toggle & Close
         const rosterPane = document.getElementById('left-roster-pane');
         document.getElementById('btn-toggle-roster').addEventListener('click', () => {
           rosterPane.classList.toggle('open');
@@ -3119,12 +3085,10 @@
           rosterPane.classList.remove('open');
         });
 
-        // Right Inspector Close
         document.getElementById('btn-close-inspector').addEventListener('click', () => {
           deselectCitizen();
         });
 
-        // Event Log Drawer Toggle & Close
         const logDrawer = document.getElementById('divine-log-drawer');
         document.getElementById('btn-toggle-log').addEventListener('click', () => {
           logDrawer.classList.toggle('open');
@@ -3133,7 +3097,6 @@
           logDrawer.classList.remove('open');
         });
 
-        // God Powers Drawer Toggle & Close
         const godOverlay = document.getElementById('god-drawer-overlay');
         document.getElementById('btn-toggle-god-drawer').addEventListener('click', () => {
           godOverlay.classList.add('open');
@@ -3142,14 +3105,12 @@
           godOverlay.classList.remove('open');
         });
 
-        // Focus Command Bar
         document.getElementById('btn-focus-command').addEventListener('click', () => {
           const input = document.getElementById('god-command-input');
           input.focus();
           input.scrollIntoView({ behavior: 'smooth' });
         });
 
-        // Submit Divine Command
         const submitCommand = () => {
           const input = document.getElementById('god-command-input');
           const res = commandEngine.execute(input.value);
@@ -3159,7 +3120,7 @@
 
           feedbackCard.style.display = 'flex';
           feedbackBadge.innerText = res.success ? "DIVINE WILL" : "GUIDANCE";
-          feedbackBadge.style.color = res.success ? "#34d399" : "#f59e0b";
+          feedbackBadge.style.color = res.success ? "var(--pixel-green)" : "var(--pixel-orange)";
           feedbackText.innerText = res.msg;
 
           if (res.success) input.value = '';
@@ -3174,7 +3135,6 @@
           document.getElementById('command-feedback-card').style.display = 'none';
         });
 
-        // Suggestion Chips
         document.querySelectorAll('.suggestion-chips-row button').forEach(chip => {
           chip.addEventListener('click', () => {
             const input = document.getElementById('god-command-input');
@@ -3183,7 +3143,6 @@
           });
         });
 
-        // Inspector Divine Interventions
         document.getElementById('btn-god-give-money').addEventListener('click', () => {
           if (!sim.selectedCitizen) return;
           sim.selectedCitizen.money += 100;
@@ -3251,7 +3210,6 @@
           sim.updateInspectorHUD(c);
         });
 
-        // Click Map Tile Target Mode
         document.getElementById('btn-god-target-tile').addEventListener('click', () => {
           if (!sim.selectedCitizen) return;
           window.isMapTargetSelectionActive = true;
@@ -3259,7 +3217,6 @@
           alert(`Click any walkable tile on the map to send ${sim.selectedCitizen.name} there.`);
         });
 
-        // Camera Shortcuts in Inspector
         document.getElementById('btn-cam-follow').addEventListener('click', () => {
           if (sim.selectedCitizen) followTarget = sim.selectedCitizen.sprite;
         });
@@ -3278,22 +3235,23 @@
           document.getElementById('schedule-modal-title').innerText = `🗓️ 24h Routine • ${sim.selectedCitizen.name}`;
           const timeline = document.getElementById('schedule-timeline');
           timeline.innerHTML = Object.entries(sim.selectedCitizen.schedule || {}).map(([t, item]) => `
-            <div style="background:#1e293b; padding:8px 12px; border-radius:6px; font-size:0.8rem; display:flex; justify-content:space-between; align-items:center;">
-              <span style="color:var(--accent); font-weight:700;">${t}</span>
-              <span>${item.emoji || '🚶'} ${item.action}</span>
+            <div style="background:var(--pixel-wood-deep); padding:6px 10px; border:2px solid var(--pixel-wood-border); border-radius:3px; font-size:0.75rem; display:flex; justify-content:space-between; align-items:center;">
+              <span style="color:#fef08a; font-family:var(--font-arcade); font-size:0.68rem;">${t}</span>
+              <span style="font-family:var(--font-readable); font-weight:600;">${item.emoji || '🚶'} ${item.action}</span>
             </div>
           `).join('');
           modal.classList.add('open');
         });
 
-        // God Drawer Power Buttons
         document.getElementById('btn-drawer-pause').addEventListener('click', () => {
           sim.isRunning = false;
           btnPlay.innerText = '▶ RESUME';
+          btnPlay.className = 'pixel-btn pixel-btn-green';
         });
         document.getElementById('btn-drawer-resume').addEventListener('click', () => {
           sim.isRunning = true;
           btnPlay.innerText = '⏸ PAUSE';
+          btnPlay.className = 'pixel-btn pixel-btn-red';
         });
         document.getElementById('btn-drawer-reset').addEventListener('click', () => {
           location.reload();
@@ -3308,7 +3266,6 @@
           });
         });
 
-        // Time Slider Scrub
         const timeSlider = document.getElementById('slider-time-scrub');
         timeSlider.addEventListener('input', () => {
           const val = parseInt(timeSlider.value);
@@ -3354,7 +3311,6 @@
           sim.updateAmbientDaylight();
         });
 
-        // Events in drawer
         document.getElementById('btn-event-festival').addEventListener('click', () => {
           commandEngine.triggerFestival();
         });
@@ -3390,7 +3346,6 @@
           sim.logEvent("Economic Stimulus granted (+$2,000 treasury, +$150/citizen).", null, "divine", "💰");
         });
 
-        // Zoom Buttons
         document.getElementById('btn-zoom-in').addEventListener('click', () => {
           if (camera) camera.setZoom(Math.min(2.4, camera.zoom + 0.2));
         });
@@ -3401,11 +3356,10 @@
           if (camera) camera.setZoom(1.1);
         });
 
-        // Setup Modals
         setupModal('btn-open-analytics', 'modal-analytics', renderAnalyticsCharts);
         setupModal('btn-open-saveload', 'modal-saveload');
 
-        sim.logEvent("Smallville Divine God Simulator initialized. 15 citizens active.", null, "divine", "👑");
+        sim.logEvent("Smallville 16-Bit Pixel-Art God Simulator ready. 15 citizens active.", null, "divine", "👑");
       } catch (err) {
         console.error("Simulation asset error:", err);
       }
@@ -3421,7 +3375,7 @@
         if (onOpen) onOpen();
       });
 
-      modal.querySelectorAll('.btn-close-modal').forEach(btn => {
+      modal.querySelectorAll('.btn-pixel-close').forEach(btn => {
         btn.addEventListener('click', () => modal.classList.remove('open'));
       });
 
@@ -3450,8 +3404,8 @@
         data: {
           labels,
           datasets: [
-            { label: 'Avg Happiness', data: happyData, borderColor: '#38bdf8', backgroundColor: 'rgba(56, 189, 248, 0.1)', fill: true, tension: 0.3 },
-            { label: 'Avg Health', data: healthData, borderColor: '#10b981', backgroundColor: 'transparent', borderDash: [4, 4] }
+            { label: 'Avg Happiness', data: happyData, borderColor: '#facc15', backgroundColor: 'rgba(250, 204, 21, 0.1)', fill: true, tension: 0.1 },
+            { label: 'Avg Health', data: healthData, borderColor: '#22c55e', backgroundColor: 'transparent', borderDash: [4, 4] }
           ]
         },
         options: { responsive: true, scales: { y: { min: 0, max: 100 } } }
@@ -3465,8 +3419,8 @@
         data: {
           labels,
           datasets: [
-            { label: 'Hobbs Cafe', data: cafeData, borderColor: '#f59e0b', tension: 0.3 },
-            { label: 'Rose & Crown Pub', data: pubData, borderColor: '#a855f7', tension: 0.3 }
+            { label: 'Hobbs Cafe', data: cafeData, borderColor: '#f97316', tension: 0.1 },
+            { label: 'Rose & Crown Pub', data: pubData, borderColor: '#a855f7', tension: 0.1 }
           ]
         },
         options: { responsive: true }

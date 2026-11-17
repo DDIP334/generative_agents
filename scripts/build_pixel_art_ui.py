@@ -1,0 +1,3449 @@
+import os
+
+TEMPLATE_PATH = r"D:\Project\generative_agents\environment\frontend_server\templates\living_society\living_society.html"
+STANDALONE_PATH = r"D:\Project\generative_agents\living_society_simulation.html"
+
+HTML_CONTENT = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smallville — 16-Bit Retro Pixel-Art Living AI Society & God Simulator</title>
+  
+  <!-- Retro Pixel Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Phaser 3 -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+  <!-- Chart.js for real-time town analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       16-BIT RETRO PIXEL-ART DESIGN SYSTEM
+       Inspired by classic warm-toned pixel games & 16-bit RPG interfaces
+       ========================================================================== */
+    :root {
+      /* Warm Retro Palette */
+      --pixel-bg-dark: #120b08;
+      --pixel-wood-base: #df9b6d;
+      --pixel-wood-dark: #63331d;
+      --pixel-wood-deep: #3b1d10;
+      --pixel-wood-border: #26140e;
+      --pixel-wood-highlight: #f5d5b8;
+      --pixel-cream: #fffbeb;
+      --pixel-cream-dark: #fef3c7;
+      
+      /* Vibrant 16-Bit Action Colors */
+      --pixel-green: #22c55e;
+      --pixel-green-shadow: #15803d;
+      --pixel-green-border: #14532d;
+      
+      --pixel-orange: #f97316;
+      --pixel-orange-shadow: #c2410c;
+      --pixel-orange-border: #431407;
+      
+      --pixel-red: #ef4444;
+      --pixel-red-shadow: #b91c1c;
+      --pixel-red-border: #450a0a;
+      
+      --pixel-gold: #eab308;
+      --pixel-gold-shadow: #a16207;
+      --pixel-gold-border: #422006;
+      
+      --pixel-blue: #3b82f6;
+      --pixel-blue-shadow: #1d4ed8;
+      --pixel-blue-border: #172554;
+      
+      --pixel-purple: #a855f7;
+      --pixel-purple-shadow: #7e22ce;
+      --pixel-purple-border: #3b0764;
+
+      /* Typography */
+      --font-arcade: 'Press Start 2P', monospace;
+      --font-pixel: 'Silkscreen', monospace;
+      --font-readable: 'Pixelify Sans', monospace, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+    }
+
+    body {
+      background: var(--pixel-bg-dark);
+      color: var(--pixel-cream);
+      font-family: var(--font-readable);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      -webkit-font-smoothing: none;
+    }
+
+    /* Fullscreen Game Canvas */
+    #game-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background: #110e0c;
+    }
+
+    #game-container canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* Weather Canvas Overlay (Rain, Snow, Lightning) */
+    #weather-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Ambient Lighting Overlay (Day/Night & Drought Tint) */
+    #ambient-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 3;
+      transition: background-color 1.5s steps(10);
+    }
+
+    /* Screen Flash Overlay for Lightning & Cataclysms */
+    #flash-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 4;
+      background: rgba(255, 255, 255, 0);
+      transition: background-color 0.08s steps(2);
+    }
+
+    /* ==========================================================================
+       PIXEL-ART BUTTONS & BEVELS (WITH AUTHENTIC CLICK ANIMATIONS)
+       ========================================================================== */
+    .pixel-btn {
+      font-family: var(--font-pixel);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 7px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      text-decoration: none !important;
+      transition: transform 0.05s ease, box-shadow 0.05s ease;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .pixel-btn:active {
+      transform: translateY(3px) !important;
+    }
+
+    /* Green Bevel Button (Play / Primary) */
+    .pixel-btn-green {
+      background: var(--pixel-green);
+      color: #ffffff;
+      border-color: var(--pixel-green-border);
+      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.4),
+                  inset -2px -2px 0px rgba(0, 0, 0, 0.35),
+                  0 4px 0 var(--pixel-green-border);
+    }
+    .pixel-btn-green:hover { background: #4ade80; }
+    .pixel-btn-green:active {
+      box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.4),
+                  inset -2px -2px 0px rgba(255, 255, 255, 0.4),
+                  0 1px 0 var(--pixel-green-border);
+    }
+
+    /* Orange Bevel Button (Options / Commands) */
+    .pixel-btn-orange {
+      background: var(--pixel-orange);
+      color: #ffffff;
+      border-color: var(--pixel-orange-border);
+      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.4),
+                  inset -2px -2px 0px rgba(0, 0, 0, 0.35),
+                  0 4px 0 var(--pixel-orange-border);
+    }
+    .pixel-btn-orange:hover { background: #fb923c; }
+    .pixel-btn-orange:active {
+      box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.4),
+                  inset -2px -2px 0px rgba(255, 255, 255, 0.4),
+                  0 1px 0 var(--pixel-orange-border);
+    }
+
+    /* Red Bevel Button (Exit / Pause / Danger) */
+    .pixel-btn-red {
+      background: var(--pixel-red);
+      color: #ffffff;
+      border-color: var(--pixel-red-border);
+      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.4),
+                  inset -2px -2px 0px rgba(0, 0, 0, 0.35),
+                  0 4px 0 var(--pixel-red-border);
+    }
+    .pixel-btn-red:hover { background: #f87171; }
+    .pixel-btn-red:active {
+      box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.4),
+                  inset -2px -2px 0px rgba(255, 255, 255, 0.4),
+                  0 1px 0 var(--pixel-red-border);
+    }
+
+    /* Gold Bevel Button (God Powers / Currency) */
+    .pixel-btn-gold {
+      background: var(--pixel-gold);
+      color: #26140e;
+      border-color: var(--pixel-gold-border);
+      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.5),
+                  inset -2px -2px 0px rgba(0, 0, 0, 0.35),
+                  0 4px 0 var(--pixel-gold-border);
+    }
+    .pixel-btn-gold:hover { background: #facc15; }
+    .pixel-btn-gold:active {
+      box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.4),
+                  inset -2px -2px 0px rgba(255, 255, 255, 0.4),
+                  0 1px 0 var(--pixel-gold-border);
+    }
+
+    /* Wood / Brown Bevel Button (Standard / Nav) */
+    .pixel-btn-wood {
+      background: var(--pixel-wood-dark);
+      color: var(--pixel-cream);
+      border-color: var(--pixel-wood-border);
+      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.2),
+                  inset -2px -2px 0px rgba(0, 0, 0, 0.4),
+                  0 4px 0 var(--pixel-wood-border);
+    }
+    .pixel-btn-wood:hover { background: #783e23; color: #fff; }
+    .pixel-btn-wood:active, .pixel-btn-wood.active {
+      background: #783e23;
+      box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.4),
+                  inset -2px -2px 0px rgba(255, 255, 255, 0.2),
+                  0 1px 0 var(--pixel-wood-border);
+    }
+
+    /* Blue Bevel Button (Navigation / Camera) */
+    .pixel-btn-blue {
+      background: var(--pixel-blue);
+      color: #ffffff;
+      border-color: var(--pixel-blue-border);
+      box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.4),
+                  inset -2px -2px 0px rgba(0, 0, 0, 0.35),
+                  0 4px 0 var(--pixel-blue-border);
+    }
+    .pixel-btn-blue:hover { background: #60a5fa; }
+    .pixel-btn-blue:active {
+      box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.4),
+                  inset -2px -2px 0px rgba(255, 255, 255, 0.4),
+                  0 1px 0 var(--pixel-blue-border);
+    }
+
+    /* ==========================================================================
+       RETRO GAME-STYLE TOP BAR (HUD RIBBON)
+       ========================================================================== */
+    .top-bar {
+      position: absolute;
+      top: 10px;
+      left: 14px;
+      right: 14px;
+      height: 56px;
+      background: var(--pixel-wood-dark);
+      border: 4px solid var(--pixel-wood-border);
+      border-radius: 6px;
+      padding: 0 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 20;
+      box-shadow: inset 0 2px 0 var(--pixel-wood-highlight),
+                  inset 0 -2px 0 rgba(0,0,0,0.4),
+                  0 6px 0 var(--pixel-wood-border),
+                  0 10px 24px rgba(0, 0, 0, 0.7);
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--pixel-gold);
+      border: 2px solid var(--pixel-wood-border);
+      box-shadow: 0 0 0 1px #fef08a;
+      animation: pixelBlink 1.4s infinite steps(2);
+    }
+
+    @keyframes pixelBlink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.9); }
+    }
+
+    .brand-title {
+      font-family: var(--font-arcade);
+      font-size: 0.85rem;
+      color: #fef08a;
+      text-shadow: 2px 2px 0px #000, -1px -1px 0px #713f12;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-subtitle {
+      font-family: var(--font-pixel);
+      font-size: 0.62rem;
+      color: var(--pixel-wood-highlight);
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    /* Simulation Clock & Speed Controls */
+    .clock-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--pixel-wood-deep);
+      padding: 4px 10px;
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      box-shadow: inset 2px 2px 0px rgba(0,0,0,0.5);
+    }
+
+    .clock-display {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-arcade);
+      font-size: 0.76rem;
+      color: #fef08a;
+      text-shadow: 1px 1px 0px #000;
+    }
+
+    .weather-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-pixel);
+      font-size: 0.72rem;
+      color: #fff;
+      padding: 2px 6px;
+      background: #1c0e0a;
+      border: 2px solid #3b1d10;
+      border-radius: 3px;
+    }
+
+    .season-badge {
+      font-family: var(--font-pixel);
+      font-size: 0.68rem;
+      color: #f472b6;
+      font-weight: 700;
+      padding: 2px 6px;
+      background: #3b1424;
+      border: 2px solid #50132e;
+      border-radius: 3px;
+    }
+
+    .speed-btn-group {
+      display: flex;
+      gap: 3px;
+    }
+
+    .time-ctrl-btn {
+      font-family: var(--font-pixel);
+      background: var(--pixel-wood-dark);
+      border: 2px solid var(--pixel-wood-border);
+      color: var(--pixel-cream);
+      padding: 3px 6px;
+      border-radius: 3px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 0 var(--pixel-wood-border);
+    }
+
+    .time-ctrl-btn:hover, .time-ctrl-btn.active {
+      background: var(--pixel-gold);
+      color: #26140e;
+      border-color: var(--pixel-gold-border);
+      box-shadow: 0 1px 0 var(--pixel-gold-border);
+      transform: translateY(1px);
+    }
+
+    /* Top Action Buttons */
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ==========================================================================
+       RETRO WOOD/PARCHMENT PANELS & DRAWERS (INSPIRED BY REFERENCE IMAGE)
+       ========================================================================== */
+    .pixel-card-frame {
+      background: var(--pixel-wood-base);
+      border: 4px solid var(--pixel-wood-border);
+      border-radius: 6px;
+      box-shadow: inset 0 2px 0 var(--pixel-wood-highlight),
+                  inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+                  0 6px 0 var(--pixel-wood-border),
+                  0 12px 28px rgba(0, 0, 0, 0.7);
+    }
+
+    .pane-header-tab {
+      background: var(--pixel-wood-dark);
+      padding: 8px 12px;
+      border-bottom: 3px solid var(--pixel-wood-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pane-title-text {
+      font-family: var(--font-arcade);
+      font-size: 0.74rem;
+      color: #fef08a;
+      text-shadow: 1px 1px 0px #000;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-pixel-close {
+      font-family: var(--font-arcade);
+      background: var(--pixel-red);
+      color: #fff;
+      border: 2px solid var(--pixel-red-border);
+      border-radius: 3px;
+      padding: 2px 6px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      box-shadow: 0 2px 0 var(--pixel-red-border);
+    }
+
+    .btn-pixel-close:hover { background: #f87171; }
+    .btn-pixel-close:active { transform: translateY(2px); box-shadow: none; }
+
+    /* ==========================================================================
+       LEFT ROSTER PANE (RETRO RPG CHARACTER SELECTOR)
+       ========================================================================== */
+    .left-roster-pane {
+      position: absolute;
+      top: 76px;
+      left: 14px;
+      width: 300px;
+      bottom: 70px;
+      display: flex;
+      flex-direction: column;
+      z-index: 15;
+      transform: translateX(-350px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.25s steps(8), opacity 0.2s ease;
+    }
+
+    .left-roster-pane.open {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .roster-filter-tabs {
+      display: flex;
+      gap: 4px;
+      padding: 6px 10px;
+      background: var(--pixel-wood-deep);
+      border-bottom: 3px solid var(--pixel-wood-border);
+    }
+
+    .roster-tab {
+      font-family: var(--font-pixel);
+      background: transparent;
+      border: 2px solid transparent;
+      color: var(--pixel-wood-highlight);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 6px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .roster-tab.active {
+      background: var(--pixel-wood-dark);
+      border-color: var(--pixel-wood-border);
+      color: #fef08a;
+      box-shadow: inset 1px 1px 0px rgba(255,255,255,0.2);
+    }
+
+    .roster-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: var(--pixel-wood-base);
+    }
+
+    .roster-list::-webkit-scrollbar { width: 6px; }
+    .roster-list::-webkit-scrollbar-thumb { background: var(--pixel-wood-dark); border: 1px solid var(--pixel-wood-border); }
+
+    .citizen-card {
+      background: var(--pixel-wood-deep);
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: inset 1px 1px 0px rgba(255,255,255,0.1),
+                  0 2px 0 var(--pixel-wood-border);
+      transition: transform 0.05s ease;
+    }
+
+    .citizen-card:hover {
+      background: var(--pixel-wood-dark);
+      transform: translateX(3px);
+    }
+
+    .citizen-card.selected {
+      background: #783e23;
+      border-color: var(--pixel-gold);
+      box-shadow: inset 1px 1px 0px #fef08a, 0 3px 0 var(--pixel-wood-border);
+    }
+
+    .citizen-card.divine-controlled {
+      border-color: #facc15;
+      background: #4a2810;
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+    }
+
+    .citizen-avatar-wrapper {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      border: 2px solid var(--pixel-wood-border);
+      background: #110e0c;
+    }
+
+    .citizen-avatar {
+      width: 36px;
+      height: 36px;
+      object-fit: cover;
+    }
+
+    .citizen-status-dot {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 8px;
+      height: 8px;
+      border: 2px solid var(--pixel-wood-border);
+    }
+
+    .status-work { background: var(--pixel-blue); }
+    .status-home { background: var(--pixel-green); }
+    .status-eat { background: var(--pixel-orange); }
+    .status-social { background: var(--pixel-purple); }
+    .status-sleep { background: #64748b; }
+    .status-divine { background: var(--pixel-gold); }
+
+    .citizen-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .citizen-name-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+
+    .citizen-name {
+      font-family: var(--font-readable);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .citizen-job {
+      font-family: var(--font-pixel);
+      font-size: 0.65rem;
+      color: var(--pixel-wood-highlight);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 3px;
+    }
+
+    .citizen-mini-bar {
+      width: 100%;
+      height: 5px;
+      background: #1a0e08;
+      border: 1px solid var(--pixel-wood-border);
+      overflow: hidden;
+    }
+
+    .citizen-mini-fill {
+      height: 100%;
+      background: var(--pixel-green);
+    }
+
+    /* ==========================================================================
+       RIGHT DEEP INSPECTOR HUD (SLIDE-OUT ON AGENT CLICK ONLY)
+       ========================================================================== */
+    .right-inspector-pane {
+      position: absolute;
+      top: 76px;
+      right: 14px;
+      width: 390px;
+      bottom: 70px;
+      display: flex;
+      flex-direction: column;
+      z-index: 15;
+      overflow-y: auto;
+      padding: 12px;
+      gap: 10px;
+      transform: translateX(450px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.25s steps(8), opacity 0.2s ease;
+    }
+
+    .right-inspector-pane.open {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .right-inspector-pane::-webkit-scrollbar { width: 6px; }
+    .right-inspector-pane::-webkit-scrollbar-thumb { background: var(--pixel-wood-dark); border: 1px solid var(--pixel-wood-border); }
+
+    .inspector-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 6px;
+      border-bottom: 3px solid var(--pixel-wood-border);
+    }
+
+    .inspector-mode-pill {
+      font-family: var(--font-pixel);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border: 2px solid var(--pixel-wood-border);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .mode-autonomous {
+      background: #14532d;
+      color: #86efac;
+    }
+
+    .mode-divine {
+      background: #713f12;
+      color: #fef08a;
+    }
+
+    /* Profile Header */
+    .inspector-profile-header {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: var(--pixel-wood-deep);
+      padding: 10px;
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      box-shadow: inset 1px 1px 0px rgba(255,255,255,0.1);
+    }
+
+    .inspector-avatar-box {
+      width: 64px;
+      height: 64px;
+      border: 3px solid var(--pixel-gold);
+      background: #110e0c;
+      box-shadow: 0 0 0 2px var(--pixel-wood-border);
+      flex-shrink: 0;
+    }
+
+    .inspector-avatar {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+    }
+
+    .inspector-bio {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .inspector-bio h2 {
+      font-family: var(--font-arcade);
+      font-size: 0.88rem;
+      color: #fff;
+      text-shadow: 1px 1px 0px #000;
+      margin-bottom: 3px;
+    }
+
+    .inspector-bio p {
+      font-family: var(--font-readable);
+      font-size: 0.78rem;
+      color: var(--pixel-wood-highlight);
+      line-height: 1.25;
+    }
+
+    .cam-shortcuts-row {
+      display: flex;
+      gap: 4px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn-cam-shortcut {
+      font-family: var(--font-pixel);
+      background: var(--pixel-wood-dark);
+      border: 2px solid var(--pixel-wood-border);
+      color: #fff;
+      padding: 3px 6px;
+      border-radius: 3px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 0 var(--pixel-wood-border);
+    }
+
+    .btn-cam-shortcut:hover {
+      background: var(--pixel-blue);
+      border-color: var(--pixel-blue-border);
+    }
+    .btn-cam-shortcut:active { transform: translateY(2px); box-shadow: none; }
+
+    /* Retro RPG Dialogue Thought Box */
+    .thought-bubble-card {
+      background: #fffbeb;
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      padding: 8px 10px;
+      color: #26140e;
+      position: relative;
+      box-shadow: inset 1px 1px 0px #fff, 0 3px 0 var(--pixel-wood-border);
+    }
+
+    .thought-label {
+      font-family: var(--font-pixel);
+      font-size: 0.66rem;
+      font-weight: 700;
+      color: #8c5338;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .thought-text {
+      font-family: var(--font-readable);
+      font-size: 0.84rem;
+      font-weight: 600;
+      line-height: 1.35;
+      color: #1c0e0a;
+    }
+
+    .thought-location {
+      font-family: var(--font-pixel);
+      font-size: 0.65rem;
+      color: #63331d;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* 16-Bit RPG Spell / Ability Action Grid */
+    .divine-actions-card {
+      background: var(--pixel-wood-deep);
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .divine-title {
+      font-family: var(--font-arcade);
+      font-size: 0.7rem;
+      color: #fef08a;
+      text-shadow: 1px 1px 0px #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .divine-btn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+    }
+
+    .btn-divine-action {
+      font-family: var(--font-pixel);
+      font-size: 0.68rem;
+      padding: 6px 4px;
+    }
+
+    .btn-divine-full {
+      grid-column: span 2;
+    }
+
+    /* Segmented Need Bars (Reference Image Style) */
+    .section-headline {
+      font-family: var(--font-arcade);
+      font-size: 0.72rem;
+      color: #fff;
+      text-shadow: 1px 1px 0px #000;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .needs-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      background: var(--pixel-wood-deep);
+      padding: 8px;
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+    }
+
+    .need-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .need-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-pixel);
+      font-size: 0.68rem;
+      color: var(--pixel-cream);
+    }
+
+    .need-track {
+      width: 100%;
+      height: 8px;
+      background: #110e0c;
+      border: 2px solid var(--pixel-wood-border);
+      border-radius: 2px;
+      overflow: hidden;
+      box-shadow: inset 1px 1px 0px rgba(0,0,0,0.6);
+    }
+
+    .need-fill {
+      height: 100%;
+      background-image: repeating-linear-gradient(
+        90deg,
+        transparent 0,
+        transparent 6px,
+        rgba(0, 0, 0, 0.4) 6px,
+        rgba(0, 0, 0, 0.4) 8px
+      );
+      transition: width 0.2s steps(10);
+    }
+
+    /* Economic Status Card */
+    .econ-badge-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .econ-stat {
+      background: var(--pixel-wood-deep);
+      border: 2px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      padding: 6px;
+      text-align: center;
+    }
+
+    .econ-stat-title {
+      font-family: var(--font-pixel);
+      font-size: 0.62rem;
+      color: var(--pixel-wood-highlight);
+      text-transform: uppercase;
+    }
+
+    .econ-stat-value {
+      font-family: var(--font-arcade);
+      font-size: 0.92rem;
+      color: #fef08a;
+      text-shadow: 1px 1px 0px #000;
+      margin-top: 2px;
+    }
+
+    .relations-list, .memory-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-height: 100px;
+      overflow-y: auto;
+    }
+
+    .relations-list::-webkit-scrollbar, .memory-stream::-webkit-scrollbar { width: 4px; }
+    .relations-list::-webkit-scrollbar-thumb, .memory-stream::-webkit-scrollbar-thumb { background: var(--pixel-wood-dark); }
+
+    .relation-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px;
+      background: var(--pixel-wood-deep);
+      border: 2px solid var(--pixel-wood-border);
+      border-radius: 3px;
+      font-family: var(--font-readable);
+      font-size: 0.74rem;
+    }
+
+    .memory-item {
+      padding: 4px 6px;
+      background: var(--pixel-wood-deep);
+      border: 2px solid var(--pixel-wood-border);
+      border-left: 3px solid var(--pixel-gold);
+      border-radius: 3px;
+      font-family: var(--font-readable);
+      font-size: 0.74rem;
+      color: var(--pixel-cream);
+    }
+
+    /* ==========================================================================
+       RETRO 16-BIT RPG GOD'S COMMAND CONSOLE (BOTTOM DOCKED)
+       ========================================================================== */
+    .divine-console-container {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(840px, 94vw);
+      background: var(--pixel-wood-base);
+      border: 4px solid var(--pixel-wood-border);
+      border-radius: 6px;
+      box-shadow: inset 0 2px 0 var(--pixel-wood-highlight),
+                  inset 0 -2px 0 rgba(0, 0, 0, 0.4),
+                  0 6px 0 var(--pixel-wood-border),
+                  0 12px 32px rgba(0, 0, 0, 0.85);
+      padding: 8px 12px;
+      z-index: 25;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .console-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--pixel-wood-dark);
+      padding: 4px 8px;
+      border: 2px solid var(--pixel-wood-border);
+      border-radius: 3px;
+    }
+
+    .console-title-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-arcade);
+      font-size: 0.72rem;
+      color: #fef08a;
+      text-shadow: 1px 1px 0px #000;
+      letter-spacing: 0.5px;
+    }
+
+    .console-status-pill {
+      font-family: var(--font-pixel);
+      font-size: 0.65rem;
+      color: var(--pixel-wood-highlight);
+    }
+
+    .console-input-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .god-input {
+      flex: 1;
+      background: var(--pixel-wood-deep);
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      padding: 8px 10px;
+      color: #fff;
+      font-family: var(--font-readable);
+      font-size: 0.88rem;
+      font-weight: 600;
+      outline: none;
+      box-shadow: inset 2px 2px 0px rgba(0,0,0,0.6);
+    }
+
+    .god-input:focus {
+      border-color: var(--pixel-gold);
+    }
+
+    .suggestion-chips-row {
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .suggestion-chips-row::-webkit-scrollbar { height: 4px; }
+    .suggestion-chips-row::-webkit-scrollbar-thumb { background: var(--pixel-wood-dark); }
+
+    .chip-btn {
+      font-family: var(--font-pixel);
+      background: var(--pixel-wood-deep);
+      border: 2px solid var(--pixel-wood-border);
+      color: var(--pixel-wood-highlight);
+      border-radius: 3px;
+      padding: 3px 7px;
+      font-size: 0.65rem;
+      white-space: nowrap;
+      cursor: pointer;
+      box-shadow: 0 2px 0 var(--pixel-wood-border);
+    }
+
+    .chip-btn:hover {
+      background: var(--pixel-wood-dark);
+      color: #fef08a;
+      transform: translateY(-1px);
+    }
+    .chip-btn:active { transform: translateY(1px); box-shadow: none; }
+
+    /* Retro Message Feedback Box */
+    .command-feedback-card {
+      display: none;
+      background: #110e0c;
+      border: 2px solid var(--pixel-green);
+      border-radius: 3px;
+      padding: 5px 8px;
+      font-size: 0.74rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .feedback-badge {
+      font-family: var(--font-arcade);
+      font-size: 0.65rem;
+      color: var(--pixel-green);
+    }
+
+    .feedback-text {
+      font-family: var(--font-readable);
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* ==========================================================================
+       DEDICATED GOD MODE WORLD CONTROL DRAWER (RETRO RPG WORLD MENU)
+       ========================================================================== */
+    .god-drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 50;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .god-drawer-overlay.open {
+      display: flex;
+    }
+
+    .god-drawer-box {
+      width: min(840px, 94vw);
+      max-height: 86vh;
+      background: var(--pixel-wood-base);
+      border: 4px solid var(--pixel-wood-border);
+      border-radius: 6px;
+      box-shadow: inset 0 2px 0 var(--pixel-wood-highlight),
+                  0 8px 0 var(--pixel-wood-border),
+                  0 20px 48px rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .god-drawer-header {
+      padding: 10px 14px;
+      background: var(--pixel-wood-dark);
+      border-bottom: 3px solid var(--pixel-wood-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .god-drawer-title {
+      font-family: var(--font-arcade);
+      font-size: 0.92rem;
+      color: #fef08a;
+      text-shadow: 2px 2px 0px #000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .god-drawer-body {
+      padding: 14px;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      background: var(--pixel-wood-base);
+    }
+
+    .god-power-section {
+      background: var(--pixel-wood-deep);
+      border: 3px solid var(--pixel-wood-border);
+      border-radius: 4px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: inset 1px 1px 0px rgba(255,255,255,0.1);
+    }
+
+    .god-sec-title {
+      font-family: var(--font-arcade);
+      font-size: 0.72rem;
+      color: #fef08a;
+      text-shadow: 1px 1px 0px #000;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .control-row {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .control-label {
+      font-family: var(--font-pixel);
+      font-size: 0.68rem;
+      color: var(--pixel-wood-highlight);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .power-btn-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+    }
+
+    .btn-power-option {
+      font-family: var(--font-pixel);
+      font-size: 0.68rem;
+      padding: 5px 4px;
+    }
+
+    .god-range-slider {
+      width: 100%;
+      height: 8px;
+      accent-color: var(--pixel-gold);
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       DIVINE EVENT LOG DRAWER
+       ========================================================================== */
+    .divine-log-drawer {
+      position: absolute;
+      top: 76px;
+      left: 14px;
+      width: 320px;
+      max-height: 480px;
+      display: none;
+      flex-direction: column;
+      z-index: 15;
+      overflow: hidden;
+    }
+
+    .divine-log-drawer.open {
+      display: flex;
+    }
+
+    .log-list {
+      padding: 8px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex: 1;
+      background: var(--pixel-wood-base);
+    }
+
+    .log-list::-webkit-scrollbar { width: 4px; }
+    .log-list::-webkit-scrollbar-thumb { background: var(--pixel-wood-dark); }
+
+    .log-entry {
+      background: var(--pixel-wood-deep);
+      border: 2px solid var(--pixel-wood-border);
+      border-radius: 3px;
+      padding: 5px 7px;
+      font-family: var(--font-readable);
+      font-size: 0.74rem;
+      line-height: 1.3;
+      border-left: 4px solid var(--pixel-gold);
+    }
+
+    .log-entry.weather { border-left-color: var(--pixel-blue); }
+    .log-entry.event { border-left-color: var(--pixel-purple); }
+
+    .log-time {
+      font-family: var(--font-pixel);
+      font-size: 0.62rem;
+      color: var(--pixel-wood-highlight);
+      margin-bottom: 2px;
+    }
+
+    /* Zoom Controls (D-pad Style) */
+    .zoom-controls {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 10;
+    }
+
+    .btn-zoom {
+      width: 34px;
+      height: 34px;
+      font-family: var(--font-arcade);
+      font-size: 0.95rem;
+      padding: 0;
+    }
+
+    /* Modals Generic */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 100;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal-box {
+      width: min(720px, 92vw);
+      max-height: 85vh;
+      background: var(--pixel-wood-base);
+      border: 4px solid var(--pixel-wood-border);
+      border-radius: 6px;
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: inset 0 2px 0 var(--pixel-wood-highlight),
+                  0 8px 0 var(--pixel-wood-border),
+                  0 20px 48px rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--pixel-wood-dark);
+      padding: 8px 12px;
+      border: 2px solid var(--pixel-wood-border);
+      border-radius: 4px;
+    }
+
+    .modal-title {
+      font-family: var(--font-arcade);
+      font-size: 0.82rem;
+      color: #fef08a;
+      text-shadow: 1px 1px 0px #000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fullscreen Phaser Game Canvas -->
+  <div id="game-container"></div>
+
+  <!-- Particle Weather Canvas (Rain, Snow, Storm) -->
+  <canvas id="weather-canvas"></canvas>
+
+  <!-- Ambient Light Day/Night Overlay -->
+  <div id="ambient-overlay"></div>
+
+  <!-- Screen Flash for Cataclysms / Lightning -->
+  <div id="flash-overlay"></div>
+
+  <!-- ==========================================================================
+       RETRO GAME-STYLE TOP BAR (HUD RIBBON)
+       ========================================================================== -->
+  <header class="top-bar">
+    <div class="brand-section">
+      <div class="brand-badge">
+        <div class="status-dot"></div>
+        <div>
+          <div class="brand-title">👑 SMALLVILLE // GOD SIM</div>
+          <div class="brand-subtitle" id="society-status-sub">15 RESIDENTS • 16-BIT RETRO INTERFACE</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clock, Season & Playback -->
+    <div class="clock-section">
+      <div class="clock-display">
+        <span id="clock-day">MON</span>
+        <span id="clock-time">08:00 AM</span>
+      </div>
+      <div class="season-badge" id="season-badge">🌸 Spring</div>
+      <div class="weather-badge" id="weather-badge">
+        <span id="weather-icon">☀️</span>
+        <span id="weather-desc">Sunny</span>
+      </div>
+      <button class="pixel-btn pixel-btn-red" id="btn-play-pause" style="padding:4px 8px; font-size:0.65rem;">⏸ PAUSE</button>
+      <div class="speed-btn-group">
+        <button class="time-ctrl-btn" data-speed="0.5">.5x</button>
+        <button class="time-ctrl-btn active" data-speed="1">1x</button>
+        <button class="time-ctrl-btn" data-speed="2">2x</button>
+        <button class="time-ctrl-btn" data-speed="5">5x</button>
+        <button class="time-ctrl-btn" data-speed="10">10x</button>
+      </div>
+    </div>
+
+    <!-- Top Action Buttons -->
+    <div class="top-actions">
+      <button class="pixel-btn pixel-btn-gold" id="btn-toggle-god-drawer">👑 God Powers</button>
+      <button class="pixel-btn pixel-btn-orange" id="btn-focus-command">⚡ Command</button>
+      <button class="pixel-btn pixel-btn-wood" id="btn-toggle-roster">👥 Residents (<span id="top-roster-count">15</span>)</button>
+      <button class="pixel-btn pixel-btn-wood" id="btn-toggle-log">📜 Log</button>
+      <button class="pixel-btn pixel-btn-wood" id="btn-open-analytics">📊 Stats</button>
+      <button class="pixel-btn pixel-btn-wood" id="btn-open-saveload">💾 Save</button>
+      <a href="/" class="pixel-btn pixel-btn-wood" style="color:#fef08a;">&larr; Portal</a>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       LEFT ROSTER PANE (COLLAPSED BY DEFAULT)
+       ========================================================================== -->
+  <aside class="left-roster-pane pixel-card-frame" id="left-roster-pane">
+    <div class="pane-header-tab">
+      <div class="pane-title-text">👥 Town Residents</div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span style="font-family:var(--font-pixel); font-size:0.68rem; color:#fef08a;" id="roster-count">15 Citizens</span>
+        <button class="btn-pixel-close" id="btn-close-roster">&times;</button>
+      </div>
+    </div>
+    <div class="roster-filter-tabs">
+      <button class="roster-tab active" data-filter="all">All</button>
+      <button class="roster-tab" data-filter="working">Work</button>
+      <button class="roster-tab" data-filter="social">Social</button>
+      <button class="roster-tab" data-filter="home">Home</button>
+    </div>
+    <div class="roster-list" id="citizen-roster-list">
+      <!-- Populated dynamically -->
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       RIGHT DEEP INSPECTOR HUD (SLIDE-OUT ON AGENT CLICK ONLY)
+       ========================================================================== -->
+  <aside class="right-inspector-pane pixel-card-frame" id="right-inspector-pane">
+    <div class="inspector-header-bar">
+      <div class="inspector-mode-pill mode-autonomous" id="inspect-mode-pill">
+        <span>🤖</span>
+        <span id="inspect-mode-text">Autonomous AI Mode</span>
+      </div>
+      <button class="btn-pixel-close" id="btn-close-inspector">&times;</button>
+    </div>
+
+    <!-- Profile Header -->
+    <div class="inspector-profile-header">
+      <div class="inspector-avatar-box">
+        <img src="/static/assets/characters/profile/Isabella_Rodriguez.png" class="inspector-avatar" id="inspect-avatar" alt="Citizen">
+      </div>
+      <div class="inspector-bio">
+        <h2 id="inspect-name">Isabella Rodriguez</h2>
+        <p id="inspect-job" style="color:#fef08a; font-weight:700;">Cafe Owner & Barista</p>
+        <p id="inspect-traits" style="font-size:0.7rem;">Age 34 • Friendly, Outgoing</p>
+        <div class="cam-shortcuts-row">
+          <button class="btn-cam-shortcut" id="btn-cam-follow">🎯 Follow</button>
+          <button class="btn-cam-shortcut" id="btn-cam-focus">📍 Focus</button>
+          <button class="btn-cam-shortcut" id="btn-cam-home">🏠 Home</button>
+          <button class="btn-cam-shortcut" id="btn-cam-work">🏢 Work</button>
+          <button class="btn-cam-shortcut" id="btn-open-schedule">🗓️ Routine</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Thought (Retro RPG Message Box) -->
+    <div class="thought-bubble-card">
+      <div class="thought-label">💭 Internal Thought</div>
+      <div class="thought-text" id="inspect-thought">
+        "Morning rush is starting! Let's get the espresso machine calibrated."
+      </div>
+      <div class="thought-location" id="inspect-location">
+        📍 Hobbs Cafe &bull; behind counter
+      </div>
+    </div>
+
+    <!-- DIVINE INTERVENTIONS (16-BIT SPELL/ACTION GRID) -->
+    <div class="divine-actions-card">
+      <div class="divine-title">
+        <span>⚡ Divine Interventions</span>
+        <span style="font-size:0.62rem; color:var(--pixel-wood-highlight);">Direct Authority</span>
+      </div>
+      <div class="divine-btn-grid">
+        <button class="pixel-btn pixel-btn-gold btn-divine-action" id="btn-god-give-money">💰 +$100 Gift</button>
+        <button class="pixel-btn pixel-btn-red btn-divine-action" id="btn-god-take-money">💸 -$50 Fine</button>
+        <button class="pixel-btn pixel-btn-blue btn-divine-action" id="btn-god-force-work">🏢 Force Work</button>
+        <button class="pixel-btn pixel-btn-green btn-divine-action" id="btn-god-force-home">🏠 Force Home</button>
+        <button class="pixel-btn pixel-btn-orange btn-divine-action" id="btn-god-force-cafe">☕ Force Cafe</button>
+        <button class="pixel-btn pixel-btn-green btn-divine-action" id="btn-god-force-park">🌳 Force Park</button>
+        <button class="pixel-btn pixel-btn-wood btn-divine-action" id="btn-god-force-sleep">🛏️ Force Sleep</button>
+        <button class="pixel-btn pixel-btn-blue btn-divine-action" id="btn-god-target-tile">🎯 Click Tile</button>
+        <button class="pixel-btn pixel-btn-gold btn-divine-action btn-divine-full" id="btn-god-bless-needs">✨ Divine Blessing (Max 100% Needs)</button>
+        <button class="pixel-btn pixel-btn-wood btn-divine-action btn-divine-full" id="btn-god-release-control">🕊️ Release Control to Autonomous AI</button>
+      </div>
+    </div>
+
+    <!-- Needs Grid (Segmented Pixel Bars) -->
+    <div>
+      <div class="section-headline">
+        <span>Vital Needs</span>
+        <span id="inspect-overall-mood" style="color:#fef08a;">Happy (88%)</span>
+      </div>
+      <div class="needs-grid">
+        <div class="need-row">
+          <div class="need-header">
+            <span>🍞 Hunger</span>
+            <span id="val-hunger">25%</span>
+          </div>
+          <div class="need-track"><div class="need-fill" id="bar-hunger" style="width:25%; background-color:var(--pixel-orange);"></div></div>
+        </div>
+
+        <div class="need-row">
+          <div class="need-header">
+            <span>⚡ Energy</span>
+            <span id="val-energy">85%</span>
+          </div>
+          <div class="need-track"><div class="need-fill" id="bar-energy" style="width:85%; background-color:var(--pixel-blue);"></div></div>
+        </div>
+
+        <div class="need-row">
+          <div class="need-header">
+            <span>❤️ Health</span>
+            <span id="val-health">95%</span>
+          </div>
+          <div class="need-track"><div class="need-fill" id="bar-health" style="width:95%; background-color:var(--pixel-red);"></div></div>
+        </div>
+
+        <div class="need-row">
+          <div class="need-header">
+            <span>😊 Happiness</span>
+            <span id="val-happiness">88%</span>
+          </div>
+          <div class="need-track"><div class="need-fill" id="bar-happiness" style="width:88%; background-color:var(--pixel-gold);"></div></div>
+        </div>
+
+        <div class="need-row">
+          <div class="need-header">
+            <span>🚿 Hygiene</span>
+            <span id="val-hygiene">80%</span>
+          </div>
+          <div class="need-track"><div class="need-fill" id="bar-hygiene" style="width:80%; background-color:#06b6d4;"></div></div>
+        </div>
+
+        <div class="need-row">
+          <div class="need-header">
+            <span>💬 Social</span>
+            <span id="val-social">75%</span>
+          </div>
+          <div class="need-track"><div class="need-fill" id="bar-social" style="width:75%; background-color:var(--pixel-purple);"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Economic Status -->
+    <div>
+      <div class="section-headline">Economic Status</div>
+      <div class="econ-badge-card">
+        <div class="econ-stat">
+          <div class="econ-stat-title">Wallet Balance</div>
+          <div class="econ-stat-value" id="val-money">$450</div>
+        </div>
+        <div class="econ-stat">
+          <div class="econ-stat-title">Hourly Wage</div>
+          <div class="econ-stat-value" id="val-wage">$24/hr</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Connections -->
+    <div>
+      <div class="section-headline">Social Network</div>
+      <div class="relations-list" id="inspect-relations-list"></div>
+    </div>
+
+    <!-- Memories -->
+    <div>
+      <div class="section-headline">Recent Memories</div>
+      <div class="memory-stream" id="inspect-memory-stream"></div>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       RETRO 16-BIT RPG GOD'S COMMAND CONSOLE (BOTTOM DOCKED)
+       ========================================================================== -->
+  <div class="divine-console-container" id="divine-console">
+    <div class="console-header">
+      <div class="console-title-pill">
+        <span>⚡ GOD'S COMMAND</span>
+        <span style="font-family:var(--font-pixel); font-size:0.65rem; color:#fff;">• 16-Bit NLP Directive Console</span>
+      </div>
+      <div class="console-status-pill">
+        <span id="console-mode-indicator">🟢 Engine Ready</span>
+      </div>
+    </div>
+
+    <div class="console-input-row">
+      <input type="text" id="god-command-input" class="god-input" placeholder='Type a divine command... e.g. "Make Isabella go to cafe", "Give Klaus 500 coins", "Make it rain", "Make everyone gather at Johnson Park"'>
+      <button class="pixel-btn pixel-btn-green" id="btn-submit-divine">⚡ EXECUTE WILL</button>
+    </div>
+
+    <!-- Suggestion Chips -->
+    <div class="suggestion-chips-row">
+      <button class="chip-btn" data-cmd="Make Isabella go to cafe">☕ Make Isabella go to cafe</button>
+      <button class="chip-btn" data-cmd="Make Klaus visit the park">🌳 Make Klaus visit park</button>
+      <button class="chip-btn" data-cmd="Give Maria 500 coins">💰 Give Maria 500 coins</button>
+      <button class="chip-btn" data-cmd="Make everyone gather at Johnson Park">📢 Gather everyone at park</button>
+      <button class="chip-btn" data-cmd="Make it rain for two hours">🌧️ Summon rain</button>
+      <button class="chip-btn" data-cmd="Make everyone go to sleep">🛏️ Send all to sleep</button>
+      <button class="chip-btn" data-cmd="Trigger Town Festival">🎪 Town Festival</button>
+      <button class="chip-btn" data-cmd="Increase the happiness of all residents">✨ Bless all residents</button>
+      <button class="chip-btn" data-cmd="Create a food shortage in the town">⚠️ Food shortage</button>
+    </div>
+
+    <!-- Feedback Message Box -->
+    <div class="command-feedback-card" id="command-feedback-card">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span class="feedback-badge" id="feedback-badge">DIVINE WILL</span>
+        <span class="feedback-text" id="feedback-text">Command executed successfully.</span>
+      </div>
+      <button class="btn-pixel-close" id="btn-close-feedback" style="padding:1px 5px;">&times;</button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       DEDICATED GOD MODE WORLD CONTROL DRAWER
+       ========================================================================== -->
+  <div class="god-drawer-overlay" id="god-drawer-overlay">
+    <div class="god-drawer-box">
+      <div class="god-drawer-header">
+        <div class="god-drawer-title">
+          <span>👑 GOD MODE — WORLD AUTHORITY</span>
+        </div>
+        <button class="btn-pixel-close" id="btn-close-god-drawer" style="font-size:0.9rem;">&times;</button>
+      </div>
+
+      <div class="god-drawer-body">
+        <!-- 1. World Simulation Flow -->
+        <div class="god-power-section">
+          <div class="god-sec-title">⏳ 1. Simulation Flow</div>
+          <div class="power-btn-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+            <button class="pixel-btn pixel-btn-red btn-power-option" id="btn-drawer-pause">⏸ Pause</button>
+            <button class="pixel-btn pixel-btn-green btn-power-option" id="btn-drawer-resume">▶ Resume</button>
+            <button class="pixel-btn pixel-btn-wood btn-power-option" id="btn-drawer-reset" style="color:#ef4444;">🔄 Reset</button>
+          </div>
+          <div class="control-row">
+            <div class="control-label">
+              <span>Speed Factor</span>
+              <span id="label-speed-val" style="color:#fef08a;">1x Normal</span>
+            </div>
+            <div class="power-btn-grid" style="grid-template-columns: repeat(5, 1fr);">
+              <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-speed="0.5">.5x</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option active" data-god-speed="1">1x</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-speed="2">2x</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-speed="5">5x</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-speed="10">10x</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Celestial Time & Seasons -->
+        <div class="god-power-section">
+          <div class="god-sec-title">☀️ 2. Time & Seasons</div>
+          <div class="control-row">
+            <div class="control-label">
+              <span>Time Scrub</span>
+              <span id="label-drawer-time" style="color:#fef08a;">08:00 AM</span>
+            </div>
+            <input type="range" min="0" max="1439" value="480" class="god-range-slider" id="slider-time-scrub">
+          </div>
+          <div class="power-btn-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <button class="pixel-btn pixel-btn-gold btn-power-option" data-jump-time="6">🌅 Dawn</button>
+            <button class="pixel-btn pixel-btn-gold btn-power-option" data-jump-time="12">☀️ Noon</button>
+            <button class="pixel-btn pixel-btn-gold btn-power-option" data-jump-time="18">🌇 Sunset</button>
+            <button class="pixel-btn pixel-btn-gold btn-power-option" data-jump-time="0">🌙 Night</button>
+          </div>
+          <div class="control-row">
+            <div class="control-label"><span>Season</span></div>
+            <div class="power-btn-grid" style="grid-template-columns: repeat(4, 1fr);">
+              <button class="pixel-btn pixel-btn-wood btn-power-option active" data-god-season="Spring">🌸 Spring</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-season="Summer">☀️ Summer</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-season="Autumn">🍂 Autumn</button>
+              <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-season="Winter">❄️ Winter</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Environmental Powers & Weather -->
+        <div class="god-power-section">
+          <div class="god-sec-title">🌧️ 3. Weather Powers</div>
+          <div class="power-btn-grid">
+            <button class="pixel-btn pixel-btn-gold btn-power-option active" data-god-weather="Sunny">☀️ Sunny</button>
+            <button class="pixel-btn pixel-btn-blue btn-power-option" data-god-weather="Rain">🌧️ Rain</button>
+            <button class="pixel-btn pixel-btn-blue btn-power-option" data-god-weather="Storm">⛈️ Storm</button>
+            <button class="pixel-btn pixel-btn-blue btn-power-option" data-god-weather="Snow">❄️ Snow</button>
+            <button class="pixel-btn pixel-btn-orange btn-power-option" data-god-weather="Drought">🔥 Drought</button>
+            <button class="pixel-btn pixel-btn-wood btn-power-option" data-god-weather="Overcast">☁️ Overcast</button>
+          </div>
+          <div class="control-row">
+            <div class="control-label"><span>Daylight Filter</span></div>
+            <div class="power-btn-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+              <button class="pixel-btn pixel-btn-wood btn-power-option active" id="btn-ambient-auto">🕒 Auto</button>
+              <button class="pixel-btn pixel-btn-gold btn-power-option" id="btn-ambient-day">☀️ Day</button>
+              <button class="pixel-btn pixel-btn-blue btn-power-option" id="btn-ambient-night">🌙 Night</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Resources & Economy -->
+        <div class="god-power-section">
+          <div class="god-sec-title">🌾 4. Resources & Treasury</div>
+          <div class="control-row">
+            <div class="control-label">
+              <span>Town Food Reserves</span>
+              <span id="label-food-val" style="color:#fef08a;">180 Units</span>
+            </div>
+            <div class="power-btn-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+              <button class="pixel-btn pixel-btn-green btn-power-option" id="btn-add-food">➕ +50 Food</button>
+              <button class="pixel-btn pixel-btn-orange btn-power-option" id="btn-sub-food">➖ -50 Food</button>
+              <button class="pixel-btn pixel-btn-red btn-power-option" id="btn-famine">⚠️ Famine</button>
+            </div>
+          </div>
+          <div class="control-row">
+            <div class="control-label">
+              <span>Town Treasury</span>
+              <span id="label-econ-val" style="color:#fef08a;">$5,240</span>
+            </div>
+            <div class="power-btn-grid" style="grid-template-columns: 1fr 1fr;">
+              <button class="pixel-btn pixel-btn-gold btn-power-option" id="btn-stimulus-boom">💰 +$2,000 Stimulus</button>
+              <button class="pixel-btn pixel-btn-red btn-power-option" id="btn-econ-crash">📉 Panic</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Major Town Events -->
+        <div class="god-power-section" style="grid-column: span 2;">
+          <div class="god-sec-title">🎪 5. Major World Events & Celebrations</div>
+          <div class="power-btn-grid" style="grid-template-columns: repeat(4, 1fr);">
+            <button class="pixel-btn pixel-btn-gold btn-power-option" id="btn-event-festival">🎉 Festival</button>
+            <button class="pixel-btn pixel-btn-blue btn-power-option" id="btn-event-gather-park">📢 Assembly</button>
+            <button class="pixel-btn pixel-btn-wood btn-power-option" id="btn-event-curfew">😴 Curfew</button>
+            <button class="pixel-btn pixel-btn-orange btn-power-option" id="btn-event-work-rush">💼 Work Rush</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       DIVINE EVENT LOG DRAWER
+       ========================================================================== -->
+  <aside class="divine-log-drawer pixel-card-frame" id="divine-log-drawer">
+    <div class="pane-header-tab">
+      <div class="pane-title-text">📜 Event Log</div>
+      <button class="btn-pixel-close" id="btn-close-log">&times;</button>
+    </div>
+    <div class="log-list" id="divine-log-list"></div>
+  </aside>
+
+  <!-- Zoom Controls (D-pad Style) -->
+  <div class="zoom-controls">
+    <button class="pixel-btn pixel-btn-wood btn-zoom" id="btn-zoom-in" title="Zoom In">+</button>
+    <button class="pixel-btn pixel-btn-wood btn-zoom" id="btn-zoom-out" title="Zoom Out">&minus;</button>
+    <button class="pixel-btn pixel-btn-wood btn-zoom" id="btn-zoom-reset" title="Reset View">&#8635;</button>
+  </div>
+
+  <!-- Modals: Analytics, Schedule, Save/Load -->
+  <div class="modal-overlay" id="modal-analytics">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">📊 Town Analytics & Society Health</div>
+        <button class="btn-pixel-close">&times;</button>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div style="background:var(--pixel-wood-deep); padding:12px; border:2px solid var(--pixel-wood-border); border-radius:4px;">
+          <h4 style="margin-bottom:6px; color:#fef08a; font-family:var(--font-arcade); font-size:0.7rem;">Happiness & Needs Index</h4>
+          <canvas id="chart-happiness" height="180"></canvas>
+        </div>
+        <div style="background:var(--pixel-wood-deep); padding:12px; border:2px solid var(--pixel-wood-border); border-radius:4px;">
+          <h4 style="margin-bottom:6px; color:var(--pixel-green); font-family:var(--font-arcade); font-size:0.7rem;">Business Revenues</h4>
+          <canvas id="chart-economy" height="180"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-schedule">
+    <div class="modal-box" style="max-width:550px;">
+      <div class="modal-header">
+        <div class="modal-title" id="schedule-modal-title">🗓️ Daily Schedule</div>
+        <button class="btn-pixel-close">&times;</button>
+      </div>
+      <div id="schedule-timeline" style="display:flex; flex-direction:column; gap:6px; max-height:60vh; overflow-y:auto; background:var(--pixel-wood-deep); padding:8px; border:2px solid var(--pixel-wood-border);"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-saveload">
+    <div class="modal-box" style="max-width:480px;">
+      <div class="modal-header">
+        <div class="modal-title">💾 Save & Load State</div>
+        <button class="btn-pixel-close">&times;</button>
+      </div>
+      <p style="font-family:var(--font-readable); font-size:0.8rem; color:var(--pixel-wood-highlight);">
+        Save all citizen positions, needs, wallets, relationships, and history.
+      </p>
+      <div style="display:flex; flex-direction:column; gap:8px; margin-top:6px;">
+        <button class="pixel-btn pixel-btn-blue" id="btn-save-local">💾 Save State to Browser</button>
+        <button class="pixel-btn pixel-btn-green" id="btn-load-local">📂 Load Saved State</button>
+        <button class="pixel-btn pixel-btn-wood" id="btn-export-json">📥 Download State JSON</button>
+        <button class="pixel-btn pixel-btn-red" id="btn-reset-sim">🔄 Reset to Day 1 Morning</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simulation Logic Script -->
+  <script>
+    /* ==========================================================================
+       SIMULATION DATA & STATE INITIALIZATION
+       ========================================================================== */
+    window.SIM_DATA = {
+      collisionGrid: null,
+      citizens: null,
+      locations: null
+    };
+
+    window.isMapTargetSelectionActive = false;
+
+    class SocietySimulation {
+      constructor() {
+        this.citizens = [];
+        this.selectedCitizen = null;
+        this.followCamera = true;
+        this.speed = 1;
+        this.isRunning = true;
+        
+        // Clock: Day 1 (Monday), 08:00 AM
+        this.day = 1;
+        this.dayName = "Monday";
+        this.hour = 8;
+        this.minute = 0;
+        this.season = "Spring";
+        this.weather = "Sunny";
+        this.weatherIcon = "☀️";
+        this.forceAmbient = null;
+
+        // Town Economic Totals
+        this.townFoodReserves = 180;
+        this.townEconomy = 5240;
+        this.businessRevenues = {
+          "Hobbs Cafe": 240,
+          "The Rose & Crown Pub": 380,
+          "The Willows Market": 410,
+          "Harvey Oak Supply": 190
+        };
+
+        // Event Log
+        this.eventLog = [];
+
+        this.historyMetrics = {
+          times: [],
+          avgHappiness: [],
+          avgHealth: [],
+          cafeRevenue: [],
+          pubRevenue: [],
+          marketRevenue: []
+        };
+      }
+
+      initCitizens(citizenDefs) {
+        this.citizens = citizenDefs.map((def, idx) => {
+          return {
+            id: idx,
+            name: def.name,
+            underscore: def.name.replace(/ /g, '_'),
+            age: def.age,
+            occupation: def.occupation,
+            workplace_name: def.workplace_name,
+            workplace_coords: [...def.workplace_coords],
+            home_name: def.home_name,
+            home_coords: [...def.home_coords],
+            bed_coords: [...def.bed_coords],
+            bathroom_coords: [...def.bathroom_coords],
+            personality: def.personality,
+            traits: def.traits || ["friendly"],
+            bio: def.bio,
+            money: def.money || 250,
+            hourly_wage: def.hourly_wage || 20,
+            schedule: def.schedule,
+
+            // Live Coordinates
+            tileX: def.home_coords[0],
+            tileY: def.home_coords[1],
+            pixelX: def.home_coords[0] * 32 + 16,
+            pixelY: def.home_coords[1] * 32 + 16,
+            facing: 'down',
+            isWalking: false,
+            currentPath: [],
+            pathIndex: 0,
+
+            // Dynamic Needs (0 to 100)
+            hunger: 20 + Math.floor(Math.random() * 20),
+            energy: 85 + Math.floor(Math.random() * 15),
+            health: 95,
+            happiness: 85 + Math.floor(Math.random() * 10),
+            hygiene: 80 + Math.floor(Math.random() * 15),
+            social: 75 + Math.floor(Math.random() * 15),
+
+            currentAction: "Morning routine at home",
+            actionEmoji: "🌅",
+            currentThought: `Waking up in ${def.home_name}. Ready for the day ahead.`,
+            locationText: def.home_name,
+            state: "home",
+
+            divineCommand: null,
+            relationships: this.generateInitialRelationships(def.name),
+            memories: [
+              { time: "08:00 AM", text: `Woke up feeling well-rested in ${def.home_name}.` }
+            ],
+
+            sprite: null,
+            speechBubble: null,
+            speechText: null,
+            emojiIcon: null,
+            bubbleHideTimeout: null,
+            chatTimer: 0
+          };
+        });
+      }
+
+      generateInitialRelationships(name) {
+        const network = {
+          "Isabella Rodriguez": [
+            { name: "Klaus Mueller", relation: "Regular Customer & Friend", affinity: 85 },
+            { name: "Maria Lopez", relation: "Close Friend & Neighbor", affinity: 90 },
+            { name: "Arthur Burton", relation: "Pub Landlord Neighbor", affinity: 80 }
+          ],
+          "Klaus Mueller": [
+            { name: "Isabella Rodriguez", relation: "Cafe Friend", affinity: 85 },
+            { name: "Abigail Chen", relation: "Research Colleague", affinity: 88 }
+          ],
+          "Maria Lopez": [
+            { name: "Isabella Rodriguez", relation: "Best Friend", affinity: 92 },
+            { name: "Carlos Gomez", relation: "Friend", affinity: 78 }
+          ]
+        };
+        return network[name] || [
+          { name: "Isabella Rodriguez", relation: "Town Friend", affinity: 75 },
+          { name: "Arthur Burton", relation: "Acquaintance", affinity: 70 }
+        ];
+      }
+
+      formatTime(h, m) {
+        const period = h >= 12 ? "PM" : "AM";
+        const displayH = h % 12 === 0 ? 12 : h % 12;
+        const displayM = m < 10 ? `0${m}` : m;
+        return `${displayH}:${displayM} ${period}`;
+      }
+
+      tickSimulation() {
+        if (!this.isRunning) return;
+
+        this.minute += 1;
+        if (this.minute >= 60) {
+          this.minute = 0;
+          this.hour += 1;
+          this.onHourChange();
+        }
+        if (this.hour >= 24) {
+          this.hour = 0;
+          this.day += 1;
+          const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+          this.dayName = days[(this.day - 1) % 7];
+          this.onDayChange();
+        }
+
+        document.getElementById('clock-day').innerText = this.dayName.substring(0, 3).toUpperCase();
+        document.getElementById('clock-time').innerText = this.formatTime(this.hour, this.minute);
+        document.getElementById('label-drawer-time').innerText = this.formatTime(this.hour, this.minute);
+
+        this.updateAmbientDaylight();
+        this.citizens.forEach(c => this.updateCitizen(c));
+        this.checkConversations();
+
+        if (this.selectedCitizen) {
+          this.updateInspectorHUD(this.selectedCitizen);
+        }
+      }
+
+      setTime(h, m = 0) {
+        this.hour = Math.max(0, Math.min(23, h));
+        this.minute = Math.max(0, Math.min(59, m));
+        document.getElementById('clock-time').innerText = this.formatTime(this.hour, this.minute);
+        document.getElementById('label-drawer-time').innerText = this.formatTime(this.hour, this.minute);
+        this.updateAmbientDaylight();
+      }
+
+      setWeather(wName) {
+        const weathers = {
+          "Sunny": { icon: "☀️", desc: "Sunny" },
+          "Rain": { icon: "🌧️", desc: "Rain" },
+          "Storm": { icon: "⛈️", desc: "Storm" },
+          "Snow": { icon: "❄️", desc: "Snow" },
+          "Drought": { icon: "🔥", desc: "Drought" },
+          "Overcast": { icon: "☁️", desc: "Overcast" }
+        };
+        const target = weathers[wName] || weathers["Sunny"];
+        this.weather = target.desc;
+        this.weatherIcon = target.icon;
+        document.getElementById('weather-icon').innerText = target.icon;
+        document.getElementById('weather-desc').innerText = target.desc;
+        
+        if (window.weatherEngine) {
+          window.weatherEngine.setMode(this.weather);
+        }
+
+        this.logEvent(`Weather set to ${this.weather} by Divine Authority.`, null, "weather", target.icon);
+      }
+
+      setSeason(sName) {
+        this.season = sName;
+        const emojis = { "Spring": "🌸", "Summer": "☀️", "Autumn": "🍂", "Winter": "❄️" };
+        const emoji = emojis[sName] || "🌸";
+        document.getElementById('season-badge').innerText = `${emoji} ${sName}`;
+        this.logEvent(`Season changed to ${sName} by Divine Will.`, null, "divine", "🌍");
+      }
+
+      updateAmbientDaylight() {
+        const overlay = document.getElementById('ambient-overlay');
+        if (!overlay) return;
+
+        if (this.forceAmbient === 'day') {
+          overlay.style.backgroundColor = "rgba(0,0,0,0)";
+          return;
+        } else if (this.forceAmbient === 'night') {
+          overlay.style.backgroundColor = "rgba(15, 23, 42, 0.65)";
+          return;
+        }
+
+        if (this.weather === 'Drought') {
+          overlay.style.backgroundColor = "rgba(180, 83, 9, 0.22)";
+          return;
+        }
+
+        const h = this.hour + this.minute / 60;
+        let color = "rgba(0, 0, 0, 0)";
+
+        if (h >= 5 && h < 7) {
+          const factor = (h - 5) / 2;
+          color = `rgba(251, 146, 60, ${0.25 * (1 - factor)})`;
+        } else if (h >= 7 && h < 17) {
+          color = "rgba(0, 0, 0, 0)";
+        } else if (h >= 17 && h < 19.5) {
+          const factor = (h - 17) / 2.5;
+          color = `rgba(249, 115, 22, ${0.22 * factor})`;
+        } else if (h >= 19.5 && h < 22) {
+          const factor = (h - 19.5) / 2.5;
+          color = `rgba(30, 27, 75, ${0.2 + factor * 0.35})`;
+        } else {
+          color = "rgba(15, 23, 42, 0.58)";
+        }
+        overlay.style.backgroundColor = color;
+      }
+
+      onHourChange() {
+        this.citizens.forEach(c => {
+          if (c.state === 'work') {
+            c.money += c.hourly_wage;
+            c.memories.unshift({
+              time: this.formatTime(this.hour, this.minute),
+              text: `Earned $${c.hourly_wage} for shift at ${c.workplace_name}.`
+            });
+            if (c.memories.length > 25) c.memories.pop();
+          }
+        });
+
+        if (this.weather === 'Drought') {
+          this.townFoodReserves = Math.max(0, this.townFoodReserves - 4);
+        }
+
+        this.recordAnalyticsSnapshot();
+      }
+
+      onDayChange() {
+        this.logEvent(`A new day begins in Smallville: ${this.dayName}, Day ${this.day}.`, null, "event", "🌅");
+      }
+
+      updateCitizen(c) {
+        c.hunger = Math.min(100, c.hunger + 0.28);
+        c.hygiene = Math.max(0, c.hygiene - 0.14);
+
+        if (c.state === 'sleep') {
+          c.energy = Math.min(100, c.energy + 1.2);
+          c.health = Math.min(100, c.health + 0.1);
+        } else {
+          c.energy = Math.max(0, c.energy - (c.state === 'work' ? 0.35 : 0.2));
+          c.social = Math.max(0, c.social - 0.12);
+        }
+
+        let happinessTarget = 90;
+        if (c.hunger > 70) happinessTarget -= 25;
+        if (c.energy < 25) happinessTarget -= 30;
+        if (c.hygiene < 30) happinessTarget -= 15;
+        if (c.social < 30) happinessTarget -= 15;
+        if (c.money < 50) happinessTarget -= 20;
+        c.happiness = Math.round(c.happiness * 0.95 + happinessTarget * 0.05);
+
+        if (c.hunger > 90 || c.energy < 5) c.health = Math.max(20, c.health - 0.5);
+        else c.health = Math.min(100, c.health + 0.2);
+
+        if (c.divineCommand && c.divineCommand.active) {
+          if (!c.isWalking && c.tileX === c.divineCommand.dest[0] && c.tileY === c.divineCommand.dest[1]) {
+            c.divineCommand.ticksAtDest = (c.divineCommand.ticksAtDest || 0) + 1;
+            if (c.divineCommand.ticksAtDest > 15) {
+              c.divineCommand.active = false;
+              c.state = c.divineCommand.resumeState || 'home';
+              c.currentAction = "Resumed daily autonomous routine";
+              c.actionEmoji = "🕊️";
+              this.logEvent(`${c.name} fulfilled Divine Command and returned to daily routine.`, c.name, "divine", "🕊️");
+            }
+          }
+          return;
+        }
+
+        const timeKey = `${this.hour < 10 ? '0' + this.hour : this.hour}:00`;
+
+        if (c.energy <= 15 && c.state !== 'sleep') {
+          c.state = 'sleep';
+          c.currentAction = "Exhausted, heading to bed to sleep";
+          c.actionEmoji = "💤";
+          c.currentThought = `Too exhausted to continue. Going home to ${c.home_name} to sleep.`;
+          this.setCitizenTarget(c, c.bed_coords[0], c.bed_coords[1]);
+          return;
+        }
+
+        if (c.state === 'sleep' && c.energy >= 92) {
+          c.state = 'home';
+          c.currentAction = "Waking up and stretching";
+          c.actionEmoji = "🌅";
+          c.currentThought = "Feeling well-rested! Time to begin morning activities.";
+        }
+
+        if (c.hunger >= 75 && c.state !== 'eat' && c.state !== 'sleep') {
+          c.state = 'eat';
+          c.actionEmoji = "🥪";
+
+          if (c.money >= 10 && Math.random() < 0.6) {
+            const isPub = (this.hour >= 17);
+            const venue = isPub ? "The Rose & Crown Pub" : "Hobbs Cafe";
+            const cost = isPub ? 14 : 6;
+            const dest = isPub ? [60, 31] : [77, 22];
+
+            c.money -= cost;
+            this.businessRevenues[venue] += cost;
+            this.townFoodReserves = Math.max(0, this.townFoodReserves - 2);
+
+            c.currentAction = `Eating meal at ${venue}`;
+            c.currentThought = `Hungry! Stopped by ${venue} to enjoy a meal (-$${cost}).`;
+            this.setCitizenTarget(c, dest[0], dest[1]);
+          } else {
+            c.currentAction = `Cooking home meal in ${c.home_name}`;
+            c.currentThought = "Looking for something to eat in the kitchen fridge.";
+            this.setCitizenTarget(c, c.home_coords[0], c.home_coords[1]);
+          }
+          c.hunger = Math.max(5, c.hunger - 45);
+          c.happiness = Math.min(100, c.happiness + 8);
+          return;
+        }
+
+        if (c.hygiene <= 25 && c.state !== 'hygiene' && c.state !== 'sleep') {
+          c.state = 'home';
+          c.currentAction = `Using bathroom in ${c.home_name}`;
+          c.actionEmoji = "🚿";
+          c.currentThought = "Need to freshen up with a quick shower.";
+          this.setCitizenTarget(c, c.bathroom_coords[0], c.bathroom_coords[1]);
+          c.hygiene = 98;
+          return;
+        }
+
+        if (c.schedule && c.schedule[timeKey] && !c.isWalking && c.state !== 'sleep') {
+          const entry = c.schedule[timeKey];
+          c.currentAction = entry.action;
+          c.actionEmoji = entry.emoji || "🚶";
+          c.currentThought = `Schedule: ${entry.action}.`;
+          
+          if (entry.action.toLowerCase().includes('work') || entry.action.toLowerCase().includes('shift')) {
+            c.state = 'work';
+          } else if (entry.action.toLowerCase().includes('sleep')) {
+            c.state = 'sleep';
+          } else if (entry.action.toLowerCase().includes('walk') || entry.action.toLowerCase().includes('park')) {
+            c.state = 'social';
+          }
+
+          this.setCitizenTarget(c, entry.loc[0], entry.loc[1]);
+        }
+      }
+
+      setCitizenTarget(c, targetX, targetY) {
+        if (!window.SIM_DATA.collisionGrid) return;
+        if (c.tileX === targetX && c.tileY === targetY) return;
+
+        const path = findPathBFS(window.SIM_DATA.collisionGrid, c.tileX, c.tileY, targetX, targetY);
+        if (path && path.length > 0) {
+          c.currentPath = path;
+          c.pathIndex = 0;
+          c.isWalking = true;
+        }
+      }
+
+      checkConversations() {
+        for (let i = 0; i < this.citizens.length; i++) {
+          for (let j = i + 1; j < this.citizens.length; j++) {
+            const a = this.citizens[i];
+            const b = this.citizens[j];
+
+            if (a.state === 'sleep' || b.state === 'sleep') continue;
+            if (a.chatTimer > 0 || b.chatTimer > 0) continue;
+
+            const dist = Math.hypot(a.tileX - b.tileX, a.tileY - b.tileY);
+            if (dist <= 2.8) {
+              if (Math.random() < 0.35) {
+                this.triggerConversation(a, b);
+                return;
+              }
+            }
+          }
+        }
+      }
+
+      triggerConversation(a, b) {
+        a.chatTimer = 18;
+        b.chatTimer = 18;
+        a.social = Math.min(100, a.social + 15);
+        b.social = Math.min(100, b.social + 15);
+        a.happiness = Math.min(100, a.happiness + 6);
+        b.happiness = Math.min(100, b.happiness + 6);
+
+        const dialogues = [
+          [`"Hey ${b.name.split(' ')[0]}! How's your day going?"`, `"Good to see you, ${a.name.split(' ')[0]}! Just enjoying the town."`],
+          [`"Did you feel that sudden divine breeze earlier?"`, `"Yes! It feels like the heavens themselves are watching over Smallville today."`],
+          [`"Heading over to Hobbs Cafe soon?"`, `"Definitely! Best coffee in the county."`],
+          [`"The weather today is truly something."`, `"Smallville always has surprises for us."`]
+        ];
+
+        const pair = dialogues[Math.floor(Math.random() * dialogues.length)];
+
+        this.displaySpeechBubble(a, pair[0]);
+        setTimeout(() => this.displaySpeechBubble(b, pair[1]), 1800);
+
+        const timeStr = this.formatTime(this.hour, this.minute);
+        a.memories.unshift({ time: timeStr, text: `Chatted with ${b.name}: ${pair[0]}` });
+        b.memories.unshift({ time: timeStr, text: `Chatted with ${a.name}: ${pair[1]}` });
+
+        this.logEvent(`${a.name} and ${b.name} shared a conversation.`, a.name, "social", "💬");
+      }
+
+      displaySpeechBubble(citizen, text) {
+        if (!citizen.speechBubble || !citizen.speechText) return;
+        citizen.speechText.setText(text.replace(/"/g, ''));
+        citizen.speechBubble.visible = true;
+        citizen.speechText.visible = true;
+
+        clearTimeout(citizen.bubbleHideTimeout);
+        citizen.bubbleHideTimeout = setTimeout(() => {
+          if (citizen.speechBubble) citizen.speechBubble.visible = false;
+          if (citizen.speechText) citizen.speechText.visible = false;
+        }, 3800);
+      }
+
+      logEvent(text, actor = null, category = "divine", emoji = "⚡") {
+        const timeStr = this.formatTime(this.hour, this.minute);
+        const entry = { time: timeStr, text, actor, category, emoji };
+        this.eventLog.unshift(entry);
+        if (this.eventLog.length > 80) this.eventLog.pop();
+
+        const logContainer = document.getElementById('divine-log-list');
+        if (logContainer) {
+          const div = document.createElement('div');
+          div.className = `log-entry ${category}`;
+          div.innerHTML = `<div class="log-time">${timeStr} • ${category.toUpperCase()}</div><div>${emoji} ${text}</div>`;
+          logContainer.prepend(div);
+          if (logContainer.children.length > 50) logContainer.removeChild(logContainer.lastChild);
+        }
+      }
+
+      recordAnalyticsSnapshot() {
+        const timeStr = `${this.dayName.substring(0,3)} ${this.formatTime(this.hour, 0)}`;
+        this.historyMetrics.times.push(timeStr);
+
+        const avgHappy = Math.round(this.citizens.reduce((acc, c) => acc + c.happiness, 0) / this.citizens.length);
+        const avgHealth = Math.round(this.citizens.reduce((acc, c) => acc + c.health, 0) / this.citizens.length);
+        this.historyMetrics.avgHappiness.push(avgHappy);
+        this.historyMetrics.avgHealth.push(avgHealth);
+
+        this.historyMetrics.cafeRevenue.push(this.businessRevenues["Hobbs Cafe"]);
+        this.historyMetrics.pubRevenue.push(this.businessRevenues["The Rose & Crown Pub"]);
+        this.historyMetrics.marketRevenue.push(this.businessRevenues["The Willows Market"]);
+
+        if (this.historyMetrics.times.length > 24) {
+          this.historyMetrics.times.shift();
+          this.historyMetrics.avgHappiness.shift();
+          this.historyMetrics.avgHealth.shift();
+          this.historyMetrics.cafeRevenue.shift();
+          this.historyMetrics.pubRevenue.shift();
+          this.historyMetrics.marketRevenue.shift();
+        }
+      }
+
+      updateInspectorHUD(c) {
+        document.getElementById('inspect-avatar').src = `/static/assets/characters/profile/${c.underscore}.png`;
+        document.getElementById('inspect-name').innerText = c.name;
+        document.getElementById('inspect-job').innerText = c.occupation;
+        document.getElementById('inspect-traits').innerText = `Age ${c.age} • ${(c.traits || []).join(', ')}`;
+        document.getElementById('inspect-thought').innerText = `"${c.currentThought}"`;
+        document.getElementById('inspect-location').innerText = `📍 ${c.locationText || c.home_name}`;
+
+        const modePill = document.getElementById('inspect-mode-pill');
+        const modeText = document.getElementById('inspect-mode-text');
+        if (c.divineCommand && c.divineCommand.active) {
+          modePill.className = "inspector-mode-pill mode-divine";
+          modeText.innerText = "⚡ Divine Intervention Active";
+        } else {
+          modePill.className = "inspector-mode-pill mode-autonomous";
+          modeText.innerText = "🤖 Autonomous AI Mode";
+        }
+
+        const setNeed = (id, val, color) => {
+          document.getElementById(`val-${id}`).innerText = `${Math.round(val)}%`;
+          const bar = document.getElementById(`bar-${id}`);
+          bar.style.width = `${Math.max(0, Math.min(100, val))}%`;
+          bar.style.backgroundColor = color;
+        };
+
+        setNeed('hunger', c.hunger, c.hunger > 60 ? 'var(--pixel-orange)' : 'var(--pixel-green)');
+        setNeed('energy', c.energy, c.energy < 30 ? 'var(--pixel-red)' : 'var(--pixel-blue)');
+        setNeed('health', c.health, c.health < 40 ? 'var(--pixel-red)' : 'var(--pixel-green)');
+        setNeed('happiness', c.happiness, 'var(--pixel-gold)');
+        setNeed('hygiene', c.hygiene, '#06b6d4');
+        setNeed('social', c.social, 'var(--pixel-purple)');
+
+        document.getElementById('inspect-overall-mood').innerText = `${c.happiness > 70 ? 'Happy' : 'Neutral'} (${Math.round(c.happiness)}%)`;
+        document.getElementById('val-money').innerText = `$${c.money}`;
+        document.getElementById('val-wage').innerText = `$${c.hourly_wage}/hr`;
+
+        const relContainer = document.getElementById('inspect-relations-list');
+        if (relContainer) {
+          relContainer.innerHTML = (c.relationships || []).map(r => `
+            <div class="relation-item">
+              <span><strong>${r.name}</strong> • ${r.relation}</span>
+              <span style="color:#fef08a; font-weight:700;">${r.affinity}%</span>
+            </div>
+          `).join('');
+        }
+
+        const memContainer = document.getElementById('inspect-memory-stream');
+        if (memContainer) {
+          memContainer.innerHTML = (c.memories || []).slice(0, 5).map(m => `
+            <div class="memory-item">
+              <span style="color:#fef08a; font-weight:700;">[${m.time}]</span> ${m.text}
+            </div>
+          `).join('');
+        }
+      }
+    }
+
+    /* ==========================================================================
+       BFS PATHFINDER (ZERO LATENCY 140x100)
+       ========================================================================== */
+    function findPathBFS(grid, startX, startY, targetX, targetY) {
+      if (!grid || grid.length === 0) return [];
+      const h = grid.length;
+      const w = grid[0].length;
+
+      if (startX < 0 || startX >= w || startY < 0 || startY >= h) return [];
+      if (startX === targetX && startY === targetY) return [];
+
+      if (grid[targetY][targetX] === 1) {
+        let found = false;
+        for (let r = 1; r <= 3; r++) {
+          for (let dy = -r; dy <= r; dy++) {
+            for (let dx = -r; dx <= r; dx++) {
+              const nx = targetX + dx;
+              const ny = targetY + dy;
+              if (nx >= 0 && nx < w && ny >= 0 && ny < h && grid[ny][nx] === 0) {
+                targetX = nx;
+                targetY = ny;
+                found = true;
+                break;
+              }
+            }
+            if (found) break;
+          }
+          if (found) break;
+        }
+        if (!found) return [];
+      }
+
+      const queue = [[startX, startY]];
+      const visited = new Uint8Array(w * h);
+      const parent = new Int32Array(w * h).fill(-1);
+
+      visited[startY * w + startX] = 1;
+      let foundTarget = false;
+
+      const dirs = [[0, -1], [0, 1], [-1, 0], [1, 0]];
+
+      let head = 0;
+      while (head < queue.length) {
+        const [cx, cy] = queue[head++];
+        if (cx === targetX && cy === targetY) {
+          foundTarget = true;
+          break;
+        }
+
+        for (const [dx, dy] of dirs) {
+          const nx = cx + dx;
+          const ny = cy + dy;
+          if (nx >= 0 && nx < w && ny >= 0 && ny < h && grid[ny][nx] === 0) {
+            const nIdx = ny * w + nx;
+            if (!visited[nIdx]) {
+              visited[nIdx] = 1;
+              parent[nIdx] = cy * w + cx;
+              queue.push([nx, ny]);
+            }
+          }
+        }
+      }
+
+      if (!foundTarget) return [];
+
+      const path = [];
+      let curr = targetY * w + targetX;
+      const startIdx = startY * w + startX;
+
+      while (curr !== startIdx && curr !== -1) {
+        path.push([curr % w, Math.floor(curr / w)]);
+        curr = parent[curr];
+      }
+
+      return path.reverse();
+    }
+
+    /* ==========================================================================
+       WEATHER CANVAS ENGINE (RAIN, SNOW, STORM, FLASH)
+       ========================================================================== */
+    class WeatherEngine {
+      constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        this.ctx = this.canvas.getContext('2d');
+        this.mode = "Sunny";
+        this.particles = [];
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+        this.animate();
+      }
+
+      resize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+      }
+
+      setMode(mode) {
+        this.mode = mode;
+        this.particles = [];
+        const count = mode === "Rain" ? 140 : (mode === "Storm" ? 220 : (mode === "Snow" ? 100 : 0));
+        for (let i = 0; i < count; i++) {
+          this.particles.push({
+            x: Math.random() * this.canvas.width,
+            y: Math.random() * this.canvas.height,
+            speed: mode === "Snow" ? (1 + Math.random() * 2) : (10 + Math.random() * 14),
+            length: mode === "Snow" ? (2 + Math.random() * 3) : (12 + Math.random() * 16),
+            drift: (Math.random() - 0.5) * 1.5
+          });
+        }
+      }
+
+      triggerLightning() {
+        const flash = document.getElementById('flash-overlay');
+        if (!flash) return;
+        flash.style.backgroundColor = "rgba(255, 255, 255, 0.75)";
+        setTimeout(() => { flash.style.backgroundColor = "rgba(255, 255, 255, 0)"; }, 90);
+        setTimeout(() => {
+          flash.style.backgroundColor = "rgba(255, 255, 255, 0.4)";
+          setTimeout(() => { flash.style.backgroundColor = "rgba(255, 255, 255, 0)"; }, 70);
+        }, 140);
+      }
+
+      animate() {
+        requestAnimationFrame(() => this.animate());
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        if (this.mode === "Sunny" || this.mode === "Overcast" || this.mode === "Drought") return;
+
+        if (this.mode === "Storm" && Math.random() < 0.005) {
+          this.triggerLightning();
+        }
+
+        if (this.mode === "Rain" || this.mode === "Storm") {
+          this.ctx.strokeStyle = "rgba(147, 197, 253, 0.65)";
+          this.ctx.lineWidth = 1.5;
+          this.ctx.beginPath();
+          for (const p of this.particles) {
+            this.ctx.moveTo(p.x, p.y);
+            this.ctx.lineTo(p.x - 2, p.y + p.length);
+            p.y += p.speed;
+            p.x -= 1.2;
+            if (p.y > this.canvas.height) { p.y = -20; p.x = Math.random() * this.canvas.width; }
+          }
+          this.ctx.stroke();
+        } else if (this.mode === "Snow") {
+          this.ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+          for (const p of this.particles) {
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.length, 0, Math.PI * 2);
+            this.ctx.fill();
+            p.y += p.speed;
+            p.x += Math.sin(p.y * 0.03) * 0.8;
+            if (p.y > this.canvas.height) { p.y = -10; p.x = Math.random() * this.canvas.width; }
+          }
+        }
+      }
+    }
+
+    /* ==========================================================================
+       NATURAL-LANGUAGE DIVINE COMMAND PARSER & ENGINE
+       ========================================================================== */
+    class DivineCommandEngine {
+      constructor(sim) {
+        this.sim = sim;
+      }
+
+      execute(rawText) {
+        if (!rawText || !rawText.trim()) return { success: false, msg: "Please enter a command." };
+        const text = rawText.trim().toLowerCase();
+
+        // 1. Weather Commands
+        if (text.includes("rain")) {
+          this.sim.setWeather("Rain");
+          return { success: true, msg: "🌧️ Divine Rain summoned upon Smallville." };
+        }
+        if (text.includes("storm") || text.includes("thunder") || text.includes("lightning")) {
+          this.sim.setWeather("Storm");
+          return { success: true, msg: "⛈️ Violent Divine Thunderstorm unleashed." };
+        }
+        if (text.includes("snow") || text.includes("blizzard")) {
+          this.sim.setWeather("Snow");
+          return { success: true, msg: "❄️ Soft winter snow blanketed the town." };
+        }
+        if (text.includes("sunny") || text.includes("clear") || text.includes("sunshine")) {
+          this.sim.setWeather("Sunny");
+          return { success: true, msg: "☀️ Bright golden sunshine restored over Smallville." };
+        }
+        if (text.includes("drought") || text.includes("heatwave")) {
+          this.sim.setWeather("Drought");
+          return { success: true, msg: "🔥 Scorching drought cast over Smallville." };
+        }
+
+        // 2. World Events
+        if (text.includes("festival") || text.includes("celebration") || text.includes("party")) {
+          return this.triggerFestival();
+        }
+        if (text.includes("food shortage") || text.includes("famine") || text.includes("starvation")) {
+          this.sim.townFoodReserves = 5;
+          this.sim.citizens.forEach(c => {
+            c.hunger = Math.min(100, c.hunger + 40);
+            c.currentThought = "Food is running out in town! We need emergency provisions.";
+          });
+          this.sim.logEvent("A severe food shortage has struck Smallville!", null, "event", "⚠️");
+          return { success: true, msg: "⚠️ Emergency food shortage declared (5 Food units remaining)." };
+        }
+        if (text.includes("gather") && (text.includes("park") || text.includes("johnson park") || text.includes("everyone") || text.includes("all"))) {
+          return this.gatherAllInPark();
+        }
+        if ((text.includes("everyone") || text.includes("all residents") || text.includes("all citizens")) && (text.includes("sleep") || text.includes("bed") || text.includes("curfew"))) {
+          this.sim.citizens.forEach(c => {
+            c.state = 'sleep';
+            c.currentAction = "Divine Curfew: Returning home to bed";
+            c.actionEmoji = "💤";
+            c.currentThought = "A divine exhaustion has settled over the town. Heading to sleep.";
+            this.sim.setCitizenTarget(c, c.bed_coords[0], c.bed_coords[1]);
+          });
+          this.sim.logEvent("Divine Curfew: All residents ordered to sleep.", null, "divine", "💤");
+          return { success: true, msg: "💤 Divine Curfew enacted: All 15 residents walking home to sleep." };
+        }
+        if (text.includes("increase happiness") || text.includes("make everyone happy") || text.includes("heal everyone") || text.includes("feed everyone")) {
+          this.sim.citizens.forEach(c => {
+            c.happiness = 100;
+            c.health = 100;
+            c.hunger = 10;
+            c.energy = 100;
+            c.currentThought = "I feel blessed by an unseen celestial grace!";
+          });
+          this.sim.logEvent("Divine Blessing bestowed upon all citizens (100% Needs).", null, "divine", "✨");
+          return { success: true, msg: "✨ Divine Blessing granted: All residents restored to 100% Needs." };
+        }
+
+        // 3. Citizen Specific Commands
+        let targetCitizen = null;
+        for (const c of this.sim.citizens) {
+          const firstName = c.name.split(' ')[0].toLowerCase();
+          const fullName = c.name.toLowerCase();
+          if (text.includes(fullName) || text.includes(firstName)) {
+            targetCitizen = c;
+            break;
+          }
+        }
+
+        if (targetCitizen) {
+          const moneyMatch = text.match(/(?:give|grant|award|send)\s+.*?(\d+)\s*(?:coins|dollars|money|\$)?/i) || text.match(/\$(\d+)/);
+          if (moneyMatch && (text.includes("give") || text.includes("grant") || text.includes("send"))) {
+            const amount = parseInt(moneyMatch[1]);
+            targetCitizen.money += amount;
+            targetCitizen.memories.unshift({
+              time: this.sim.formatTime(this.sim.hour, this.sim.minute),
+              text: `Received a divine blessing of $${amount}!`
+            });
+            this.sim.logEvent(`Granted $${amount} to ${targetCitizen.name}.`, targetCitizen.name, "divine", "💰");
+            selectCitizen(targetCitizen);
+            return { success: true, msg: `💰 Granted $${amount} to ${targetCitizen.name} (Balance: $${targetCitizen.money}).` };
+          }
+
+          if (text.includes("work") || text.includes("job") || text.includes("office") || text.includes("counter")) {
+            executeDivineMoveTarget(targetCitizen, targetCitizen.workplace_coords[0], targetCitizen.workplace_coords[1], "work", `Heading to work at ${targetCitizen.workplace_name}`);
+            return { success: true, msg: `🏢 ${targetCitizen.name} commanded to work at ${targetCitizen.workplace_name}.` };
+          }
+          if (text.includes("home") || text.includes("apartment") || text.includes("house")) {
+            executeDivineMoveTarget(targetCitizen, targetCitizen.home_coords[0], targetCitizen.home_coords[1], "home", `Heading home to ${targetCitizen.home_name}`);
+            return { success: true, msg: `🏠 ${targetCitizen.name} commanded to return to ${targetCitizen.home_name}.` };
+          }
+          if (text.includes("park") || text.includes("johnson park") || text.includes("gazebo")) {
+            executeDivineMoveTarget(targetCitizen, 39, 44, "social", "Visiting Johnson Park");
+            return { success: true, msg: `🌳 ${targetCitizen.name} commanded to visit Johnson Park.` };
+          }
+          if (text.includes("cafe") || text.includes("hobbs cafe") || text.includes("coffee")) {
+            executeDivineMoveTarget(targetCitizen, 77, 22, "eat", "Visiting Hobbs Cafe");
+            return { success: true, msg: `☕ ${targetCitizen.name} commanded to visit Hobbs Cafe.` };
+          }
+          if (text.includes("pub") || text.includes("rose & crown") || text.includes("bar")) {
+            executeDivineMoveTarget(targetCitizen, 60, 31, "eat", "Visiting The Rose & Crown Pub");
+            return { success: true, msg: `🍺 ${targetCitizen.name} commanded to visit The Rose & Crown Pub.` };
+          }
+          if (text.includes("sleep") || text.includes("bed")) {
+            executeDivineMoveTarget(targetCitizen, targetCitizen.bed_coords[0], targetCitizen.bed_coords[1], "sleep", "Going to sleep in bed");
+            return { success: true, msg: `🛏️ ${targetCitizen.name} commanded to sleep.` };
+          }
+        }
+
+        return {
+          success: false,
+          msg: `Unrecognized command. Try e.g. "Make Isabella go to cafe", "Give Klaus 500 coins", "Make it rain", or "Gather everyone at Johnson Park".`
+        };
+      }
+
+      triggerFestival() {
+        this.sim.townEconomy += 1500;
+        this.sim.townFoodReserves += 80;
+        this.sim.setWeather("Sunny");
+
+        this.sim.citizens.forEach(c => {
+          c.happiness = Math.min(100, c.happiness + 25);
+          c.currentThought = "The Town Festival is happening! Everyone is gathering in Johnson Park to celebrate!";
+          c.currentAction = "Celebrating at Smallville Town Festival";
+          c.actionEmoji = "🎉";
+          const offsetDX = Math.floor(Math.random() * 5) - 2;
+          const offsetDY = Math.floor(Math.random() * 5) - 2;
+          this.sim.setCitizenTarget(c, 39 + offsetDX, 44 + offsetDY);
+        });
+
+        this.sim.logEvent("Town Festival underway at Johnson Park! All residents celebrating.", null, "event", "🎉");
+        if (camera) camera.centerOn(39 * 32, 44 * 32);
+        return { success: true, msg: "🎉 Smallville Town Festival initiated! All 15 residents converging on Johnson Park." };
+      }
+
+      gatherAllInPark() {
+        this.sim.citizens.forEach(c => {
+          c.currentThought = "Summoned to Johnson Park by divine decree!";
+          c.currentAction = "Gathering at Johnson Park";
+          c.actionEmoji = "📢";
+          const offsetDX = Math.floor(Math.random() * 7) - 3;
+          const offsetDY = Math.floor(Math.random() * 7) - 3;
+          this.sim.setCitizenTarget(c, 39 + offsetDX, 44 + offsetDY);
+        });
+        this.sim.logEvent("All residents commanded to assemble at Johnson Park.", null, "divine", "📢");
+        if (camera) camera.centerOn(39 * 32, 44 * 32);
+        return { success: true, msg: "📢 Divine decree issued: All residents navigating to Johnson Park gazebo." };
+      }
+    }
+
+    /* ==========================================================================
+       PHASER 3 GAME SCENE & RENDERING
+       ========================================================================== */
+    const sim = new SocietySimulation();
+    window.societySim = sim;
+    const commandEngine = new DivineCommandEngine(sim);
+
+    const phaserConfig = {
+      type: Phaser.AUTO,
+      parent: 'game-container',
+      width: window.innerWidth,
+      height: window.innerHeight,
+      pixelArt: true,
+      physics: {
+        default: 'arcade',
+        arcade: { gravity: { y: 0 } }
+      },
+      scene: {
+        preload: phaserPreload,
+        create: phaserCreate,
+        update: phaserUpdate
+      }
+    };
+
+    let phaserGame;
+    let phaserScene;
+    let camera;
+    let followTarget = null;
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let divineReticle = null;
+
+    function phaserPreload() {
+      phaserScene = this;
+      this.load.crossOrigin = '';
+
+      this.load.image("blocks_1", "/static/assets/the_ville/visuals/map_assets/blocks/blocks_1.png");
+      this.load.image("walls", "/static/assets/the_ville/visuals/map_assets/v1/Room_Builder_32x32.png");
+      this.load.image("interiors_pt1", "/static/assets/the_ville/visuals/map_assets/v1/interiors_pt1.png");
+      this.load.image("interiors_pt2", "/static/assets/the_ville/visuals/map_assets/v1/interiors_pt2.png");
+      this.load.image("interiors_pt3", "/static/assets/the_ville/visuals/map_assets/v1/interiors_pt3.png");
+      this.load.image("interiors_pt4", "/static/assets/the_ville/visuals/map_assets/v1/interiors_pt4.png");
+      this.load.image("interiors_pt5", "/static/assets/the_ville/visuals/map_assets/v1/interiors_pt5.png");
+      this.load.image("CuteRPG_Field_B", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Field_B.png");
+      this.load.image("CuteRPG_Field_C", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Field_C.png");
+      this.load.image("CuteRPG_Harbor_C", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Harbor_C.png");
+      this.load.image("CuteRPG_Village_B", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Village_B.png");
+      this.load.image("CuteRPG_Forest_B", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Forest_B.png");
+      this.load.image("CuteRPG_Desert_C", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Desert_C.png");
+      this.load.image("CuteRPG_Mountains_B", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Mountains_B.png");
+      this.load.image("CuteRPG_Desert_B", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Desert_B.png");
+      this.load.image("CuteRPG_Forest_C", "/static/assets/the_ville/visuals/map_assets/cute_rpg_word_VXAce/tilesets/CuteRPG_Forest_C.png");
+
+      this.load.tilemapTiledJSON("smallville_map", "/static/assets/the_ville/visuals/the_ville_jan7.json");
+      this.load.image('speech_bubble_img', "/static/assets/speech_bubble/v3.png");
+
+      const characterNames = [
+        "Isabella_Rodriguez", "Klaus_Mueller", "Maria_Lopez", "Arthur_Burton",
+        "John_Lin", "Mei_Lin", "Eddy_Lin", "Giorgio_Rossi", "Tom_Moreno",
+        "Jane_Moreno", "Sam_Moore", "Abigail_Chen", "Carlos_Gomez", "Hailey_Johnson", "Francisco_Lopez"
+      ];
+
+      characterNames.forEach(cName => {
+        this.load.atlas(cName, `/static/assets/characters/${cName}.png`, "/static/assets/characters/atlas.json");
+      });
+    }
+
+    function phaserCreate() {
+      const map = this.make.tilemap({ key: "smallville_map" });
+
+      const collisions = map.addTilesetImage("blocks", "blocks_1");
+      const walls = map.addTilesetImage("Room_Builder_32x32", "walls");
+      const interiors_pt1 = map.addTilesetImage("interiors_pt1", "interiors_pt1");
+      const interiors_pt2 = map.addTilesetImage("interiors_pt2", "interiors_pt2");
+      const interiors_pt3 = map.addTilesetImage("interiors_pt3", "interiors_pt3");
+      const interiors_pt4 = map.addTilesetImage("interiors_pt4", "interiors_pt4");
+      const interiors_pt5 = map.addTilesetImage("interiors_pt5", "interiors_pt5");
+      const CuteRPG_Field_B = map.addTilesetImage("CuteRPG_Field_B", "CuteRPG_Field_B");
+      const CuteRPG_Field_C = map.addTilesetImage("CuteRPG_Field_C", "CuteRPG_Field_C");
+      const CuteRPG_Harbor_C = map.addTilesetImage("CuteRPG_Harbor_C", "CuteRPG_Harbor_C");
+      const CuteRPG_Village_B = map.addTilesetImage("CuteRPG_Village_B", "CuteRPG_Village_B");
+      const CuteRPG_Forest_B = map.addTilesetImage("CuteRPG_Forest_B", "CuteRPG_Forest_B");
+      const CuteRPG_Desert_C = map.addTilesetImage("CuteRPG_Desert_C", "CuteRPG_Desert_C");
+      const CuteRPG_Mountains_B = map.addTilesetImage("CuteRPG_Mountains_B", "CuteRPG_Mountains_B");
+      const CuteRPG_Desert_B = map.addTilesetImage("CuteRPG_Desert_B", "CuteRPG_Desert_B");
+      const CuteRPG_Forest_C = map.addTilesetImage("CuteRPG_Forest_C", "CuteRPG_Forest_C");
+
+      const tilesetGroup = [
+        CuteRPG_Field_B, CuteRPG_Field_C, CuteRPG_Harbor_C, CuteRPG_Village_B,
+        CuteRPG_Forest_B, CuteRPG_Desert_C, CuteRPG_Mountains_B, CuteRPG_Desert_B, CuteRPG_Forest_C,
+        interiors_pt1, interiors_pt2, interiors_pt3, interiors_pt4, interiors_pt5, walls
+      ];
+
+      map.createLayer("Bottom Ground", tilesetGroup, 0, 0);
+      map.createLayer("Exterior Ground", tilesetGroup, 0, 0);
+      map.createLayer("Exterior Decoration L1", tilesetGroup, 0, 0);
+      map.createLayer("Exterior Decoration L2", tilesetGroup, 0, 0);
+      map.createLayer("Interior Ground", tilesetGroup, 0, 0);
+      map.createLayer("Wall", [CuteRPG_Field_C, walls], 0, 0);
+      map.createLayer("Interior Furniture L1", tilesetGroup, 0, 0);
+      map.createLayer("Interior Furniture L2 ", tilesetGroup, 0, 0);
+
+      const foregroundL1 = map.createLayer("Foreground L1", tilesetGroup, 0, 0);
+      const foregroundL2 = map.createLayer("Foreground L2", tilesetGroup, 0, 0);
+      foregroundL1.setDepth(2);
+      foregroundL2.setDepth(2);
+
+      camera = this.cameras.main;
+      camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+      camera.setZoom(1.1);
+      camera.centerOn(77 * 32, 22 * 32);
+
+      divineReticle = this.add.circle(0, 0, 16, 0xeab308, 0.4);
+      divineReticle.setStrokeStyle(3, 0xfef08a);
+      divineReticle.setDepth(10);
+      divineReticle.visible = false;
+
+      sim.citizens.forEach(c => {
+        const cKey = c.underscore;
+        this.anims.create({
+          key: `${cKey}-down-walk`,
+          frames: this.anims.generateFrameNames(cKey, { prefix: "down-walk.", start: 0, end: 3, zeroPad: 3 }),
+          frameRate: 6,
+          repeat: -1
+        });
+        this.anims.create({
+          key: `${cKey}-up-walk`,
+          frames: this.anims.generateFrameNames(cKey, { prefix: "up-walk.", start: 0, end: 3, zeroPad: 3 }),
+          frameRate: 6,
+          repeat: -1
+        });
+        this.anims.create({
+          key: `${cKey}-left-walk`,
+          frames: this.anims.generateFrameNames(cKey, { prefix: "left-walk.", start: 0, end: 3, zeroPad: 3 }),
+          frameRate: 6,
+          repeat: -1
+        });
+        this.anims.create({
+          key: `${cKey}-right-walk`,
+          frames: this.anims.generateFrameNames(cKey, { prefix: "right-walk.", start: 0, end: 3, zeroPad: 3 }),
+          frameRate: 6,
+          repeat: -1
+        });
+
+        const sprite = this.physics.add.sprite(c.pixelX, c.pixelY, cKey, "down");
+        sprite.setDepth(1);
+        sprite.displayWidth = 36;
+        sprite.displayHeight = 44;
+        sprite.setInteractive({ cursor: 'pointer' });
+
+        sprite.on('pointerdown', (pointer) => {
+          pointer.event.stopPropagation();
+          selectCitizen(c);
+        });
+
+        c.sprite = sprite;
+
+        c.emojiIcon = this.add.text(c.pixelX - 10, c.pixelY - 42, c.actionEmoji, {
+          font: '16px monospace',
+          padding: { x: 3, y: 3 },
+          backgroundColor: '#26140e',
+          color: '#ffffff'
+        });
+        c.emojiIcon.setDepth(3);
+
+        c.speechBubble = this.add.image(c.pixelX + 60, c.pixelY - 35, 'speech_bubble_img');
+        c.speechBubble.setDepth(4);
+        c.speechBubble.displayWidth = 135;
+        c.speechBubble.displayHeight = 65;
+        c.speechBubble.visible = false;
+
+        c.speechText = this.add.text(c.pixelX - 10, c.pixelY - 55, '', {
+          font: '10px monospace',
+          color: '#000000',
+          wordWrap: { width: 110 }
+        });
+        c.speechText.setDepth(5);
+        c.speechText.visible = false;
+      });
+
+      this.input.on('pointerdown', (pointer) => {
+        if (pointer.rightButtonDown()) return;
+        const worldPoint = camera.getWorldPoint(pointer.x, pointer.y);
+        const tileX = Math.floor(worldPoint.x / 32);
+        const tileY = Math.floor(worldPoint.y / 32);
+
+        if (window.isMapTargetSelectionActive && sim.selectedCitizen) {
+          executeDivineMoveTarget(sim.selectedCitizen, tileX, tileY, "divine", `Navigating to target [${tileX}, ${tileY}] by Divine Decree`);
+          window.isMapTargetSelectionActive = false;
+          document.body.style.cursor = 'default';
+          return;
+        }
+
+        deselectCitizen();
+      });
+
+      this.input.on('pointerdown', (pointer) => {
+        if (pointer.rightButtonDown() || pointer.middleButtonDown() || this.input.keyboard.checkDown(this.input.keyboard.addKey('SPACE'))) {
+          isDragging = true;
+          dragStartX = pointer.x;
+          dragStartY = pointer.y;
+          followTarget = null;
+        }
+      });
+
+      this.input.on('pointermove', (pointer) => {
+        if (isDragging) {
+          camera.scrollX -= (pointer.x - dragStartX) / camera.zoom;
+          camera.scrollY -= (pointer.y - dragStartY) / camera.zoom;
+          dragStartX = pointer.x;
+          dragStartY = pointer.y;
+        }
+      });
+
+      this.input.on('pointerup', () => { isDragging = false; });
+
+      this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY) => {
+        if (deltaY > 0) camera.setZoom(Math.max(0.45, camera.zoom - 0.1));
+        else camera.setZoom(Math.min(2.4, camera.zoom + 0.1));
+      });
+    }
+
+    function phaserUpdate(time, delta) {
+      if (followTarget && !isDragging) {
+        camera.centerOn(
+          Phaser.Math.Linear(camera.midPoint.x, followTarget.x, 0.08),
+          Phaser.Math.Linear(camera.midPoint.y, followTarget.y, 0.08)
+        );
+      }
+
+      sim.citizens.forEach(c => {
+        if (c.isWalking && c.currentPath.length > 0) {
+          const targetTile = c.currentPath[c.pathIndex];
+          const targetPxX = targetTile[0] * 32 + 16;
+          const targetPxY = targetTile[1] * 32 + 16;
+
+          const dx = targetPxX - c.pixelX;
+          const dy = targetPxY - c.pixelY;
+          const dist = Math.hypot(dx, dy);
+
+          const moveStep = 90 * (delta / 1000) * sim.speed;
+
+          if (dist <= moveStep) {
+            c.pixelX = targetPxX;
+            c.pixelY = targetPxY;
+            c.tileX = targetTile[0];
+            c.tileY = targetTile[1];
+            c.pathIndex++;
+
+            if (c.pathIndex >= c.currentPath.length) {
+              c.isWalking = false;
+              c.sprite.anims.stop();
+              c.sprite.setTexture(c.underscore, c.facing);
+            }
+          } else {
+            const vx = (dx / dist) * moveStep;
+            const vy = (dy / dist) * moveStep;
+            c.pixelX += vx;
+            c.pixelY += vy;
+
+            if (Math.abs(dx) > Math.abs(dy)) c.facing = dx > 0 ? 'right' : 'left';
+            else c.facing = dy > 0 ? 'down' : 'up';
+            c.sprite.anims.play(`${c.underscore}-${c.facing}-walk`, true);
+          }
+        }
+
+        if (c.sprite) {
+          c.sprite.x = c.pixelX;
+          c.sprite.y = c.pixelY;
+
+          if (c.emojiIcon) {
+            c.emojiIcon.x = c.pixelX - 10;
+            c.emojiIcon.y = c.pixelY - 42;
+            c.emojiIcon.setText(c.actionEmoji);
+          }
+          if (c.speechBubble) {
+            c.speechBubble.x = c.pixelX + 60;
+            c.speechBubble.y = c.pixelY - 35;
+          }
+          if (c.speechText) {
+            c.speechText.x = c.pixelX - 10;
+            c.speechText.y = c.pixelY - 55;
+          }
+        }
+      });
+    }
+
+    /* ==========================================================================
+       UI INTERACTION & RETRO EVENT WIRING
+       ========================================================================== */
+    function selectCitizen(c) {
+      sim.selectedCitizen = c;
+      followTarget = c.sprite;
+      sim.updateInspectorHUD(c);
+
+      const inspector = document.getElementById('right-inspector-pane');
+      if (inspector) inspector.classList.add('open');
+
+      document.querySelectorAll('.citizen-card').forEach(card => {
+        card.classList.toggle('selected', card.dataset.id == c.id);
+      });
+    }
+
+    function deselectCitizen() {
+      sim.selectedCitizen = null;
+      followTarget = null;
+      const inspector = document.getElementById('right-inspector-pane');
+      if (inspector) inspector.classList.remove('open');
+      document.querySelectorAll('.citizen-card').forEach(card => card.classList.remove('selected'));
+    }
+
+    function executeDivineMoveTarget(c, targetX, targetY, stateType = "divine", actionDesc = "Moving by Divine Decree") {
+      c.state = stateType;
+      c.currentAction = actionDesc;
+      c.actionEmoji = "⚡";
+      c.currentThought = `A divine clarity compels me to visit [${targetX}, ${targetY}]!`;
+      c.divineCommand = { active: true, action: actionDesc, dest: [targetX, targetY], resumeState: 'home', ticksAtDest: 0 };
+      
+      sim.setCitizenTarget(c, targetX, targetY);
+
+      if (divineReticle) {
+        divineReticle.x = targetX * 32 + 16;
+        divineReticle.y = targetY * 32 + 16;
+        divineReticle.visible = true;
+        phaserScene.tweens.add({
+          targets: divineReticle,
+          scale: { from: 1.5, to: 1.0 },
+          alpha: { from: 1.0, to: 0.3 },
+          duration: 600,
+          yoyo: true,
+          repeat: 3,
+          onComplete: () => { divineReticle.visible = false; }
+        });
+      }
+
+      sim.logEvent(`Divine Decree: Sent ${c.name} to [${targetX}, ${targetY}].`, c.name, "divine", "⚡");
+      sim.updateInspectorHUD(c);
+    }
+
+    function renderRosterList(filter = 'all') {
+      const container = document.getElementById('citizen-roster-list');
+      if (!container) return;
+
+      const filtered = sim.citizens.filter(c => {
+        if (filter === 'all') return true;
+        if (filter === 'working') return c.state === 'work';
+        if (filter === 'social') return c.state === 'social' || c.state === 'eat';
+        if (filter === 'home') return c.state === 'home' || c.state === 'sleep';
+        return true;
+      });
+
+      container.innerHTML = filtered.map(c => `
+        <div class="citizen-card ${sim.selectedCitizen && sim.selectedCitizen.id === c.id ? 'selected' : ''} ${c.divineCommand && c.divineCommand.active ? 'divine-controlled' : ''}" data-id="${c.id}">
+          <div class="citizen-avatar-wrapper">
+            <img src="/static/assets/characters/profile/${c.underscore}.png" class="citizen-avatar" alt="${c.name}">
+            <div class="citizen-status-dot status-${c.state}"></div>
+          </div>
+          <div class="citizen-info">
+            <div class="citizen-name-row">
+              <span class="citizen-name">${c.name}</span>
+              <span style="font-size:0.95rem;">${c.actionEmoji}</span>
+            </div>
+            <div class="citizen-job">${c.occupation}</div>
+            <div class="citizen-mini-bar">
+              <div class="citizen-mini-fill" style="width:${c.happiness}%;"></div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('.citizen-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const id = parseInt(card.dataset.id);
+          const c = sim.citizens.find(item => item.id === id);
+          if (c) selectCitizen(c);
+        });
+      });
+    }
+
+    window.addEventListener('load', async () => {
+      try {
+        const [gridRes, citizensRes, locsRes] = await Promise.all([
+          fetch('/static/assets/the_ville/the_ville_collision_grid.json'),
+          fetch('/static/assets/the_ville/society_citizens.json'),
+          fetch('/static/assets/the_ville/world_locations.json')
+        ]);
+
+        window.SIM_DATA.collisionGrid = await gridRes.json();
+        window.SIM_DATA.citizens = await citizensRes.json();
+        window.SIM_DATA.locations = await locsRes.json();
+
+        sim.initCitizens(window.SIM_DATA.citizens);
+
+        phaserGame = new Phaser.Game(phaserConfig);
+        window.weatherEngine = new WeatherEngine('weather-canvas');
+
+        renderRosterList();
+
+        setInterval(() => {
+          sim.tickSimulation();
+        }, 1000 / sim.speed);
+
+        const btnPlay = document.getElementById('btn-play-pause');
+        btnPlay.addEventListener('click', () => {
+          sim.isRunning = !sim.isRunning;
+          btnPlay.innerText = sim.isRunning ? '⏸ PAUSE' : '▶ RESUME';
+          btnPlay.className = sim.isRunning ? 'pixel-btn pixel-btn-red' : 'pixel-btn pixel-btn-green';
+        });
+
+        document.querySelectorAll('.time-ctrl-btn[data-speed]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.time-ctrl-btn[data-speed]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            sim.speed = parseFloat(btn.dataset.speed);
+          });
+        });
+
+        const rosterPane = document.getElementById('left-roster-pane');
+        document.getElementById('btn-toggle-roster').addEventListener('click', () => {
+          rosterPane.classList.toggle('open');
+        });
+        document.getElementById('btn-close-roster').addEventListener('click', () => {
+          rosterPane.classList.remove('open');
+        });
+
+        document.getElementById('btn-close-inspector').addEventListener('click', () => {
+          deselectCitizen();
+        });
+
+        const logDrawer = document.getElementById('divine-log-drawer');
+        document.getElementById('btn-toggle-log').addEventListener('click', () => {
+          logDrawer.classList.toggle('open');
+        });
+        document.getElementById('btn-close-log').addEventListener('click', () => {
+          logDrawer.classList.remove('open');
+        });
+
+        const godOverlay = document.getElementById('god-drawer-overlay');
+        document.getElementById('btn-toggle-god-drawer').addEventListener('click', () => {
+          godOverlay.classList.add('open');
+        });
+        document.getElementById('btn-close-god-drawer').addEventListener('click', () => {
+          godOverlay.classList.remove('open');
+        });
+
+        document.getElementById('btn-focus-command').addEventListener('click', () => {
+          const input = document.getElementById('god-command-input');
+          input.focus();
+          input.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        const submitCommand = () => {
+          const input = document.getElementById('god-command-input');
+          const res = commandEngine.execute(input.value);
+          const feedbackCard = document.getElementById('command-feedback-card');
+          const feedbackBadge = document.getElementById('feedback-badge');
+          const feedbackText = document.getElementById('feedback-text');
+
+          feedbackCard.style.display = 'flex';
+          feedbackBadge.innerText = res.success ? "DIVINE WILL" : "GUIDANCE";
+          feedbackBadge.style.color = res.success ? "var(--pixel-green)" : "var(--pixel-orange)";
+          feedbackText.innerText = res.msg;
+
+          if (res.success) input.value = '';
+        };
+
+        document.getElementById('btn-submit-divine').addEventListener('click', submitCommand);
+        document.getElementById('god-command-input').addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') submitCommand();
+        });
+
+        document.getElementById('btn-close-feedback').addEventListener('click', () => {
+          document.getElementById('command-feedback-card').style.display = 'none';
+        });
+
+        document.querySelectorAll('.suggestion-chips-row button').forEach(chip => {
+          chip.addEventListener('click', () => {
+            const input = document.getElementById('god-command-input');
+            input.value = chip.dataset.cmd;
+            submitCommand();
+          });
+        });
+
+        document.getElementById('btn-god-give-money').addEventListener('click', () => {
+          if (!sim.selectedCitizen) return;
+          sim.selectedCitizen.money += 100;
+          sim.logEvent(`Granted $100 to ${sim.selectedCitizen.name}.`, sim.selectedCitizen.name, "divine", "💰");
+          sim.updateInspectorHUD(sim.selectedCitizen);
+        });
+
+        document.getElementById('btn-god-take-money').addEventListener('click', () => {
+          if (!sim.selectedCitizen) return;
+          sim.selectedCitizen.money = Math.max(0, sim.selectedCitizen.money - 50);
+          sim.logEvent(`Deducted $50 from ${sim.selectedCitizen.name}.`, sim.selectedCitizen.name, "divine", "💸");
+          sim.updateInspectorHUD(sim.selectedCitizen);
+        });
+
+        document.getElementById('btn-god-bless-needs').addEventListener('click', () => {
+          if (!sim.selectedCitizen) return;
+          const c = sim.selectedCitizen;
+          c.hunger = 10;
+          c.energy = 100;
+          c.health = 100;
+          c.happiness = 100;
+          c.hygiene = 100;
+          c.social = 100;
+          c.currentThought = "A warm celestial light enveloped me, soothing my soul!";
+          sim.logEvent(`Bestowed Divine Blessing on ${c.name} (100% Needs).`, c.name, "divine", "✨");
+          sim.updateInspectorHUD(c);
+        });
+
+        document.getElementById('btn-god-force-work').addEventListener('click', () => {
+          if (!sim.selectedCitizen) return;
+          const c = sim.selectedCitizen;
+          executeDivineMoveTarget(c, c.workplace_coords[0], c.workplace_coords[1], "work", `Force Shift at ${c.workplace_name}`);
+        });
+
+        document.getElementById('btn-god-force-home').addEventListener('click', () => {
+          if (!sim.selectedCitizen) return;
+          const c = sim.selectedCitizen;
+          executeDivineMoveTarget(c, c.home_coords[0], c.home_coords[1], "home", `Force Return to ${c.home_name}`);
+        });
+
+        document.getElementById('btn-god-force-cafe').addEventListener('click', () => {
+          if (!sim.selectedCitizen) return;
+          executeDivineMoveTarget(sim.selectedCitizen, 77, 22, "eat", "Visiting Hobbs Cafe");
+        });
+
+        document.getElementById('btn-god-force-park').addEventListener('click', () => {
+          if (!sim.selectedCitizen) return;
+          executeDivineMoveTarget(sim.selectedCitizen, 39, 44, "social", "Visiting Johnson Park");
+        });
+
+        document.getElementById('btn-god-force-sleep').addEventListener('click', () => {
+          if (!sim.selectedCitizen) return;
+          const c = sim.selectedCitizen;
+          executeDivineMoveTarget(c, c.bed_coords[0], c.bed_coords[1], "sleep", "Sent to sleep in bed");
+        });
+
+        document.getElementById('btn-god-release-control').addEventListener('click', () => {
+          if (!sim.selectedCitizen) return;
+          const c = sim.selectedCitizen;
+          c.divineCommand = null;
+          c.state = 'home';
+          c.currentAction = "Resumed autonomous living";
+          c.actionEmoji = "🕊️";
+          sim.logEvent(`Released control of ${c.name} back to Autonomous AI.`, c.name, "divine", "🕊️");
+          sim.updateInspectorHUD(c);
+        });
+
+        document.getElementById('btn-god-target-tile').addEventListener('click', () => {
+          if (!sim.selectedCitizen) return;
+          window.isMapTargetSelectionActive = true;
+          document.body.style.cursor = 'crosshair';
+          alert(`Click any walkable tile on the map to send ${sim.selectedCitizen.name} there.`);
+        });
+
+        document.getElementById('btn-cam-follow').addEventListener('click', () => {
+          if (sim.selectedCitizen) followTarget = sim.selectedCitizen.sprite;
+        });
+        document.getElementById('btn-cam-focus').addEventListener('click', () => {
+          if (sim.selectedCitizen && camera) camera.centerOn(sim.selectedCitizen.pixelX, sim.selectedCitizen.pixelY);
+        });
+        document.getElementById('btn-cam-home').addEventListener('click', () => {
+          if (sim.selectedCitizen && camera) camera.centerOn(sim.selectedCitizen.home_coords[0] * 32, sim.selectedCitizen.home_coords[1] * 32);
+        });
+        document.getElementById('btn-cam-work').addEventListener('click', () => {
+          if (sim.selectedCitizen && camera) camera.centerOn(sim.selectedCitizen.workplace_coords[0] * 32, sim.selectedCitizen.workplace_coords[1] * 32);
+        });
+        document.getElementById('btn-open-schedule').addEventListener('click', () => {
+          if (!sim.selectedCitizen) return;
+          const modal = document.getElementById('modal-schedule');
+          document.getElementById('schedule-modal-title').innerText = `🗓️ 24h Routine • ${sim.selectedCitizen.name}`;
+          const timeline = document.getElementById('schedule-timeline');
+          timeline.innerHTML = Object.entries(sim.selectedCitizen.schedule || {}).map(([t, item]) => `
+            <div style="background:var(--pixel-wood-deep); padding:6px 10px; border:2px solid var(--pixel-wood-border); border-radius:3px; font-size:0.75rem; display:flex; justify-content:space-between; align-items:center;">
+              <span style="color:#fef08a; font-family:var(--font-arcade); font-size:0.68rem;">${t}</span>
+              <span style="font-family:var(--font-readable); font-weight:600;">${item.emoji || '🚶'} ${item.action}</span>
+            </div>
+          `).join('');
+          modal.classList.add('open');
+        });
+
+        document.getElementById('btn-drawer-pause').addEventListener('click', () => {
+          sim.isRunning = false;
+          btnPlay.innerText = '▶ RESUME';
+          btnPlay.className = 'pixel-btn pixel-btn-green';
+        });
+        document.getElementById('btn-drawer-resume').addEventListener('click', () => {
+          sim.isRunning = true;
+          btnPlay.innerText = '⏸ PAUSE';
+          btnPlay.className = 'pixel-btn pixel-btn-red';
+        });
+        document.getElementById('btn-drawer-reset').addEventListener('click', () => {
+          location.reload();
+        });
+
+        document.querySelectorAll('button[data-god-speed]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('button[data-god-speed]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            sim.speed = parseFloat(btn.dataset.godSpeed);
+            document.getElementById('label-speed-val').innerText = `${sim.speed}x`;
+          });
+        });
+
+        const timeSlider = document.getElementById('slider-time-scrub');
+        timeSlider.addEventListener('input', () => {
+          const val = parseInt(timeSlider.value);
+          const h = Math.floor(val / 60);
+          const m = val % 60;
+          sim.setTime(h, m);
+        });
+
+        document.querySelectorAll('button[data-jump-time]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const h = parseInt(btn.dataset.jumpTime);
+            sim.setTime(h, 0);
+            timeSlider.value = h * 60;
+          });
+        });
+
+        document.querySelectorAll('button[data-god-season]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('button[data-god-season]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            sim.setSeason(btn.dataset.godSeason);
+          });
+        });
+
+        document.querySelectorAll('button[data-god-weather]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('button[data-god-weather]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            sim.setWeather(btn.dataset.godWeather);
+          });
+        });
+
+        document.getElementById('btn-ambient-auto').addEventListener('click', () => {
+          sim.forceAmbient = null;
+          sim.updateAmbientDaylight();
+        });
+        document.getElementById('btn-ambient-day').addEventListener('click', () => {
+          sim.forceAmbient = 'day';
+          sim.updateAmbientDaylight();
+        });
+        document.getElementById('btn-ambient-night').addEventListener('click', () => {
+          sim.forceAmbient = 'night';
+          sim.updateAmbientDaylight();
+        });
+
+        document.getElementById('btn-event-festival').addEventListener('click', () => {
+          commandEngine.triggerFestival();
+        });
+        document.getElementById('btn-event-gather-park').addEventListener('click', () => {
+          commandEngine.gatherAllInPark();
+        });
+        document.getElementById('btn-event-curfew').addEventListener('click', () => {
+          commandEngine.execute("make everyone go to sleep");
+        });
+        document.getElementById('btn-event-work-rush').addEventListener('click', () => {
+          sim.citizens.forEach(c => {
+            executeDivineMoveTarget(c, c.workplace_coords[0], c.workplace_coords[1], "work", `Morning Work Rush at ${c.workplace_name}`);
+          });
+        });
+
+        document.getElementById('btn-add-food').addEventListener('click', () => {
+          sim.townFoodReserves += 50;
+          document.getElementById('label-food-val').innerText = `${sim.townFoodReserves} Units`;
+          sim.logEvent("Granted +50 Food reserves to town.", null, "divine", "🌾");
+        });
+        document.getElementById('btn-sub-food').addEventListener('click', () => {
+          sim.townFoodReserves = Math.max(0, sim.townFoodReserves - 50);
+          document.getElementById('label-food-val').innerText = `${sim.townFoodReserves} Units`;
+        });
+        document.getElementById('btn-famine').addEventListener('click', () => {
+          commandEngine.execute("create a food shortage in the town");
+        });
+
+        document.getElementById('btn-stimulus-boom').addEventListener('click', () => {
+          sim.townEconomy += 2000;
+          sim.citizens.forEach(c => c.money += 150);
+          document.getElementById('label-econ-val').innerText = `$${sim.townEconomy}`;
+          sim.logEvent("Economic Stimulus granted (+$2,000 treasury, +$150/citizen).", null, "divine", "💰");
+        });
+
+        document.getElementById('btn-zoom-in').addEventListener('click', () => {
+          if (camera) camera.setZoom(Math.min(2.4, camera.zoom + 0.2));
+        });
+        document.getElementById('btn-zoom-out').addEventListener('click', () => {
+          if (camera) camera.setZoom(Math.max(0.45, camera.zoom - 0.2));
+        });
+        document.getElementById('btn-zoom-reset').addEventListener('click', () => {
+          if (camera) camera.setZoom(1.1);
+        });
+
+        setupModal('btn-open-analytics', 'modal-analytics', renderAnalyticsCharts);
+        setupModal('btn-open-saveload', 'modal-saveload');
+
+        sim.logEvent("Smallville 16-Bit Pixel-Art God Simulator ready. 15 citizens active.", null, "divine", "👑");
+      } catch (err) {
+        console.error("Simulation asset error:", err);
+      }
+    });
+
+    function setupModal(triggerId, modalId, onOpen = null) {
+      const trigger = document.getElementById(triggerId);
+      const modal = document.getElementById(modalId);
+      if (!trigger || !modal) return;
+
+      trigger.addEventListener('click', () => {
+        modal.classList.add('open');
+        if (onOpen) onOpen();
+      });
+
+      modal.querySelectorAll('.btn-pixel-close').forEach(btn => {
+        btn.addEventListener('click', () => modal.classList.remove('open'));
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('open');
+      });
+    }
+
+    let happinessChartInstance = null;
+    let economyChartInstance = null;
+
+    function renderAnalyticsCharts() {
+      const happyCanvas = document.getElementById('chart-happiness');
+      const econCanvas = document.getElementById('chart-economy');
+      if (!happyCanvas || !econCanvas) return;
+
+      if (happinessChartInstance) happinessChartInstance.destroy();
+      if (economyChartInstance) economyChartInstance.destroy();
+
+      const labels = sim.historyMetrics.times.length > 0 ? sim.historyMetrics.times : ["08:00 AM"];
+      const happyData = sim.historyMetrics.avgHappiness.length > 0 ? sim.historyMetrics.avgHappiness : [85];
+      const healthData = sim.historyMetrics.avgHealth.length > 0 ? sim.historyMetrics.avgHealth : [95];
+
+      happinessChartInstance = new Chart(happyCanvas, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            { label: 'Avg Happiness', data: happyData, borderColor: '#facc15', backgroundColor: 'rgba(250, 204, 21, 0.1)', fill: true, tension: 0.1 },
+            { label: 'Avg Health', data: healthData, borderColor: '#22c55e', backgroundColor: 'transparent', borderDash: [4, 4] }
+          ]
+        },
+        options: { responsive: true, scales: { y: { min: 0, max: 100 } } }
+      });
+
+      const cafeData = sim.historyMetrics.cafeRevenue.length > 0 ? sim.historyMetrics.cafeRevenue : [240];
+      const pubData = sim.historyMetrics.pubRevenue.length > 0 ? sim.historyMetrics.pubRevenue : [380];
+
+      economyChartInstance = new Chart(econCanvas, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            { label: 'Hobbs Cafe', data: cafeData, borderColor: '#f97316', tension: 0.1 },
+            { label: 'Rose & Crown Pub', data: pubData, borderColor: '#a855f7', tension: 0.1 }
+          ]
+        },
+        options: { responsive: true }
+      });
+    }
+  </script>
+</body>
+</html>
+"""
+
+# Write to Django Template
+with open(TEMPLATE_PATH, "w", encoding="utf-8") as f:
+    f.write(HTML_CONTENT)
+
+# Write to Standalone file with relative asset paths
+standalone_content = HTML_CONTENT.replace('/static/assets/', './environment/frontend_server/static_dirs/assets/')
+with open(STANDALONE_PATH, "w", encoding="utf-8") as f:
+    f.write(standalone_content)
+
+print(f"Generated pixel-art UI at {TEMPLATE_PATH} ({len(HTML_CONTENT)} bytes)")
+print(f"Generated pixel-art UI standalone at {STANDALONE_PATH} ({len(standalone_content)} bytes)")

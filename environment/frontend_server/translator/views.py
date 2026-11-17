@@ -1,6 +1,8 @@
 """
 Author: Joon Sung Park (joonspk@stanford.edu)
 File: views.py
+Original Work Copyright 2023 Joon Sung Park.
+Modifications Copyright 2026 under Apache License 2.0 (Added living_society, robot_3d, and landing views).
 """
 import os
 import string

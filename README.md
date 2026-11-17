@@ -1,236 +1,176 @@
-# Generative Agents: Interactive Simulacra of Human Behavior
+# Smallville: Living 2D AI Society & Retro 16-Bit God Simulator
 
-<p align="center" width="100%">
-<img src="cover.png" alt="Smallville" style="width: 80%; min-width: 300px; display: block; margin: auto;">
+<p align="center">
+  <img src="pixel_art_ui_clean_world.png" alt="Smallville 16-Bit Pixel-Art UI" width="92%">
 </p>
 
-This repository accompanies the research paper titled "[Generative Agents: Interactive Simulacra of Human Behavior](https://arxiv.org/abs/2304.03442)" (Park et al., UIST 2023). It contains the computational architecture for generative agents—believable human-like autonomous agents—and their 2D virtual game environment "Smallville" (The Ville).
+An interactive multi-agent artificial life simulation and 16-bit retro God Simulator. Populated by 15 autonomous AI personas living in the pixel-art village of **Smallville**, agents independently perceive their environment, form memories, plan daily agendas, work jobs, socialize in cafes and pubs, and manage their vital survival needs.
 
-This project has been fully configured, debugged, tested, and verified to run seamlessly on modern Python 3.9 environments, with robust offline/fail-safe resilience, updated model fallbacks, automatic directory management, and an integrated test suite.
-
----
-
-## 1. Project Description & Objectives
-
-The goal of this simulation is to simulate believable human behaviors in an interactive sandbox world:
-- **Autonomous Movement & Navigation:** Agents navigate a 140x100 tile world with obstacle and collision detection using Breadth-First Search (BFS) pathfinding.
-- **Environmental Perception:** Agents perceive surrounding tiles, objects, and other agents within an attention vision radius, recording events to an associative memory stream.
-- **Memory & Cognitive Architecture:** A tri-fold cognitive model incorporating:
-  - *Associative Memory Stream:* A comprehensive log of experience nodes scored by recency, importance, and relevance via vector cosine similarity.
-  - *Reflection:* Synthesizing higher-level abstract thoughts and inferences from memory clusters.
-  - *Planning:* Hierarchical planning decomposing broad 24-hour daily agendas into 1-hour blocks, 5-15 minute action steps, and object-level addresses.
-- **Agent Interactivity & Communication:** Dynamic dialogue generation and reaction mechanisms when agents encounter each other.
-- **Visualization & Demo Replay:** Web-based Phaser.js frontend providing real-time simulation observation, state inspection, and compressed demo replay.
+As the **World Creator / God**, you hold absolute authority: issue free-text directives through a natural-language **"GOD'S COMMAND"** console, manipulate celestial time, summon rainstorms or blizzards, grant economic stimulus, trigger festivals, or directly intervene in the lives of individual citizens through an authentic 16-bit retro RPG interface.
 
 ---
 
-## 2. Technologies Used
+## 🌟 Key Features
 
-- **Simulation Engine / Cognitive Backend:** Python 3.9 (`reverie/backend_server`)
-- **Environment & Visualization Server:** Django 2.2 web application (`environment/frontend_server`)
-- **Tilemap & UI Renderer:** Phaser.js 2D game framework
-- **AI & Language Models:** OpenAI GPT API (`gpt-3.5-turbo`, `gpt-4`, with fallback compatibility for deprecated `text-davinci-003` engines and offline deterministic 1536-dim vector embeddings)
-- **Pathfinding & Spatial Perception:** Custom BFS pathfinder with 2D collision matrices and hierarchical spatial memory trees (World -> Sector -> Arena -> Game Object)
-- **Data Persistence:** JSON-based state storage, movement sequences, and compressed event archives (`storage/`, `temp_storage/`, `compressed_storage/`)
+### 1. 🎨 16-Bit Retro Pixel-Art User Interface
+- **Cohesive Retro Visual Language:** Warm wood/parchment panels (`#df9b6d`), chunky dark borders, and vibrant 16-bit arcade buttons (`Play`, `Option`, `Exit`) inspired by classic SNES and GBA RPGs.
+- **Authentic Pixel Typography:** Open-source Google Fonts (`Press Start 2P`, `Silkscreen`, `Pixelify Sans`).
+- **Tactile Click Feedback:** Beveled 3D buttons with animated pressed states (`transform: translateY(3px)`).
+- **Segmented Need Meters:** Custom segmented pixel-art progress tracks for Hunger, Energy, Health, Happiness, Hygiene, and Social.
+- **Retro Dialogue & Thought Boxes:** RPG-style message cards displaying internal thoughts and real-time proximity speech bubbles.
+- **Unobstructed Living World:** Clean fullscreen 2D world; resident roster and inspector slide out on-demand only.
+
+<p align="center">
+  <img src="pixel_art_ui_inspector_active.png" alt="Pixel-Art Inspector HUD" width="48%">
+  <img src="pixel_art_ui_god_drawer.png" alt="Pixel-Art God Powers Drawer" width="48%">
+</p>
+
+### 2. ⚡ Divine Command System ("GOD'S COMMAND")
+- **Natural-Language Interpretation Engine:** Type commands in plain English into the bottom-docked retro command window:
+  - *"Make Isabella go to cafe"* → Dispatches Isabella to Hobbs Cafe counter.
+  - *"Make Klaus visit the park"* → Computes BFS path and sends Klaus to Johnson Park gazebo.
+  - *"Give Maria 500 coins"* → Injects $500 directly into Maria's wallet with golden sparkles.
+  - *"Make it rain for two hours"* → Summons rainstorm particles and dims ambient light.
+  - *"Make everyone gather at Johnson Park"* → Issues a town-wide decree converging all 15 residents on the park.
+  - *"Make everyone go to sleep"* → Enacts a town curfew; all residents head home to bed.
+  - *"Trigger Town Festival"* → Initiates a town-wide celebration with music and social gatherings.
+  - *"Increase happiness of all residents"* → Bestows divine blessing, restoring 100% of all vital needs.
+- **Visual Feedback:** Instant confirmation dialogue box displaying `[DIVINE WILL] > Result`.
+
+### 3. 👑 Dedicated God Mode World Authority (`👑 God Powers`)
+- **Simulation Flow:** Start, pause, resume, reset, and adjust speeds (`0.5x`, `1x`, `2x`, `5x`, `10x`).
+- **Celestial Time Engine:** Real-time 24-hour scrub slider (`00:00` to `23:59`) with preset jumps (*Dawn 06:00, Noon 12:00, Sunset 18:00, Midnight 00:00*).
+- **Seasons & Daylight:** Toggle between Spring, Summer, Autumn, and Winter, plus Day/Night override (*Auto, Force Day, Force Night*).
+- **Environmental Powers:** Summon *Sunny, Rain, Thunderstorm (with screen flash lightning), Snow, Drought (sepia heat haze), and Overcast*.
+- **Resources & Economy:** Adjust Town Food Reserves (+50, -50, Famine) and Town Treasury (+ $2,000 Stimulus, Economic Panic).
+- **Major Events:** One-click triggers for Town Festival, Community Gathering, Curfew, and Morning Rush.
+
+### 4. 👥 Autonomous Living 2D AI Society
+- **15 Autonomous Residents:** Fully articulated schedules, jobs, and personalities (Isabella Rodriguez, Klaus Mueller, Maria Lopez, Arthur Burton, John Lin, Mei Lin, Eddy Lin, Giorgio Rossi, Tom Moreno, Jane Moreno, Sam Moore, Abigail Chen, Carlos Gomez, Hailey Johnson, Francisco Lopez).
+- **Zero-Latency BFS Pathfinding:** Fast navigation across 4,158 validated walkable tiles on the 140x100 Smallville map (`the_ville_jan7.json`).
+- **Dynamic Utility AI:** 6 vital needs (Hunger, Energy, Health, Happiness, Hygiene, Social) driving emergent behaviors (e.g., cooking at home when hungry, dining at Hobbs Cafe when wealthy, sleeping when exhausted).
+- **Emergent Social Life:** Contextual proximity conversations with comic speech bubbles and relationship affinity tracking.
+- **Town Economy:** Salaries paid during work shifts, commercial dining, and crop production by farmer Giorgio Rossi.
+
+### 5. 🤖 3D Autonomous Robot Navigation Lab (`/3d/`)
+- A full-featured 3D autonomous robotics simulation built with Three.js.
+- Multi-ray LiDAR distance sensors with live dynamic raycasting visualization.
+- Autonomous maze navigation powered by reinforcement learning with collision detection and reward tracking.
+- Live telemetry HUD displaying episode count, step count, distance to goal, and LiDAR ranges.
+
+<p align="center">
+  <img src="live_3d_robot_screenshot.png" alt="3D Autonomous Robot Lab" width="75%">
+</p>
 
 ---
 
-## 3. Project Architecture
+## 🏗️ Architecture
 
+```mermaid
+flowchart TD
+    subgraph Frontend["Frontend Client (Phaser 3 + Retro 16-Bit UI)"]
+        Canvas["2D Tilemap Canvas (140x100, 10 Layers)"]
+        Weather["Weather Canvas Engine (Rain, Snow, Flash)"]
+        TopHUD["Retro Game Top Bar (Clock, Weather, Speeds)"]
+        Inspector["Deep Agent Inspector (Needs, Bio, Spell Grid)"]
+        GodConsole["⚡ God's Command Console (NLP Interpreter)"]
+        GodDrawer["👑 World Authority Drawer (Time, Seasons, Events)"]
+    end
+
+    subgraph Backend["Backend Server (Python 3.9 + Django 2.2)"]
+        Views["views.py (/society/, /live/, /3d/)"]
+        Static["Static Assets (Tilesets, Atlases, JSON grids)"]
+        BFS["Collision Network (4,158 walkable tiles)"]
+    end
+
+    subgraph AutonomousAI["Cognitive & Utility AI Loop"]
+        UtilityAI["Dynamic Needs Engine (Hunger, Energy, Health, Social)"]
+        Schedule["24h Routine Planner (Work, Home, Cafe, Park)"]
+        SocialEngine["Proximity Chat & Dialogue Engine"]
+    end
+
+    GodConsole -->|"Divine Decrees"| UtilityAI
+    GodDrawer -->|"Time & Weather Control"| Weather
+    UtilityAI -->|"Target Tile"| BFS
+    BFS -->|"Path"| Canvas
+    SocialEngine -->|"Speech Bubbles"| Canvas
 ```
-generative_agents/
-├── .venv/                                      # Python 3.9 virtual environment
-├── environment/
-│   └── frontend_server/                        # Django environment server
-│       ├── manage.py                           # Django CLI management script
-│       ├── frontend_server/                    # App settings and URL routing
-│       │   ├── settings/ (base.py, local.py)   # SQLite, static directories & middleware
-│       │   └── urls.py                         # Endpoints: landing, demo, replay, state
-│       ├── translator/                         # API views (process/update environment)
-│       ├── static_dirs/assets/the_ville/       # Smallville map tiles, matrix & visuals
-│       ├── storage/                            # Base & active simulation folders
-│       │   ├── base_the_ville_isabella_maria_klaus/ (3 agents base)
-│       │   └── base_the_ville_n25/             (25 agents base)
-│       ├── compressed_storage/                 # Master demo replay bundles
-│       └── temp_storage/                       # IPC communication between frontend/backend
-├── reverie/
-│   ├── compress_sim_storage.py                 # Compresses simulation logs for demo
-│   └── backend_server/                         # Core cognitive architecture
-│       ├── reverie.py                          # Simulation server & step loop
-│       ├── maze.py                             # Map, tile, collision & object tracking
-│       ├── path_finder.py                      # BFS pathfinding on collision matrix
-│       ├── utils.py                            # Environment & API configurations
-│       └── persona/                            # Agent cognitive modules
-│           ├── persona.py                      # Persona orchestrator (perceive->plan->reflect->execute)
-│           ├── cognitive_modules/              # plan, perceive, retrieve, reflect, execute, converse
-│           ├── memory_structures/              # spatial_memory, associative_memory, scratch
-│           └── prompt_template/                # LLM prompts & gpt_structure wrapper
-├── run_simulation.py                           # All-in-one runner (CLI tool)
-├── test_simulation_suite.py                    # 7-part automated verification test suite
-└── requirements.txt                            # Python dependencies
-```
 
 ---
 
-## 4. Setup & Installation
+## 🚀 Quickstart & Installation
 
 ### Prerequisites
-- Python 3.9.x installed (Windows/Linux/macOS)
+- **Python 3.9** (Recommended)
+- Modern web browser (Chrome, Edge, Firefox)
 
-### Step 1: Create and Activate Virtual Environment
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+### 1. Clone the Repository
+```bash
+git clone https://github.com/[your-username]/generative_agents.git
+cd generative_agents
 ```
 
-### Step 2: Install Dependencies
-```powershell
+### 2. Set Up Virtual Environment & Dependencies
+```bash
+python -m venv .venv
+
+# Windows
+.\.venv\Scripts\activate
+
+# macOS / Linux
+source .venv/bin/activate
+
 pip install -r requirements.txt
 ```
 
-### Step 3: Configure `utils.py`
-The file `reverie/backend_server/utils.py` is pre-created and reads `OPENAI_API_KEY` from your environment if available:
-```python
-import os
-openai_api_key = os.environ.get("OPENAI_API_KEY", "<Your OpenAI API>")
-key_owner = "GenerativeAgentUser"
-maze_assets_loc = "../../environment/frontend_server/static_dirs/assets"
-env_matrix = f"{maze_assets_loc}/the_ville/matrix"
-env_visuals = f"{maze_assets_loc}/the_ville/visuals"
-fs_storage = "../../environment/frontend_server/storage"
-fs_temp_storage = "../../environment/frontend_server/temp_storage"
-collision_block_id = "32125"
-debug = True
+### 3. Launch the Server
+```bash
+python environment/frontend_server/manage.py runserver 127.0.0.1:8000
 ```
-> **Note:** If an OpenAI API key is not provided, the simulation automatically runs in resilient offline mode using deterministic 1536-dimensional semantic embeddings and curated prompt fail-safes without crashing.
+
+### 4. Open in Browser
+- **2D Pixel-Art God Simulator:** [http://127.0.0.1:8000/society/](http://127.0.0.1:8000/society/) *(or `/live/`)*
+- **Central Navigation Portal:** [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+- **3D Autonomous Robot Lab:** [http://127.0.0.1:8000/3d/](http://127.0.0.1:8000/3d/)
+
+### 5. Offline Standalone Mode
+You can also run both simulations directly by opening the standalone HTML files in your browser (no server required):
+- `living_society_simulation.html` (2D Living Society & God Simulator)
+- `robot_3d_simulation.html` (3D Robot Lab)
 
 ---
 
-## 5. Running the Simulation
+## 🧪 Testing & Verification
 
-You can run the simulation using either the **All-in-One CLI (`run_simulation.py`)** or by running the servers independently.
+Run the automated test suites:
 
-### Option A: Using All-in-One Runner (Recommended)
+```bash
+# 1. Cognitive Architecture & Pathfinding Verification (7 Unit Tests)
+python test_simulation_suite.py
 
-1. **Run the 7-Part Verification Test Suite:**
-   ```powershell
-   .\.venv\Scripts\python.exe run_simulation.py --test
-   ```
-2. **Start the Frontend Server:**
-   ```powershell
-   .\.venv\Scripts\python.exe run_simulation.py --server
-   ```
-   Open your browser to: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
-3. **Simulate Autonomous Steps (e.g. 5 steps):**
-   ```powershell
-   .\.venv\Scripts\python.exe run_simulation.py --fork base_the_ville_isabella_maria_klaus --sim my_test_sim --steps 5
-   ```
-
-### Option B: Interactive Dual-Server Workflow
-
-#### Terminal 1 — Start Frontend Environment Server
-```powershell
-.\.venv\Scripts\python.exe environment\frontend_server\manage.py runserver 127.0.0.1:8000
+# 2. Automated End-to-End Headless Browser Test (Pixel-Art UI & God Commands)
+python scripts/test_god_simulator.py
 ```
-Visit [http://127.0.0.1:8000/](http://127.0.0.1:8000/) to verify the environment server is running.
 
-#### Terminal 2 — Start Backend Simulation Engine
-```powershell
-cd reverie\backend_server
-..\..\.venv\Scripts\python.exe reverie.py
-```
-When prompted:
-1. `Enter the name of the forked simulation: ` `base_the_ville_isabella_maria_klaus`
-2. `Enter the name of the new simulation: ` `my_simulation`
-3. On browser, navigate to: [http://127.0.0.1:8000/simulator_home](http://127.0.0.1:8000/simulator_home)
-4. In the simulation prompt `Enter option: `, run:
-   ```
-   run 10
-   ```
-   (Simulates 10 game steps, 10 seconds per step).
-
-To save and exit:
-```
-fin
-```
+All tests execute headless and assert 100% pass rates for agent navigation, speech triggers, command parsing, weather switching, and inspector toggling.
 
 ---
 
-## 6. Visualization, Replays & Demos
+## 📜 Attribution & Provenance
 
-The web frontend provides multiple viewing and inspection modes:
+This project is an open-source extension of the original research:
 
-1. **Interactive Demo (Visual Demo with Character Sprites):**
-   [http://127.0.0.1:8000/demo/July1_the_ville_isabella_maria_klaus-step-3-20/1/3/](http://127.0.0.1:8000/demo/July1_the_ville_isabella_maria_klaus-step-3-20/1/3/)
-   - Controls: Speed (1 to 5), Pause, Play, Agent Tracker.
-2. **Step Replay Mode:**
-   [http://127.0.0.1:8000/replay/July1_the_ville_isabella_maria_klaus-step-3-20/1/](http://127.0.0.1:8000/replay/July1_the_ville_isabella_maria_klaus-step-3-20/1/)
-3. **Persona Internal Cognitive Inspector:**
-   [http://127.0.0.1:8000/replay_persona_state/July1_the_ville_isabella_maria_klaus-step-3-20/1/Isabella_Rodriguez/](http://127.0.0.1:8000/replay_persona_state/July1_the_ville_isabella_maria_klaus-step-3-20/1/Isabella_Rodriguez/)
-   - Inspects Scratch memory, spatial memory tree, and full associative memory stream (Events, Chats, Reflections).
+> **Generative Agents: Interactive Simulacra of Human Behavior**  
+> *Joon Sung Park, Joseph C. O'Brien, Carrie J. Cai, Meredith Ringel Morris, Percy Liang, Michael S. Bernstein*  
+> Stanford University & Google Research — UIST 2023  
+> Paper: [https://arxiv.org/abs/2304.03442](https://arxiv.org/abs/2304.03442)  
+> Original Repository: [https://github.com/joonspk-research/generative_agents](https://github.com/joonspk-research/generative_agents)
 
-To compress any completed simulation for demo replay:
-```powershell
-cd reverie
-..\.venv\Scripts\python.exe -c "from compress_sim_storage import compress; compress('<simulation_name>')"
-```
+For a detailed breakdown of original works, modifications, and third-party resources, refer to [ATTRIBUTION.md](ATTRIBUTION.md), [NOTICE](NOTICE), and [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
-## 7. How the AI Algorithm Works
+## 📄 License
 
-### Cognitive Loop
-Each agent executes a five-stage cognitive loop on every step:
-1. **Perceive:** Scans surrounding tiles within attention bandwidth. Filters events already held in recent sensory retention.
-2. **Retrieve:** Identifies focal points, accesses associative memory nodes, and computes a composite score:
-   $$\text{Score} = \alpha \cdot \text{Recency} + \beta \cdot \text{Importance} + \gamma \cdot \text{Relevance}$$
-   where relevance is the cosine similarity between the focal point embedding and the memory node embedding.
-3. **Plan:** Hierarchical agenda formulation. On a new day, agents formulate a 24-hour broad plan, decompose it into hourly blocks, further decompose the active hour into 5-15 minute subtasks, and resolve spatial action addresses (World $\to$ Sector $\to$ Arena $\to$ Game Object).
-4. **Reflect:** When cumulative memory importance surpasses a threshold ($\approx 150$), triggers reflection: prompts LLM with high-importance memories to extract abstract insights and evidence citations, saving new thought nodes back to memory.
-5. **Execute:** Resolves physical destination tile of the chosen game object, computes path via BFS on the collision map, steps one tile forward, and broadcasts action emoji and status description to the environment.
-
----
-
-## 8. Troubleshooting & Bug Fixes Applied
-
-| Component | Issue Found | Fix Applied |
-| :--- | :--- | :--- |
-| `manage.py` | CWD mismatch caused `FileNotFoundError` when launched outside `frontend_server` directory. | Added `os.chdir(os.path.dirname(os.path.abspath(__file__)))` so paths resolve regardless of working directory. |
-| `reverie.py` | Missing `movement/` and `environment/` subdirectories in forked simulations threw `FileNotFoundError`. | Added `os.makedirs(..., exist_ok=True)` in `ReverieServer.__init__` and `start_server`. |
-| `gpt_structure.py` | Hard crash on missing/invalid API key during `get_embedding`; deprecated OpenAI completion models (`text-davinci-003`). | Added model fallback to `gpt-3.5-turbo` / `ChatCompletion`, and deterministic 1536-dimensional unit vector embedding fallback for offline testing. |
-| `run_gpt_prompt.py` | Hardcoded `get_fail_safe()` returning `'kitchen'` for all arenas caused `KeyError` in sectors without kitchens; commented-out validation block. | Enabled dynamic arena validation and fail-safe selection from the agent's spatial memory. |
-| `run_gpt_prompt.py` | Several functions returned `None` when `ChatGPT_safe_generate_response` returned `False`, crashing with `TypeError: 'NoneType' object is not subscriptable`. | Ensured all prompt functions return valid fail-safe structures even when LLM calls fail. |
-
----
-
-## 9. Verification & Test Suite
-
-Run the full automated test suite anytime:
-```powershell
-.\.venv\Scripts\python.exe test_simulation_suite.py
-```
-
-Expected output:
-```
-============================================================
-FINAL RESULTS: 7/7 TESTS PASSED
-============================================================
-```
-
----
-
-## 10. Authors & Citation
-
-**Authors:** Joon Sung Park, Joseph C. O'Brien, Carrie J. Cai, Meredith Ringel Morris, Percy Liang, Michael S. Bernstein (Stanford University & Google Research)
-
-```bibtex
-@inproceedings{Park2023GenerativeAgents,  
-  author = {Park, Joon Sung and O'Brien, Joseph C. and Cai, Carrie J. and Morris, Meredith Ringel and Liang, Percy and Bernstein, Michael S.},  
-  title = {Generative Agents: Interactive Simulacra of Human Behavior},  
-  year = {2023},  
-  publisher = {Association for Computing Machinery},  
-  booktitle = {Proceedings of the 36th Annual ACM Symposium on User Interface Software and Technology (UIST '23)},  
-  keywords = {Human-AI interaction, agents, generative AI, large language models},  
-  location = {San Francisco, CA, USA}
-}
-```
+This repository is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for complete details.  
+Third-party component licenses are detailed in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
