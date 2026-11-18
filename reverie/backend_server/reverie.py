@@ -1,5 +1,7 @@
 """
 Author: Joon Sung Park (joonspk@stanford.edu)
+Original Work Copyright 2023 Joon Sung Park.
+Modifications Copyright 2026 under Apache License 2.0.
 
 File: reverie.py
 Description: This is the main program for running generative agent simulations
